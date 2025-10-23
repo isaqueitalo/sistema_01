@@ -1,11 +1,10 @@
-import tkinter as tk
-from tkinter import ttk, messagebox
-from APP.models import User
-from APP.config import APP_TITLE, WINDOW_SIZE
-
-# Estilo moderno com ttkbootstrap (precisa instalar com: pip install ttkbootstrap)
 import ttkbootstrap as tb
 from ttkbootstrap.constants import *
+from tkinter import messagebox
+from APP.models import User
+from APP.config import APP_TITLE, WINDOW_SIZE
+from APP.utils import senha_valida
+
 
 class LoginApp:
     def __init__(self, root):
@@ -15,7 +14,7 @@ class LoginApp:
         self.root.resizable(False, False)
 
         # Tema moderno
-        self.style = tb.Style(theme="cyborg")  # opções: flatly, darkly, cosmo, cyborg, etc.
+        self.style = tb.Style(theme="cyborg")
 
         # Frame principal centralizado
         frame = tb.Frame(self.root, padding=30)
@@ -46,19 +45,33 @@ class LoginApp:
     def login_action(self):
         user = self.username_entry.get().strip()
         password = self.password_entry.get().strip()
-        try:
-            u = User(user, password)
-            if u.login():
-                messagebox.showinfo("Sucesso", f"Bem-vindo, {user}!")
-        except Exception as e:
-            messagebox.showerror("Erro", str(e))
+
+        if not user or not password:
+            messagebox.showwarning("Atenção", "Preencha todos os campos.")
+            return
+
+        if User.autenticar(user, password):
+            messagebox.showinfo("Sucesso", f"Bem-vindo, {user}!")
+        else:
+            messagebox.showerror("Erro", "Usuário ou senha incorretos.")
 
     def register_action(self):
         user = self.username_entry.get().strip()
         password = self.password_entry.get().strip()
+
+        if not user or not password:
+            messagebox.showwarning("Atenção", "Preencha todos os campos.")
+            return
+
+        if not senha_valida(password):
+            messagebox.showwarning(
+                "Senha Fraca",
+                "A senha deve conter:\n- Pelo menos 8 caracteres\n- Letras maiúsculas e minúsculas\n- Números e símbolos."
+            )
+            return
+
         try:
-            u = User(user, password)
-            u.register()
+            User.registrar(user, password)
             messagebox.showinfo("Sucesso", "Usuário criado com sucesso!")
         except Exception as e:
             messagebox.showerror("Erro", str(e))
