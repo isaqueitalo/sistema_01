@@ -12,5 +12,3 @@ DB_NAME = os.path.join(DATA_DIR, "usuarios.db")
 # Configurações da interface
 APP_TITLE = "🔐 Sistema de Login - SQLite"
 WINDOW_SIZE = "400x400"
-
-

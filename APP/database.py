@@ -10,11 +10,25 @@ def inicializar_banco():
         CREATE TABLE IF NOT EXISTS usuarios (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             username TEXT UNIQUE NOT NULL,
-            password_hash TEXT NOT NULL
+            password_hash TEXT NOT NULL,
+            role TEXT NOT NULL DEFAULT 'user'
         )
     """)
     conn.commit()
+
+    # Garante que o admin exista
+    cursor.execute("SELECT * FROM usuarios WHERE username = 'admin_master'")
+    if not cursor.fetchone():
+        from APP.models import User
+        admin_pass = User.hash_password("Admin@123")
+        cursor.execute(
+            "INSERT INTO usuarios (username, password_hash, role) VALUES (?, ?, ?)",
+            ("admin_master", admin_pass, "admin")
+        )
+        conn.commit()
+
     conn.close()
+
 
 def conectar():
     """Abre uma conexão com o banco."""
