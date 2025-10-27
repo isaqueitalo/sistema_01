@@ -14,7 +14,7 @@ class LoginApp:
         self.root.resizable(False, False)
 
         # Tema moderno
-        self.style = tb.Style(theme="flatly")
+        self.style = tb.Style(theme="cyborg")
 
         # Frame principal
         frame = tb.Frame(self.root, padding=30)
