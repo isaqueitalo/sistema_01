@@ -1,87 +1,138 @@
 # APP/models.py
 import sqlite3
 import hashlib
-from APP.database import conectar
-from APP.utils import senha_valida
+from datetime import datetime
+from APP.config import DB_NAME
+
+
+def conectar():
+    """Cria conexão com o banco de dados SQLite."""
+    return sqlite3.connect(DB_NAME)
+
+
+def hash_password(password: str) -> str:
+    """Gera um hash SHA256 para a senha."""
+    return hashlib.sha256(password.encode()).hexdigest()
+
 
 class User:
-    """Classe para gerenciar usuários (registro, autenticação e administração)."""
-
-    def __init__(self, username: str, password: str):
-        self.username = username
-        self.password = password
-
+    # === CRUD e autenticação ===
     @staticmethod
-    def hash_password(password: str) -> str:
-        """Criptografa a senha com SHA256."""
-        return hashlib.sha256(password.encode()).hexdigest()
-
-    @staticmethod
-    def registrar(username: str, password: str, role="user"):
-        """Registra um novo usuário no banco."""
-        if not senha_valida(password):
-            raise ValueError("A senha não atende aos requisitos mínimos.")
-        conn = conectar()
-        cursor = conn.cursor()
-        try:
-            password_hash = User.hash_password(password)
-            cursor.execute(
-                "INSERT INTO usuarios (username, password_hash, role) VALUES (?, ?, ?)",
-                (username, password_hash, role),
-            )
-            conn.commit()
-        except sqlite3.IntegrityError:
-            raise ValueError("Usuário já existe!")
-        finally:
-            conn.close()
-
-    @staticmethod
-    def autenticar(username: str, password: str) -> tuple[bool, str]:
-        """Valida o login e retorna (True/False, role)."""
-        conn = conectar()
-        cursor = conn.cursor()
-        cursor.execute("SELECT password_hash, role FROM usuarios WHERE username = ?", (username,))
-        result = cursor.fetchone()
-        conn.close()
-        if result and User.hash_password(password) == result[0]:
-            return True, result[1]  # Retorna o papel (role)
-        return False, None
-
-    @staticmethod
-    def editar_senha(username: str, nova_senha: str):
-        """Atualiza a senha de um usuário."""
-        if not senha_valida(nova_senha):
-            raise ValueError("A nova senha não atende aos requisitos mínimos.")
+    def autenticar(username: str, password: str):
+        """Autentica usuário no banco e retorna (True, role) se válido."""
         conn = conectar()
         cursor = conn.cursor()
         cursor.execute(
-            "UPDATE usuarios SET password_hash = ? WHERE username = ?",
-            (User.hash_password(nova_senha), username)
+            "SELECT password_hash, role FROM usuarios WHERE username = ?",
+            (username,)
         )
-        if cursor.rowcount == 0:
-            raise ValueError("Usuário não encontrado.")
+        result = cursor.fetchone()
+        conn.close()
+
+        if not result:
+            return False, None
+
+        senha_hash, role = result
+        if senha_hash == hash_password(password):
+            registrar_log(username, "login_sucesso")
+            return True, role
+        else:
+            registrar_log(username, "login_falhou")
+            return False, None
+
+    @staticmethod
+    def registrar(username: str, password: str, role: str = "user"):
+        """Registra um novo usuário."""
+        conn = conectar()
+        cursor = conn.cursor()
+
+        cursor.execute("SELECT id FROM usuarios WHERE username = ?", (username,))
+        if cursor.fetchone():
+            conn.close()
+            raise Exception("Usuário já existe!")
+
+        cursor.execute(
+            "INSERT INTO usuarios (username, password_hash, role) VALUES (?, ?, ?)",
+            (username, hash_password(password), role)
+        )
         conn.commit()
         conn.close()
 
+        registrar_log(username, f"usuario_criado ({role})")
+
     @staticmethod
-    def excluir_usuario(username: str):
-        """Exclui um usuário, exceto o administrador."""
+    def listar_usuarios():
+        """Retorna lista com (id, username, role)."""
+        conn = conectar()
+        cursor = conn.cursor()
+        cursor.execute("SELECT id, username, role FROM usuarios ORDER BY id ASC")
+        rows = cursor.fetchall()
+        conn.close()
+        return rows
+
+    @staticmethod
+    def excluir_usuario(username: str, executor: str):
+        """Exclui um usuário — não permite excluir o administrador."""
         if username == "admin_master":
-            raise PermissionError("O usuário administrador não pode ser excluído.")
+            raise Exception("O usuário administrador não pode ser excluído!")
+
         conn = conectar()
         cursor = conn.cursor()
         cursor.execute("DELETE FROM usuarios WHERE username = ?", (username,))
         if cursor.rowcount == 0:
-            raise ValueError("Usuário não encontrado.")
+            conn.close()
+            raise Exception("Usuário não encontrado.")
         conn.commit()
         conn.close()
 
+        registrar_log(executor, f"excluiu_usuario({username})")
+
     @staticmethod
-    def listar_usuarios():
-        """Retorna uma lista com todos os usuários e seus papéis."""
+    def alterar_role(username: str, novo_role: str):
+        """Altera o papel de um usuário (user/admin)."""
+        if username == "admin_master":
+            raise Exception("O papel do administrador não pode ser alterado!")
+
         conn = conectar()
         cursor = conn.cursor()
-        cursor.execute("SELECT username, role FROM usuarios ORDER BY role DESC")
-        data = cursor.fetchall()
+        cursor.execute("UPDATE usuarios SET role = ? WHERE username = ?", (novo_role, username))
+        if cursor.rowcount == 0:
+            conn.close()
+            raise Exception("Usuário não encontrado.")
+        conn.commit()
         conn.close()
-        return data
+
+        registrar_log(username, f"alterou_role_para({novo_role})")
+
+
+# === LOG DE ATIVIDADES ===
+def registrar_log(usuario: str, acao: str):
+    """Grava ações no log de atividades."""
+    conn = conectar()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS logs (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            usuario TEXT,
+            acao TEXT,
+            data TEXT
+        )
+    """)
+
+    agora = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    cursor.execute("INSERT INTO logs (usuario, acao, data) VALUES (?, ?, ?)",
+                   (usuario, acao, agora))
+
+    conn.commit()
+    conn.close()
+
+
+def listar_logs():
+    """Retorna os registros de log (para uso futuro na interface)."""
+    conn = conectar()
+    cursor = conn.cursor()
+    cursor.execute("SELECT usuario, acao, data FROM logs ORDER BY id DESC")
+    logs = cursor.fetchall()
+    conn.close()
+    return logs

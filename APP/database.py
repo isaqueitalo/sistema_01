@@ -16,6 +16,16 @@ def inicializar_banco():
     """)
     conn.commit()
 
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS logs (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        usuario TEXT,
+        acao TEXT,
+        data TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+""")
+    conn.commit()
+
     # Garante que o admin exista
     cursor.execute("SELECT * FROM usuarios WHERE username = 'admin_master'")
     if not cursor.fetchone():
