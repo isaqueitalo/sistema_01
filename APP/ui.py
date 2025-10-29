@@ -130,20 +130,40 @@ class LoginApp:
 
         # Botões administrativos
         btn_frame = tb.Frame(admin_win)
-        btn_frame.pack(pady=10)
+        btn_frame.pack(pady=15)
 
-        tb.Button(btn_frame, text="🔄 Atualizar", width=12, bootstyle=INFO,
-                  command=self.atualizar_lista).grid(row=0, column=0, padx=5)
-        tb.Button(btn_frame, text="➕ Novo Usuário", width=15, bootstyle=SUCCESS,
-                  command=self.criar_usuario_admin).grid(row=0, column=1, padx=5)
-        tb.Button(btn_frame, text="❌ Excluir Selecionado", width=18, bootstyle=DANGER,
-                  command=lambda: self.excluir_usuario(admin_user)).grid(row=0, column=2, padx=5)
+        # Linha 1 — ações principais
+        tb.Button(
+            btn_frame, text="🔄 Atualizar", width=18, bootstyle=INFO,
+            command=self.atualizar_lista
+        ).grid(row=0, column=0, padx=8, pady=5, sticky="ew")
 
-        # Novos botões: alterar papel
-        tb.Button(btn_frame, text="⬆ Tornar Admin", width=15, bootstyle=WARNING,
-                  command=lambda: self.alterar_role_usuario("admin")).grid(row=1, column=0, padx=5, pady=5)
-        tb.Button(btn_frame, text="⬇ Tornar Usuário", width=15, bootstyle=SECONDARY,
-                  command=lambda: self.alterar_role_usuario("user")).grid(row=1, column=1, padx=5, pady=5)
+        tb.Button(
+            btn_frame, text="➕ Novo Usuário", width=18, bootstyle=SUCCESS,
+            command=self.criar_usuario_admin
+        ).grid(row=0, column=1, padx=8, pady=5, sticky="ew")
+
+        tb.Button(
+            btn_frame, text="❌ Excluir Selecionado", width=18, bootstyle=DANGER,
+            command=lambda: self.excluir_usuario(admin_user)
+        ).grid(row=0, column=2, padx=8, pady=5, sticky="ew")
+
+        # Linha 2 — ações de papel (role)
+        tb.Button(
+            btn_frame, text="⬆ Tornar Admin", width=18, bootstyle=WARNING,
+            command=lambda: self.alterar_role_usuario("admin")
+        ).grid(row=1, column=0, padx=8, pady=5, sticky="ew")
+
+        tb.Button(
+            btn_frame, text="⬇ Tornar Usuário", width=18, bootstyle=SECONDARY,
+            command=lambda: self.alterar_role_usuario("user")
+        ).grid(row=1, column=1, padx=8, pady=5, sticky="ew")
+
+        # Faz as colunas expandirem igualmente
+        btn_frame.grid_columnconfigure(0, weight=1)
+        btn_frame.grid_columnconfigure(1, weight=1)
+        btn_frame.grid_columnconfigure(2, weight=1)
+
 
         self.atualizar_lista()
 
