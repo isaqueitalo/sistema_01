@@ -3,7 +3,7 @@ import ttkbootstrap as tb
 from ttkbootstrap.constants import *
 from tkinter import messagebox
 from tkinter.simpledialog import askstring
-from APP.models import User
+from APP.models import User, Log  # ← Importamos também a classe Log
 from APP.config import APP_TITLE, WINDOW_SIZE
 
 
@@ -112,7 +112,7 @@ class LoginApp:
         """Abre a janela de gerenciamento de usuários."""
         admin_win = tb.Toplevel(self.root)
         admin_win.title(f"Painel Administrativo - {admin_user}")
-        admin_win.geometry("600x450")
+        admin_win.geometry("650x500")
 
         tb.Label(
             admin_win,
@@ -133,39 +133,57 @@ class LoginApp:
         btn_frame.pack(pady=15)
 
         # Linha 1 — ações principais
-        tb.Button(
-            btn_frame, text="🔄 Atualizar", width=18, bootstyle=INFO,
-            command=self.atualizar_lista
-        ).grid(row=0, column=0, padx=8, pady=5, sticky="ew")
+        tb.Button(btn_frame, text="🔄 Atualizar", width=18, bootstyle=INFO,
+                  command=self.atualizar_lista).grid(row=0, column=0, padx=8, pady=5, sticky="ew")
 
-        tb.Button(
-            btn_frame, text="➕ Novo Usuário", width=18, bootstyle=SUCCESS,
-            command=self.criar_usuario_admin
-        ).grid(row=0, column=1, padx=8, pady=5, sticky="ew")
+        tb.Button(btn_frame, text="➕ Novo Usuário", width=18, bootstyle=SUCCESS,
+                  command=self.criar_usuario_admin).grid(row=0, column=1, padx=8, pady=5, sticky="ew")
 
-        tb.Button(
-            btn_frame, text="❌ Excluir Selecionado", width=18, bootstyle=DANGER,
-            command=lambda: self.excluir_usuario(admin_user)
-        ).grid(row=0, column=2, padx=8, pady=5, sticky="ew")
+        tb.Button(btn_frame, text="❌ Excluir Selecionado", width=18, bootstyle=DANGER,
+                  command=lambda: self.excluir_usuario(admin_user)).grid(row=0, column=2, padx=8, pady=5, sticky="ew")
 
         # Linha 2 — ações de papel (role)
-        tb.Button(
-            btn_frame, text="⬆ Tornar Admin", width=18, bootstyle=WARNING,
-            command=lambda: self.alterar_role_usuario("admin")
-        ).grid(row=1, column=0, padx=8, pady=5, sticky="ew")
+        tb.Button(btn_frame, text="⬆ Tornar Admin", width=18, bootstyle=WARNING,
+                  command=lambda: self.alterar_role_usuario("admin")).grid(row=1, column=0, padx=8, pady=5, sticky="ew")
 
-        tb.Button(
-            btn_frame, text="⬇ Tornar Usuário", width=18, bootstyle=SECONDARY,
-            command=lambda: self.alterar_role_usuario("user")
-        ).grid(row=1, column=1, padx=8, pady=5, sticky="ew")
+        tb.Button(btn_frame, text="⬇ Tornar Usuário", width=18, bootstyle=SECONDARY,
+                  command=lambda: self.alterar_role_usuario("user")).grid(row=1, column=1, padx=8, pady=5, sticky="ew")
 
-        # Faz as colunas expandirem igualmente
-        btn_frame.grid_columnconfigure(0, weight=1)
-        btn_frame.grid_columnconfigure(1, weight=1)
-        btn_frame.grid_columnconfigure(2, weight=1)
+        # 🆕 Botão para ver logs
+        tb.Button(btn_frame, text="📜 Ver Logs", width=18, bootstyle=INFO,
+                  command=self.ver_logs).grid(row=1, column=2, padx=8, pady=5, sticky="ew")
 
+        # Ajuste de colunas
+        for i in range(3):
+            btn_frame.grid_columnconfigure(i, weight=1)
 
         self.atualizar_lista()
+
+    def ver_logs(self):
+        """Abre janela com os registros de log."""
+        logs = Log.listar()
+        log_win = tb.Toplevel(self.root)
+        log_win.title("📜 Logs de Atividade")
+        log_win.geometry("700x400")
+
+        tb.Label(
+            log_win,
+            text="📜 Histórico de Atividades do Sistema",
+            font=("Segoe UI", 14, "bold"),
+            bootstyle="primary"
+        ).pack(pady=10)
+
+        # Tabela de logs
+        cols = ("Usuário", "Ação", "Data/Hora")
+        tree_logs = tb.Treeview(log_win, columns=cols, show="headings", bootstyle="info")
+        for col in cols:
+            tree_logs.heading(col, text=col)
+            tree_logs.column(col, width=200)
+        tree_logs.pack(fill="both", expand=True, padx=10, pady=10)
+
+        # Inserir dados
+        for log in logs:
+            tree_logs.insert("", "end", values=log)
 
     def atualizar_lista(self):
         """Recarrega a tabela de usuários."""
