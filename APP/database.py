@@ -1,46 +1,42 @@
 # APP/database.py
 import sqlite3
 from APP.config import DB_NAME
+from APP.models import hash_password
+
+def conectar():
+    """Cria conexão com o banco de dados SQLite."""
+    return sqlite3.connect(DB_NAME)
 
 def inicializar_banco():
-    """Cria o banco e a tabela de usuários se ainda não existirem."""
-    conn = sqlite3.connect(DB_NAME)
+    """Cria as tabelas e o admin padrão."""
+    conn = conectar()
     cursor = conn.cursor()
+
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS usuarios (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             username TEXT UNIQUE NOT NULL,
             password_hash TEXT NOT NULL,
-            role TEXT NOT NULL DEFAULT 'user'
+            role TEXT DEFAULT 'user'
         )
     """)
-    conn.commit()
 
     cursor.execute("""
-    CREATE TABLE IF NOT EXISTS logs (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        usuario TEXT NOT NULL,
-        acao TEXT NOT NULL,
-        data_hora TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    )
-""")
+        CREATE TABLE IF NOT EXISTS logs (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            usuario TEXT,
+            acao TEXT,
+            data TEXT
+        )
+    """)
 
-    conn.commit()
-
-    # Garante que o admin exista
-    cursor.execute("SELECT * FROM usuarios WHERE username = 'admin_master'")
+    # Cria o administrador padrão, se não existir
+    cursor.execute("SELECT id FROM usuarios WHERE username = 'admin_master'")
     if not cursor.fetchone():
-        from APP.models import User
-        admin_pass = User.hash_password("Admin@123")
         cursor.execute(
             "INSERT INTO usuarios (username, password_hash, role) VALUES (?, ?, ?)",
-            ("admin_master", admin_pass, "admin")
+            ("admin_master", hash_password("admin123"), "admin")
         )
-        conn.commit()
 
+    conn.commit()
     conn.close()
-
-
-def conectar():
-    """Abre uma conexão com o banco."""
-    return sqlite3.connect(DB_NAME)

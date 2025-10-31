@@ -4,31 +4,22 @@ import hashlib
 from datetime import datetime
 from APP.config import DB_NAME
 
-
-# === Conexão e utilidades ===
 def conectar():
     """Cria conexão com o banco de dados SQLite."""
     return sqlite3.connect(DB_NAME)
-
 
 def hash_password(password: str) -> str:
     """Gera um hash SHA256 para a senha."""
     return hashlib.sha256(password.encode()).hexdigest()
 
-
-# === Classe de Usuário ===
 class User:
-    """Gerencia CRUD de usuários e autenticação."""
+    """Classe para gerenciar usuários (Model)."""
 
     @staticmethod
     def autenticar(username: str, password: str):
-        """Autentica usuário no banco e retorna (True, role) se válido."""
         conn = conectar()
         cursor = conn.cursor()
-        cursor.execute(
-            "SELECT password_hash, role FROM usuarios WHERE username = ?",
-            (username,)
-        )
+        cursor.execute("SELECT password_hash, role FROM usuarios WHERE username = ?", (username,))
         result = cursor.fetchone()
         conn.close()
 
@@ -37,15 +28,14 @@ class User:
 
         senha_hash, role = result
         if senha_hash == hash_password(password):
-            Log.registrar(username, "login_sucesso")
+            registrar_log(username, "login_sucesso")
             return True, role
         else:
-            Log.registrar(username, "login_falhou")
+            registrar_log(username, "login_falhou")
             return False, None
 
     @staticmethod
     def registrar(username: str, password: str, role: str = "user"):
-        """Registra um novo usuário."""
         conn = conectar()
         cursor = conn.cursor()
 
@@ -61,11 +51,10 @@ class User:
         conn.commit()
         conn.close()
 
-        Log.registrar(username, f"usuario_criado ({role})")
+        registrar_log(username, f"usuario_criado ({role})")
 
     @staticmethod
     def listar_usuarios():
-        """Retorna lista com (id, username, role)."""
         conn = conectar()
         cursor = conn.cursor()
         cursor.execute("SELECT id, username, role FROM usuarios ORDER BY id ASC")
@@ -75,7 +64,6 @@ class User:
 
     @staticmethod
     def excluir_usuario(username: str, executor: str):
-        """Exclui um usuário — não permite excluir o administrador."""
         if username == "admin_master":
             raise Exception("O usuário administrador não pode ser excluído!")
 
@@ -88,11 +76,10 @@ class User:
         conn.commit()
         conn.close()
 
-        Log.registrar(executor, f"excluiu_usuario({username})")
+        registrar_log(executor, f"excluiu_usuario({username})")
 
     @staticmethod
     def alterar_role(username: str, novo_role: str):
-        """Altera o papel de um usuário (user/admin)."""
         if username == "admin_master":
             raise Exception("O papel do administrador não pode ser alterado!")
 
@@ -105,43 +92,24 @@ class User:
         conn.commit()
         conn.close()
 
-        Log.registrar(username, f"alterou_role_para({novo_role})")
+        registrar_log(username, f"alterou_role_para({novo_role})")
 
+# === Log de atividades ===
+def registrar_log(usuario: str, acao: str):
+    conn = conectar()
+    cursor = conn.cursor()
+    agora = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    cursor.execute(
+        "INSERT INTO logs (usuario, acao, data) VALUES (?, ?, ?)",
+        (usuario, acao, agora)
+    )
+    conn.commit()
+    conn.close()
 
-# === Classe de Log ===
-class Log:
-    """Classe para registrar e listar logs de atividades."""
-
-    @staticmethod
-    def registrar(usuario: str, acao: str):
-        """Grava ações no log de atividades."""
-        conn = conectar()
-        cursor = conn.cursor()
-
-        cursor.execute("""
-            CREATE TABLE IF NOT EXISTS logs (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                usuario TEXT,
-                acao TEXT,
-                data TEXT
-            )
-        """)
-
-        agora = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        cursor.execute(
-            "INSERT INTO logs (usuario, acao, data) VALUES (?, ?, ?)",
-            (usuario, acao, agora)
-        )
-
-        conn.commit()
-        conn.close()
-
-    @staticmethod
-    def listar():
-        """Retorna os registros de log (para exibir na interface)."""
-        conn = conectar()
-        cursor = conn.cursor()
-        cursor.execute("SELECT usuario, acao, data FROM logs ORDER BY id DESC")
-        logs = cursor.fetchall()
-        conn.close()
-        return logs
+def listar_logs():
+    conn = conectar()
+    cursor = conn.cursor()
+    cursor.execute("SELECT usuario, acao, data FROM logs ORDER BY id DESC")
+    logs = cursor.fetchall()
+    conn.close()
+    return logs

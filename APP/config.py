@@ -1,12 +1,14 @@
+# APP/config.py
 import os
 
-# Base do projeto
+# Diretório base do projeto
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-# Pasta DATA e caminho do banco
+# Diretório do banco
 DATA_DIR = os.path.join(BASE_DIR, "DATA")
 os.makedirs(DATA_DIR, exist_ok=True)
 
+# Caminho completo do banco
 DB_NAME = os.path.join(DATA_DIR, "usuarios.db")
 
 # Configurações da interface
