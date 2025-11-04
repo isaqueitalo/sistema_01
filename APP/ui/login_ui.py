@@ -1,19 +1,12 @@
+# APP/ui/login_ui.py
 import ttkbootstrap as tb
 from ttkbootstrap.constants import *
 from tkinter import messagebox
 from tkinter.simpledialog import askstring
-
-# 🔑 Importações atualizadas, assumindo que modelos e config estão no mesmo nível de APP
-from APP.models import User, Log
+from APP.models.usuarios_models import User
 from APP.config import APP_TITLE, WINDOW_SIZE
 
-# 🚨 IMPORTAÇÃO DO NOVO MENU PRINCIPAL
-# Vamos assumir que a classe do Menu Principal será MainApp
-# Ela precisa ser importada para ser chamada após o login
-from APP.ui.main_app import MainApp 
 
-
-# 🚨 CLASSE RENOMEADA: Foco apenas na interface de Login
 class LoginUI:
     def __init__(self, root):
         self.root = root
@@ -21,10 +14,9 @@ class LoginUI:
         self.root.geometry(WINDOW_SIZE)
         self.root.resizable(False, False)
 
-        # Tema moderno (mantido)
+        # Tema moderno
         self.style = tb.Style(theme="cyborg")
 
-        # ... (Restante do __init__ - Mantido igual) ...
         # Frame principal centralizado
         frame = tb.Frame(self.root, padding=30)
         frame.place(relx=0.5, rely=0.5, anchor="center")
@@ -68,8 +60,8 @@ class LoginUI:
         tb.Button(btn_frame, text="Sair", width=12, bootstyle=DANGER,
                   command=self.root.destroy).grid(row=0, column=2, padx=5)
 
-
     # === Funções ===
+
     def toggle_password(self):
         """Alterna entre mostrar e esconder a senha."""
         if self.mostrar_senha.get():
@@ -81,15 +73,28 @@ class LoginUI:
         """Realiza o login. Se for sucesso, abre o Menu Principal."""
         user = self.username_entry.get().strip()
         password = self.password_entry.get().strip()
+
+        if not user or not password:
+            messagebox.showwarning("Aviso", "Preencha todos os campos.")
+            return
+
         try:
             ok, role = User.autenticar(user, password)
             if ok:
                 messagebox.showinfo("Sucesso", f"Bem-vindo, {user}!")
-                
-                # 🚨 MUDANÇA: Destruímos a tela de login e chamamos o Menu Principal
-                self.root.withdraw()  # Esconde a janela de login
-                MainApp(self.root, user, role) # Cria a nova UI no topo do 'root'
-                
+
+                # ✅ Troca a tela de login pela tela principal
+                for widget in self.root.winfo_children():
+                    widget.destroy()
+
+                # Redefine janela para a nova tela
+                self.root.geometry("800x600")
+                self.root.resizable(True, True)
+
+                # Importa e abre o menu principal
+                from APP.ui.main_app import MainApp
+                MainApp(self.root, user, role)
+
             else:
                 messagebox.showerror("Erro", "Usuário ou senha incorretos.")
         except Exception as e:
@@ -118,6 +123,3 @@ class LoginUI:
             messagebox.showinfo("Sucesso", "Usuário criado com sucesso!")
         except Exception as e:
             messagebox.showerror("Erro", str(e))
-            
-    # 🚨 REMOVEMOS todas as funções de Painel Admin (ver_logs, atualizar_lista, etc.) daqui.
-    # Elas serão criadas DENTRO do novo módulo do Menu Principal (MainApp)

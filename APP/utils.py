@@ -12,7 +12,7 @@ def senha_valida(password: str) -> bool:
         and re.search(r"[!@#$%^&*()_+=\-{}\[\]:;\"'<>,.?/]", password)
     )
 
-# 👇 COLE A FUNÇÃO AQUI 👇
+
 def hash_password(password: str) -> str:
     """Gera um hash SHA256 para a senha."""
     return hashlib.sha256(password.encode()).hexdigest()

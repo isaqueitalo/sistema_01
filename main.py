@@ -1,5 +1,5 @@
 from APP.database import inicializar_banco
-from APP.ui.login_ui import LoginUI # 🚨 Novo Caminho de Importação
+from APP.ui.login_ui import LoginUI 
 import ttkbootstrap as tb
 
 if __name__ == "__main__":

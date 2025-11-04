@@ -1,29 +1,23 @@
-# APP/models.py
 import sqlite3
 from datetime import datetime
-
-# 🚨 Importa a função de conectar do database.py
 from APP.database import conectar 
-from APP.config import DB_NAME # DB_NAME ainda pode ser útil, mas conectar() é o principal
+from APP.config import DB_NAME
 from APP.utils import hash_password
-# ==========================================================
-# 🚨 CLASSE LOG MOVIDA PARA CIMA (Definida Primeiro)
-# ==========================================================
+
+
 class Log:
     """Classe para registrar e listar logs de atividades."""
 
     @staticmethod
     def registrar(usuario: str, acao: str):
         """Grava ações no log de atividades."""
-        conn = conectar() # Usa a função de conexão importada
+        conn = conectar()
         cursor = conn.cursor()
 
-        # 🚨 O CREATE TABLE FOI REMOVIDO DAQUI
-        # (Já está no inicializar_banco() em database.py)
-
+        # 🚨 Alinha o nome da coluna com o database.py
         agora = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         cursor.execute(
-            "INSERT INTO logs (usuario, acao, data) VALUES (?, ?, ?)",
+            "INSERT INTO logs (usuario, acao, data_hora) VALUES (?, ?, ?)",
             (usuario, acao, agora)
         )
         conn.commit()
@@ -32,28 +26,26 @@ class Log:
     @staticmethod
     def listar():
         """Retorna os registros de log (para exibir na interface)."""
-        conn = conectar() # Usa a função de conexão importada
+        conn = conectar()
         cursor = conn.cursor()
-        
-        # 🚨 Garante que a tabela exista antes de tentar ler
-        # (Segurança extra, já que inicializar_banco() já deve ter criado)
+
+        # Garante que a tabela exista
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS logs (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                usuario TEXT,
-                acao TEXT,
-                data TEXT
+                usuario TEXT NOT NULL,
+                acao TEXT NOT NULL,
+                data_hora TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
         """)
-        
-        cursor.execute("SELECT usuario, acao, data FROM logs ORDER BY id DESC")
+
+        cursor.execute("SELECT usuario, acao, data_hora FROM logs ORDER BY id DESC")
         logs = cursor.fetchall()
         conn.close()
         return logs
 
-# ==========================================================
-# CLASSE USER (Agora pode usar a 'Log' com segurança)
-# ==========================================================
+
+
 class User:
     """Gerencia CRUD de usuários e autenticação."""
 
@@ -74,10 +66,10 @@ class User:
 
         senha_hash, role = result
         if senha_hash == hash_password(password):
-            Log.registrar(username, "login_sucesso") # Agora 'Log' existe
+            Log.registrar(username, "login_sucesso")
             return True, role
         else:
-            Log.registrar(username, "login_falhou") # Agora 'Log' existe
+            Log.registrar(username, "login_falhou")
             return False, None
 
     @staticmethod
@@ -98,7 +90,7 @@ class User:
         conn.commit()
         conn.close()
 
-        Log.registrar(username, f"usuario_criado ({role})") # Agora 'Log' existe
+        Log.registrar(username, f"usuario_criado ({role})")
 
     @staticmethod
     def listar_usuarios():
@@ -125,7 +117,7 @@ class User:
         conn.commit()
         conn.close()
 
-        Log.registrar(executor, f"excluiu_usuario({username})") # Agora 'Log' existe
+        Log.registrar(executor, f"excluiu_usuario({username})")
 
     @staticmethod
     def alterar_role(username: str, novo_role: str):
@@ -142,4 +134,4 @@ class User:
         conn.commit()
         conn.close()
 
-        Log.registrar(username, f"alterou_role_para({novo_role})") # Agora 'Log' existe
+        Log.registrar(username, f"alterou_role_para({novo_role})")
