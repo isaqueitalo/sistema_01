@@ -1,0 +1,352 @@
+2025-11-06 11:56:42 | INFO     | sistema_logger | === Logger inicializado ===
+2025-11-06 11:56:42 | INFO     | sistema_logger | Arquivo de log: c:\Users\User\.vscode\files\sistema_01\APP\..\DATA\system.log
+2025-11-06 11:56:42 | INFO     | sistema_logger | >>> Inicializando sistema...
+2025-11-06 11:56:42 | INFO     | sistema_logger | Inicializando o banco de dados...
+2025-11-06 11:56:43 | DEBUG    | sistema_logger | Tabela 'usuarios' verificada/criada com sucesso.
+2025-11-06 11:56:43 | DEBUG    | sistema_logger | Tabela 'logs' verificada/criada com sucesso.
+2025-11-06 11:56:43 | INFO     | sistema_logger | Usuário 'admin_master' já existe. Nenhuma alteração necessária.
+2025-11-06 11:56:43 | DEBUG    | sistema_logger | Conexão com o banco encerrada.
+2025-11-06 11:56:43 | INFO     | sistema_logger | Banco de dados inicializado com sucesso.
+2025-11-06 11:56:44 | INFO     | sistema_logger | Tela de login carregada com sucesso.
+2025-11-06 11:56:44 | INFO     | sistema_logger | Interface de login carregada. Aplicação iniciada.
+2025-11-06 12:13:32 | INFO     | sistema_logger | === Logger inicializado ===
+2025-11-06 12:13:32 | INFO     | sistema_logger | Arquivo de log: c:\Users\User\.vscode\files\sistema_01\APP\..\DATA\system.log
+2025-11-06 12:13:33 | INFO     | sistema_logger | >>> Inicializando sistema...
+2025-11-06 12:13:33 | INFO     | sistema_logger | Inicializando o banco de dados...
+2025-11-06 12:13:33 | DEBUG    | sistema_logger | Tabela 'usuarios' verificada/criada com sucesso.
+2025-11-06 12:13:33 | DEBUG    | sistema_logger | Tabela 'logs' verificada/criada com sucesso.
+2025-11-06 12:13:33 | INFO     | sistema_logger | Usuário 'admin_master' já existe. Nenhuma alteração necessária.
+2025-11-06 12:13:33 | DEBUG    | sistema_logger | Conexão com o banco encerrada.
+2025-11-06 12:13:33 | INFO     | sistema_logger | Banco de dados inicializado com sucesso.
+2025-11-06 12:13:33 | INFO     | sistema_logger | Tela de login carregada com sucesso.
+2025-11-06 12:13:33 | INFO     | sistema_logger | Interface de login carregada. Aplicação iniciada.
+2025-11-06 12:13:36 | INFO     | sistema_logger | === Logger inicializado ===
+2025-11-06 12:13:36 | INFO     | sistema_logger | Arquivo de log: c:\Users\User\.vscode\files\sistema_01\APP\..\DATA\system.log
+2025-11-06 12:13:36 | INFO     | sistema_logger | >>> Inicializando sistema...
+2025-11-06 12:13:36 | INFO     | sistema_logger | Inicializando o banco de dados...
+2025-11-06 12:13:36 | DEBUG    | sistema_logger | Tabela 'usuarios' verificada/criada com sucesso.
+2025-11-06 12:13:36 | DEBUG    | sistema_logger | Tabela 'logs' verificada/criada com sucesso.
+2025-11-06 12:13:36 | INFO     | sistema_logger | Usuário 'admin_master' já existe. Nenhuma alteração necessária.
+2025-11-06 12:13:36 | DEBUG    | sistema_logger | Conexão com o banco encerrada.
+2025-11-06 12:13:36 | INFO     | sistema_logger | Banco de dados inicializado com sucesso.
+2025-11-06 12:13:37 | INFO     | sistema_logger | Tela de login carregada com sucesso.
+2025-11-06 12:13:37 | INFO     | sistema_logger | Interface de login carregada. Aplicação iniciada.
+2025-11-06 12:13:39 | INFO     | sistema_logger | === Logger inicializado ===
+2025-11-06 12:13:39 | INFO     | sistema_logger | Arquivo de log: c:\Users\User\.vscode\files\sistema_01\APP\..\DATA\system.log
+2025-11-06 12:13:40 | INFO     | sistema_logger | >>> Inicializando sistema...
+2025-11-06 12:13:40 | INFO     | sistema_logger | Inicializando o banco de dados...
+2025-11-06 12:13:40 | DEBUG    | sistema_logger | Tabela 'usuarios' verificada/criada com sucesso.
+2025-11-06 12:13:40 | DEBUG    | sistema_logger | Tabela 'logs' verificada/criada com sucesso.
+2025-11-06 12:13:40 | INFO     | sistema_logger | Usuário 'admin_master' já existe. Nenhuma alteração necessária.
+2025-11-06 12:13:40 | DEBUG    | sistema_logger | Conexão com o banco encerrada.
+2025-11-06 12:13:40 | INFO     | sistema_logger | Banco de dados inicializado com sucesso.
+2025-11-06 12:13:40 | INFO     | sistema_logger | Tela de login carregada com sucesso.
+2025-11-06 12:13:40 | INFO     | sistema_logger | Interface de login carregada. Aplicação iniciada.
+2025-11-06 12:13:57 | INFO     | sistema_logger | === Logger inicializado ===
+2025-11-06 12:13:57 | INFO     | sistema_logger | Arquivo de log: c:\Users\User\.vscode\files\sistema_01\APP\..\DATA\system.log
+2025-11-06 12:13:57 | INFO     | sistema_logger | >>> Inicializando sistema...
+2025-11-06 12:13:57 | INFO     | sistema_logger | Inicializando o banco de dados...
+2025-11-06 12:13:57 | DEBUG    | sistema_logger | Tabela 'usuarios' verificada/criada com sucesso.
+2025-11-06 12:13:57 | DEBUG    | sistema_logger | Tabela 'logs' verificada/criada com sucesso.
+2025-11-06 12:13:57 | INFO     | sistema_logger | Usuário 'admin_master' já existe. Nenhuma alteração necessária.
+2025-11-06 12:13:57 | DEBUG    | sistema_logger | Conexão com o banco encerrada.
+2025-11-06 12:13:57 | INFO     | sistema_logger | Banco de dados inicializado com sucesso.
+2025-11-06 12:13:58 | INFO     | sistema_logger | Tela de login carregada com sucesso.
+2025-11-06 12:13:58 | INFO     | sistema_logger | Interface de login carregada. Aplicação iniciada.
+2025-11-06 12:14:18 | DEBUG    | sistema_logger | Conexão aberta com o banco de dados.
+2025-11-06 12:14:18 | WARNING  | sistema_logger | Tentativa de login com usuário inexistente: 'admim_master'.
+2025-11-06 12:14:18 | WARNING  | sistema_logger | Tentativa de login falhou para o usuário 'admim_master'.
+2025-11-06 12:14:34 | DEBUG    | sistema_logger | Conexão aberta com o banco de dados.
+2025-11-06 12:14:34 | WARNING  | sistema_logger | Tentativa de login com usuário inexistente: 'admim_master'.
+2025-11-06 12:14:34 | WARNING  | sistema_logger | Tentativa de login falhou para o usuário 'admim_master'.
+2025-11-06 12:14:45 | DEBUG    | sistema_logger | Conexão aberta com o banco de dados.
+2025-11-06 12:14:45 | DEBUG    | sistema_logger | Conexão aberta com o banco de dados.
+2025-11-06 12:14:45 | DEBUG    | sistema_logger | Log de ação registrado: admin_master → login_sucesso
+2025-11-06 12:14:45 | INFO     | sistema_logger | Usuário 'admin_master' autenticado com sucesso.
+2025-11-06 12:14:45 | INFO     | sistema_logger | Usuário 'admin_master' autenticado com sucesso. Permissão: admin
+2025-11-06 12:14:47 | INFO     | sistema_logger | Usuário 'admin_master' entrou no sistema (role=admin).
+2025-11-06 12:15:19 | INFO     | sistema_logger | Administrador 'admin_master' abriu o visualizador de logs.
+2025-11-06 12:15:57 | INFO     | sistema_logger | Usuário 'admin_master' entrou no sistema (role=admin).
+2025-11-06 12:16:03 | INFO     | sistema_logger | Usuário 'admin_master' acessou o módulo de configurações.
+2025-11-06 12:16:06 | ERROR    | sistema_logger | Erro ao abrir módulo de usuários: No module named 'APP.ui.usuarios_ui'
+Traceback (most recent call last):
+  File "c:\Users\User\.vscode\files\sistema_01\APP\ui\main_app.py", line 115, in abrir_usuarios
+    from APP.ui.usuarios_ui import UsuariosUI
+ModuleNotFoundError: No module named 'APP.ui.usuarios_ui'
+2025-11-06 13:08:59 | INFO     | sistema_logger | === Logger inicializado ===
+2025-11-06 13:08:59 | INFO     | sistema_logger | Arquivo de log: c:\Users\User\.vscode\files\sistema_01\APP\..\DATA\system.log
+2025-11-06 13:09:00 | INFO     | sistema_logger | >>> Inicializando sistema...
+2025-11-06 13:09:00 | INFO     | sistema_logger | Inicializando o banco de dados...
+2025-11-06 13:09:00 | DEBUG    | sistema_logger | Tabela 'usuarios' verificada/criada com sucesso.
+2025-11-06 13:09:00 | DEBUG    | sistema_logger | Tabela 'logs' verificada/criada com sucesso.
+2025-11-06 13:09:00 | INFO     | sistema_logger | Usuário 'admin_master' já existe. Nenhuma alteração necessária.
+2025-11-06 13:09:00 | DEBUG    | sistema_logger | Conexão com o banco encerrada.
+2025-11-06 13:09:00 | INFO     | sistema_logger | Banco de dados inicializado com sucesso.
+2025-11-06 13:09:01 | INFO     | sistema_logger | Tela de login carregada com sucesso.
+2025-11-06 13:09:01 | INFO     | sistema_logger | Interface de login carregada. Aplicação iniciada.
+2025-11-06 13:09:22 | DEBUG    | sistema_logger | Conexão aberta com o banco de dados.
+2025-11-06 13:09:23 | DEBUG    | sistema_logger | Conexão aberta com o banco de dados.
+2025-11-06 13:09:23 | DEBUG    | sistema_logger | Log de ação registrado: admin_master → login_sucesso
+2025-11-06 13:09:23 | INFO     | sistema_logger | Usuário 'admin_master' autenticado com sucesso.
+2025-11-06 13:09:23 | INFO     | sistema_logger | Usuário 'admin_master' autenticado com sucesso. Permissão: admin
+2025-11-06 13:09:24 | INFO     | sistema_logger | Usuário 'admin_master' entrou no sistema (role=admin).
+2025-11-06 13:09:28 | ERROR    | sistema_logger | Erro ao abrir módulo de produtos: ProdutosUI.__init__() missing 1 required positional argument: 'role'
+Traceback (most recent call last):
+  File "c:\Users\User\.vscode\files\sistema_01\APP\ui\main_app.py", line 104, in abrir_produtos
+    ProdutosUI(self.master, self.user)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: ProdutosUI.__init__() missing 1 required positional argument: 'role'
+2025-11-06 13:10:04 | INFO     | sistema_logger | === Logger inicializado ===
+2025-11-06 13:10:04 | INFO     | sistema_logger | Arquivo de log: c:\Users\User\.vscode\files\sistema_01\APP\..\DATA\system.log
+2025-11-06 13:10:04 | INFO     | sistema_logger | >>> Inicializando sistema...
+2025-11-06 13:10:04 | INFO     | sistema_logger | Inicializando o banco de dados...
+2025-11-06 13:10:04 | DEBUG    | sistema_logger | Tabela 'usuarios' verificada/criada com sucesso.
+2025-11-06 13:10:04 | DEBUG    | sistema_logger | Tabela 'logs' verificada/criada com sucesso.
+2025-11-06 13:10:04 | INFO     | sistema_logger | Usuário 'admin_master' já existe. Nenhuma alteração necessária.
+2025-11-06 13:10:04 | DEBUG    | sistema_logger | Conexão com o banco encerrada.
+2025-11-06 13:10:04 | INFO     | sistema_logger | Banco de dados inicializado com sucesso.
+2025-11-06 13:10:04 | INFO     | sistema_logger | Tela de login carregada com sucesso.
+2025-11-06 13:10:04 | INFO     | sistema_logger | Interface de login carregada. Aplicação iniciada.
+2025-11-06 13:11:06 | DEBUG    | sistema_logger | Conexão aberta com o banco de dados.
+2025-11-06 13:11:06 | DEBUG    | sistema_logger | Conexão aberta com o banco de dados.
+2025-11-06 13:11:06 | DEBUG    | sistema_logger | Log de ação registrado: vendedor1 → usuario_criado (user)
+2025-11-06 13:11:06 | INFO     | sistema_logger | Novo usuário 'vendedor1' criado com sucesso (role=user).
+2025-11-06 13:11:06 | INFO     | sistema_logger | Novo usuário 'vendedor1' criado com sucesso.
+2025-11-06 13:11:10 | DEBUG    | sistema_logger | Conexão aberta com o banco de dados.
+2025-11-06 13:11:10 | DEBUG    | sistema_logger | Conexão aberta com o banco de dados.
+2025-11-06 13:11:10 | DEBUG    | sistema_logger | Log de ação registrado: vendedor1 → login_sucesso
+2025-11-06 13:11:10 | INFO     | sistema_logger | Usuário 'vendedor1' autenticado com sucesso.
+2025-11-06 13:11:10 | INFO     | sistema_logger | Usuário 'vendedor1' autenticado com sucesso. Permissão: user
+2025-11-06 13:11:13 | INFO     | sistema_logger | Usuário 'vendedor1' entrou no sistema (role=user).
+2025-11-06 13:11:17 | ERROR    | sistema_logger | Erro ao abrir módulo de produtos: ProdutosUI.__init__() missing 1 required positional argument: 'role'
+Traceback (most recent call last):
+  File "c:\Users\User\.vscode\files\sistema_01\APP\ui\main_app.py", line 104, in abrir_produtos
+    ProdutosUI(self.master, self.user)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: ProdutosUI.__init__() missing 1 required positional argument: 'role'
+2025-11-06 14:51:24 | INFO     | sistema_logger | === Logger inicializado ===
+2025-11-06 14:51:24 | INFO     | sistema_logger | Arquivo de log: c:\Users\User\.vscode\files\sistema_01\APP\..\DATA\system.log
+2025-11-06 14:51:25 | INFO     | sistema_logger | >>> Inicializando sistema...
+2025-11-06 14:51:25 | INFO     | sistema_logger | Inicializando o banco de dados...
+2025-11-06 14:51:25 | DEBUG    | sistema_logger | Tabela 'usuarios' verificada/criada com sucesso.
+2025-11-06 14:51:25 | DEBUG    | sistema_logger | Tabela 'logs' verificada/criada com sucesso.
+2025-11-06 14:51:25 | INFO     | sistema_logger | Usuário 'admin_master' já existe. Nenhuma alteração necessária.
+2025-11-06 14:51:25 | DEBUG    | sistema_logger | Conexão com o banco encerrada.
+2025-11-06 14:51:25 | INFO     | sistema_logger | Banco de dados inicializado com sucesso.
+2025-11-06 14:51:26 | INFO     | sistema_logger | Tela de login carregada com sucesso.
+2025-11-06 14:51:26 | INFO     | sistema_logger | Interface de login carregada. Aplicação iniciada.
+2025-11-06 14:51:44 | DEBUG    | sistema_logger | Conexão aberta com o banco de dados.
+2025-11-06 14:51:44 | DEBUG    | sistema_logger | Conexão aberta com o banco de dados.
+2025-11-06 14:51:45 | DEBUG    | sistema_logger | Log de ação registrado: vendedor1 → login_falhou
+2025-11-06 14:51:45 | WARNING  | sistema_logger | Usuário 'vendedor1' falhou na autenticação (senha incorreta).
+2025-11-06 14:51:45 | WARNING  | sistema_logger | Tentativa de login falhou para o usuário 'vendedor1'.
+2025-11-06 14:51:54 | DEBUG    | sistema_logger | Conexão aberta com o banco de dados.
+2025-11-06 14:51:54 | DEBUG    | sistema_logger | Conexão aberta com o banco de dados.
+2025-11-06 14:51:54 | DEBUG    | sistema_logger | Log de ação registrado: vendedor1 → login_sucesso
+2025-11-06 14:51:54 | INFO     | sistema_logger | Usuário 'vendedor1' autenticado com sucesso.
+2025-11-06 14:51:54 | INFO     | sistema_logger | Usuário 'vendedor1' autenticado com sucesso. Permissão: user
+2025-11-06 14:51:56 | INFO     | sistema_logger | Usuário 'vendedor1' entrou no sistema (role=user).
+2025-11-06 14:52:06 | ERROR    | sistema_logger | Erro ao abrir módulo de produtos: ProdutosUI.__init__() missing 1 required positional argument: 'role'
+Traceback (most recent call last):
+  File "c:\Users\User\.vscode\files\sistema_01\APP\ui\main_app.py", line 104, in abrir_produtos
+    ProdutosUI(self.master, self.user)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: ProdutosUI.__init__() missing 1 required positional argument: 'role'
+2025-11-06 15:09:05 | INFO     | sistema_logger | === Logger inicializado ===
+2025-11-06 15:09:05 | INFO     | sistema_logger | Arquivo de log: c:\Users\User\.vscode\files\sistema_01\APP\..\DATA\system.log
+2025-11-06 15:09:05 | INFO     | sistema_logger | >>> Inicializando sistema...
+2025-11-06 15:09:05 | INFO     | sistema_logger | Inicializando o banco de dados...
+2025-11-06 15:09:05 | DEBUG    | sistema_logger | Tabela 'usuarios' verificada/criada com sucesso.
+2025-11-06 15:09:05 | DEBUG    | sistema_logger | Tabela 'logs' verificada/criada com sucesso.
+2025-11-06 15:09:05 | INFO     | sistema_logger | Usuário 'admin_master' já existe. Nenhuma alteração necessária.
+2025-11-06 15:09:05 | DEBUG    | sistema_logger | Conexão com o banco encerrada.
+2025-11-06 15:09:05 | INFO     | sistema_logger | Banco de dados inicializado com sucesso.
+2025-11-06 15:09:06 | INFO     | sistema_logger | Tela de login carregada com sucesso.
+2025-11-06 15:09:06 | INFO     | sistema_logger | Interface de login carregada. Aplicação iniciada.
+2025-11-06 15:09:40 | DEBUG    | sistema_logger | Conexão aberta com o banco de dados.
+2025-11-06 15:09:40 | DEBUG    | sistema_logger | Conexão aberta com o banco de dados.
+2025-11-06 15:09:40 | DEBUG    | sistema_logger | Log de ação registrado: vendedor1 → login_sucesso
+2025-11-06 15:09:40 | INFO     | sistema_logger | Usuário 'vendedor1' autenticado com sucesso.
+2025-11-06 15:09:40 | INFO     | sistema_logger | Usuário 'vendedor1' autenticado com sucesso. Permissão: user
+2025-11-06 15:09:43 | INFO     | sistema_logger | Usuário 'vendedor1' entrou no sistema (role=user).
+2025-11-06 15:09:45 | ERROR    | sistema_logger | Erro ao abrir módulo de produtos: ProdutosUI.__init__() missing 1 required positional argument: 'role'
+Traceback (most recent call last):
+  File "c:\Users\User\.vscode\files\sistema_01\APP\ui\main_app.py", line 115, in abrir_produtos
+    ProdutosUI(self.master, self.user)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: ProdutosUI.__init__() missing 1 required positional argument: 'role'
+2025-11-06 15:09:50 | INFO     | sistema_logger | === Logger inicializado ===
+2025-11-06 15:09:50 | INFO     | sistema_logger | Arquivo de log: c:\Users\User\.vscode\files\sistema_01\APP\..\DATA\system.log
+2025-11-06 15:09:50 | INFO     | sistema_logger | >>> Inicializando sistema...
+2025-11-06 15:09:50 | INFO     | sistema_logger | Inicializando o banco de dados...
+2025-11-06 15:09:50 | DEBUG    | sistema_logger | Tabela 'usuarios' verificada/criada com sucesso.
+2025-11-06 15:09:50 | DEBUG    | sistema_logger | Tabela 'logs' verificada/criada com sucesso.
+2025-11-06 15:09:50 | INFO     | sistema_logger | Usuário 'admin_master' já existe. Nenhuma alteração necessária.
+2025-11-06 15:09:50 | DEBUG    | sistema_logger | Conexão com o banco encerrada.
+2025-11-06 15:09:50 | INFO     | sistema_logger | Banco de dados inicializado com sucesso.
+2025-11-06 15:09:51 | INFO     | sistema_logger | Tela de login carregada com sucesso.
+2025-11-06 15:09:51 | INFO     | sistema_logger | Interface de login carregada. Aplicação iniciada.
+2025-11-06 15:10:07 | INFO     | sistema_logger | === Logger inicializado ===
+2025-11-06 15:10:07 | INFO     | sistema_logger | Arquivo de log: c:\Users\User\.vscode\files\sistema_01\APP\..\DATA\system.log
+2025-11-06 15:10:07 | INFO     | sistema_logger | >>> Inicializando sistema...
+2025-11-06 15:10:07 | INFO     | sistema_logger | Inicializando o banco de dados...
+2025-11-06 15:10:07 | DEBUG    | sistema_logger | Tabela 'usuarios' verificada/criada com sucesso.
+2025-11-06 15:10:07 | DEBUG    | sistema_logger | Tabela 'logs' verificada/criada com sucesso.
+2025-11-06 15:10:07 | INFO     | sistema_logger | Usuário 'admin_master' já existe. Nenhuma alteração necessária.
+2025-11-06 15:10:07 | DEBUG    | sistema_logger | Conexão com o banco encerrada.
+2025-11-06 15:10:07 | INFO     | sistema_logger | Banco de dados inicializado com sucesso.
+2025-11-06 15:10:08 | INFO     | sistema_logger | Tela de login carregada com sucesso.
+2025-11-06 15:10:08 | INFO     | sistema_logger | Interface de login carregada. Aplicação iniciada.
+2025-11-06 15:10:24 | DEBUG    | sistema_logger | Conexão aberta com o banco de dados.
+2025-11-06 15:10:24 | DEBUG    | sistema_logger | Conexão aberta com o banco de dados.
+2025-11-06 15:10:24 | DEBUG    | sistema_logger | Log de ação registrado: vendedor1 → login_sucesso
+2025-11-06 15:10:24 | INFO     | sistema_logger | Usuário 'vendedor1' autenticado com sucesso.
+2025-11-06 15:10:24 | INFO     | sistema_logger | Usuário 'vendedor1' autenticado com sucesso. Permissão: user
+2025-11-06 15:10:26 | INFO     | sistema_logger | Usuário 'vendedor1' entrou no sistema (role=user).
+2025-11-06 15:10:28 | ERROR    | sistema_logger | Erro ao abrir módulo de produtos: ProdutosUI.__init__() missing 1 required positional argument: 'role'
+Traceback (most recent call last):
+  File "c:\Users\User\.vscode\files\sistema_01\APP\ui\main_app.py", line 115, in abrir_produtos
+    ProdutosUI(self.master, self.user)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: ProdutosUI.__init__() missing 1 required positional argument: 'role'
+2025-11-06 15:15:01 | INFO     | sistema_logger | === Logger inicializado ===
+2025-11-06 15:15:01 | INFO     | sistema_logger | Arquivo de log: c:\Users\User\.vscode\files\sistema_01\APP\..\DATA\system.log
+2025-11-06 15:15:01 | INFO     | sistema_logger | >>> Inicializando sistema...
+2025-11-06 15:15:01 | INFO     | sistema_logger | Inicializando o banco de dados...
+2025-11-06 15:15:01 | DEBUG    | sistema_logger | Tabela 'usuarios' verificada/criada com sucesso.
+2025-11-06 15:15:01 | DEBUG    | sistema_logger | Tabela 'logs' verificada/criada com sucesso.
+2025-11-06 15:15:01 | INFO     | sistema_logger | Usuário 'admin_master' já existe. Nenhuma alteração necessária.
+2025-11-06 15:15:01 | DEBUG    | sistema_logger | Conexão com o banco encerrada.
+2025-11-06 15:15:01 | INFO     | sistema_logger | Banco de dados inicializado com sucesso.
+2025-11-06 15:15:02 | INFO     | sistema_logger | Tela de login carregada com sucesso.
+2025-11-06 15:15:02 | INFO     | sistema_logger | Interface de login carregada. Aplicação iniciada.
+2025-11-06 15:15:20 | DEBUG    | sistema_logger | Conexão aberta com o banco de dados.
+2025-11-06 15:15:20 | DEBUG    | sistema_logger | Conexão aberta com o banco de dados.
+2025-11-06 15:15:20 | DEBUG    | sistema_logger | Log de ação registrado: vendedor1 → login_sucesso
+2025-11-06 15:15:20 | INFO     | sistema_logger | Usuário 'vendedor1' autenticado com sucesso.
+2025-11-06 15:15:20 | INFO     | sistema_logger | Usuário 'vendedor1' autenticado com sucesso. Permissão: user
+2025-11-06 15:15:22 | INFO     | sistema_logger | Usuário 'vendedor1' entrou no sistema (role=user).
+2025-11-06 15:15:24 | DEBUG    | sistema_logger | Conexão aberta com o banco de dados.
+2025-11-06 15:15:24 | DEBUG    | sistema_logger | Conexão aberta com o banco de dados.
+2025-11-06 15:15:24 | INFO     | sistema_logger | Usuário 'vendedor1' abriu o módulo de produtos.
+2025-11-06 15:25:15 | INFO     | sistema_logger | === Logger inicializado ===
+2025-11-06 15:25:15 | INFO     | sistema_logger | Arquivo de log: c:\Users\User\.vscode\files\sistema_01\APP\..\DATA\system.log
+2025-11-06 15:25:15 | INFO     | sistema_logger | >>> Inicializando sistema...
+2025-11-06 15:25:15 | INFO     | sistema_logger | Inicializando o banco de dados...
+2025-11-06 15:25:15 | DEBUG    | sistema_logger | Tabela 'usuarios' verificada/criada com sucesso.
+2025-11-06 15:25:15 | DEBUG    | sistema_logger | Tabela 'logs' verificada/criada com sucesso.
+2025-11-06 15:25:15 | INFO     | sistema_logger | Usuário 'admin_master' já existe. Nenhuma alteração necessária.
+2025-11-06 15:25:15 | DEBUG    | sistema_logger | Conexão com o banco encerrada.
+2025-11-06 15:25:15 | INFO     | sistema_logger | Banco de dados inicializado com sucesso.
+2025-11-06 15:25:16 | INFO     | sistema_logger | Tela de login carregada com sucesso.
+2025-11-06 15:25:16 | INFO     | sistema_logger | Interface de login carregada. Aplicação iniciada.
+2025-11-06 15:25:34 | DEBUG    | sistema_logger | Conexão aberta com o banco de dados.
+2025-11-06 15:25:34 | DEBUG    | sistema_logger | Conexão aberta com o banco de dados.
+2025-11-06 15:25:35 | DEBUG    | sistema_logger | Log de ação registrado: vendedor1 → login_sucesso
+2025-11-06 15:25:35 | INFO     | sistema_logger | Usuário 'vendedor1' autenticado com sucesso.
+2025-11-06 15:25:35 | INFO     | sistema_logger | Usuário 'vendedor1' autenticado com sucesso. Permissão: user
+2025-11-06 15:25:36 | INFO     | sistema_logger | Usuário 'vendedor1' entrou no sistema (role=user).
+2025-11-06 15:25:38 | DEBUG    | sistema_logger | Conexão aberta com o banco de dados.
+2025-11-06 15:25:38 | DEBUG    | sistema_logger | Conexão aberta com o banco de dados.
+2025-11-06 15:25:38 | ERROR    | sistema_logger | Erro ao carregar produtos: no such column: preco
+Traceback (most recent call last):
+  File "c:\Users\User\.vscode\files\sistema_01\APP\ui\produtos_ui.py", line 121, in carregar_produtos
+    cursor.execute("SELECT id, nome, preco, estoque FROM produtos ORDER BY nome ASC")
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: preco
+2025-11-06 15:25:41 | INFO     | sistema_logger | Usuário 'vendedor1' abriu o módulo de produtos (role=user).
+2025-11-06 15:25:41 | INFO     | sistema_logger | Usuário 'vendedor1' abriu o módulo de produtos.
+2025-11-06 15:26:44 | DEBUG    | sistema_logger | Conexão aberta com o banco de dados.
+2025-11-06 15:26:44 | ERROR    | sistema_logger | Erro ao adicionar produto 'agua indaia': table produtos has no column named preco
+Traceback (most recent call last):
+  File "c:\Users\User\.vscode\files\sistema_01\APP\ui\produtos_ui.py", line 150, in adicionar_produto
+    cursor.execute(
+    ~~~~~~~~~~~~~~^
+        "INSERT INTO produtos (nome, preco, estoque) VALUES (?, ?, ?)",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        (nome, float(preco), int(estoque))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+sqlite3.OperationalError: table produtos has no column named preco
+2025-11-06 15:34:39 | INFO     | sistema_logger | === Logger inicializado ===
+2025-11-06 15:34:39 | INFO     | sistema_logger | Arquivo de log: c:\Users\User\.vscode\files\sistema_01\APP\..\DATA\system.log
+2025-11-06 15:34:39 | INFO     | sistema_logger | >>> Inicializando sistema...
+2025-11-06 15:34:39 | INFO     | sistema_logger | Inicializando o banco de dados...
+2025-11-06 15:34:39 | DEBUG    | sistema_logger | Tabela 'usuarios' verificada/criada com sucesso.
+2025-11-06 15:34:39 | DEBUG    | sistema_logger | Tabela 'logs' verificada/criada com sucesso.
+2025-11-06 15:34:39 | INFO     | sistema_logger | Usuário 'admin_master' já existe. Nenhuma alteração necessária.
+2025-11-06 15:34:39 | DEBUG    | sistema_logger | Conexão com o banco encerrada.
+2025-11-06 15:34:39 | INFO     | sistema_logger | Banco de dados inicializado com sucesso.
+2025-11-06 15:34:40 | INFO     | sistema_logger | Tela de login carregada com sucesso.
+2025-11-06 15:34:40 | INFO     | sistema_logger | Interface de login carregada. Aplicação iniciada.
+2025-11-06 15:35:04 | DEBUG    | sistema_logger | Conexão aberta com o banco de dados.
+2025-11-06 15:35:04 | DEBUG    | sistema_logger | Conexão aberta com o banco de dados.
+2025-11-06 15:35:04 | DEBUG    | sistema_logger | Log de ação registrado: vendedor1 → login_sucesso
+2025-11-06 15:35:04 | INFO     | sistema_logger | Usuário 'vendedor1' autenticado com sucesso.
+2025-11-06 15:35:04 | INFO     | sistema_logger | Usuário 'vendedor1' autenticado com sucesso. Permissão: user
+2025-11-06 15:35:06 | INFO     | sistema_logger | Usuário 'vendedor1' entrou no sistema (role=user).
+2025-11-06 15:35:07 | DEBUG    | sistema_logger | Conexão aberta com o banco de dados.
+2025-11-06 15:35:07 | DEBUG    | sistema_logger | Conexão aberta com o banco de dados.
+2025-11-06 15:35:07 | ERROR    | sistema_logger | Erro ao carregar produtos: no such column: preco
+Traceback (most recent call last):
+  File "c:\Users\User\.vscode\files\sistema_01\APP\ui\produtos_ui.py", line 142, in carregar_produtos
+    cursor.execute("SELECT id, nome, preco, estoque FROM produtos ORDER BY nome ASC")
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: preco
+2025-11-06 15:35:10 | INFO     | sistema_logger | Usuário 'vendedor1' abriu o módulo de produtos (role=user).
+2025-11-06 15:35:10 | INFO     | sistema_logger | Usuário 'vendedor1' abriu o módulo de produtos.
+2025-11-06 15:35:35 | INFO     | sistema_logger | Usuário 'vendedor1' entrou no sistema (role=user).
+2025-11-06 15:35:35 | INFO     | sistema_logger | Usuário 'vendedor1' retornou ao menu principal.
+2025-11-06 15:35:42 | DEBUG    | sistema_logger | Conexão aberta com o banco de dados.
+2025-11-06 15:35:42 | ERROR    | sistema_logger | Erro ao carregar produtos: no such column: preco
+Traceback (most recent call last):
+  File "c:\Users\User\.vscode\files\sistema_01\APP\ui\vendedor_ui.py", line 115, in carregar_produtos
+    cursor.execute("SELECT id, nome, preco, estoque FROM produtos ORDER BY nome ASC")
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: preco
+2025-11-06 15:35:44 | INFO     | sistema_logger | Vendedor 'vendedor1' abriu o painel de vendas.
+2025-11-06 15:35:44 | INFO     | sistema_logger | Usuário 'vendedor1' acessou o painel de vendedor.
+2025-11-06 15:35:46 | INFO     | sistema_logger | Usuário 'vendedor1' entrou no sistema (role=user).
+2025-11-06 15:35:46 | INFO     | sistema_logger | Usuário 'vendedor1' retornou ao menu principal.
+2025-11-06 15:35:47 | DEBUG    | sistema_logger | Conexão aberta com o banco de dados.
+2025-11-06 15:35:47 | DEBUG    | sistema_logger | Conexão aberta com o banco de dados.
+2025-11-06 15:35:47 | ERROR    | sistema_logger | Erro ao carregar produtos: no such column: preco
+Traceback (most recent call last):
+  File "c:\Users\User\.vscode\files\sistema_01\APP\ui\produtos_ui.py", line 142, in carregar_produtos
+    cursor.execute("SELECT id, nome, preco, estoque FROM produtos ORDER BY nome ASC")
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: preco
+2025-11-06 15:35:49 | INFO     | sistema_logger | Usuário 'vendedor1' abriu o módulo de produtos (role=user).
+2025-11-06 15:35:49 | INFO     | sistema_logger | Usuário 'vendedor1' abriu o módulo de produtos.
+2025-11-06 15:35:51 | INFO     | sistema_logger | Usuário 'vendedor1' entrou no sistema (role=user).
+2025-11-06 15:35:51 | INFO     | sistema_logger | Usuário 'vendedor1' retornou ao menu principal.
+2025-11-06 15:36:10 | DEBUG    | sistema_logger | Conexão aberta com o banco de dados.
+2025-11-06 15:36:10 | ERROR    | sistema_logger | Erro ao carregar produtos: no such column: preco
+Traceback (most recent call last):
+  File "c:\Users\User\.vscode\files\sistema_01\APP\ui\vendedor_ui.py", line 115, in carregar_produtos
+    cursor.execute("SELECT id, nome, preco, estoque FROM produtos ORDER BY nome ASC")
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: preco
+2025-11-06 15:36:12 | INFO     | sistema_logger | Vendedor 'vendedor1' abriu o painel de vendas.
+2025-11-06 15:36:12 | INFO     | sistema_logger | Usuário 'vendedor1' acessou o painel de vendedor.
+2025-11-06 15:36:18 | INFO     | sistema_logger | Usuário 'vendedor1' entrou no sistema (role=user).
+2025-11-06 15:36:18 | INFO     | sistema_logger | Usuário 'vendedor1' retornou ao menu principal.
+2025-11-06 15:36:22 | INFO     | sistema_logger | Tela de login carregada com sucesso.
+2025-11-06 15:36:22 | INFO     | sistema_logger | Usuário 'vendedor1' saiu do sistema e retornou à tela de login.
+2025-11-06 17:22:54 | INFO     | sistema_logger | === Logger inicializado ===
+2025-11-06 17:22:54 | INFO     | sistema_logger | Arquivo de log: C:\Users\User\.vscode\files\sistema_01\APP\..\DATA\system.log
+2025-11-06 17:43:13 | INFO     | sistema_logger | >>> Inicializando sistema...
+2025-11-06 19:38:51 | INFO     | sistema_logger | Inicializando o banco de dados...
+2025-11-06 19:39:49 | DEBUG    | sistema_logger | Tabela 'usuarios' verificada/criada com sucesso.
+2025-11-06 19:40:20 | DEBUG    | sistema_logger | Tabela 'logs' verificada/criada com sucesso.
+2025-11-06 19:43:27 | INFO     | sistema_logger | Usuário 'admin_master' já existe. Nenhuma alteração necessária.
+2025-11-06 19:44:23 | DEBUG    | sistema_logger | Conexão com o banco encerrada.
+2025-11-06 19:51:11 | INFO     | sistema_logger | Banco de dados inicializado com sucesso.
+2025-11-07 07:22:26 | INFO     | sistema_logger | Tela de login carregada com sucesso.
+2025-11-07 07:25:55 | INFO     | sistema_logger | Interface de login carregada. Aplicação iniciada.
+2025-11-07 07:36:03 | DEBUG    | sistema_logger | Conexão aberta com o banco de dados.
+2025-11-07 11:24:12 | DEBUG    | sistema_logger | Conexão aberta com o banco de dados.
+2025-11-07 11:24:29 | DEBUG    | sistema_logger | Log de ação registrado: vendedor1 → login_sucesso
+2025-11-07 11:24:46 | INFO     | sistema_logger | Usuário 'vendedor1' autenticado com sucesso.
+2025-11-07 11:25:13 | INFO     | sistema_logger | Usuário 'vendedor1' autenticado com sucesso. Permissão: user

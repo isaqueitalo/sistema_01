@@ -1,10 +1,10 @@
-# APP/ui/login_ui.py
 import ttkbootstrap as tb
 from ttkbootstrap.constants import *
 from tkinter import messagebox
 from tkinter.simpledialog import askstring
 from APP.models.usuarios_models import User
 from APP.config import APP_TITLE, WINDOW_SIZE
+from APP.logger import logger  # ✅ Importa o logger centralizado
 
 
 class LoginUI:
@@ -24,7 +24,7 @@ class LoginUI:
         # Título
         tb.Label(
             frame,
-            text="🔐 Sistema de Login",
+            text="🔐 Login",
             font=("Segoe UI", 18, "bold"),
             bootstyle="info"
         ).pack(pady=(0, 20))
@@ -45,7 +45,7 @@ class LoginUI:
             frame,
             text="Mostrar senha",
             variable=self.mostrar_senha,
-            bootstyle="round-toggle",
+            bootstyle="success-round-toggle",
             command=self.toggle_password
         ).pack(anchor="w", pady=(5, 0))
 
@@ -59,6 +59,8 @@ class LoginUI:
                   command=self.register_action).grid(row=0, column=1, padx=5)
         tb.Button(btn_frame, text="Sair", width=12, bootstyle=DANGER,
                   command=self.root.destroy).grid(row=0, column=2, padx=5)
+
+        logger.info("Tela de login carregada com sucesso.")
 
     # === Funções ===
 
@@ -76,11 +78,13 @@ class LoginUI:
 
         if not user or not password:
             messagebox.showwarning("Aviso", "Preencha todos os campos.")
+            logger.warning("Tentativa de login com campos vazios.")
             return
 
         try:
             ok, role = User.autenticar(user, password)
             if ok:
+                logger.info(f"Usuário '{user}' autenticado com sucesso. Permissão: {role}")
                 messagebox.showinfo("Sucesso", f"Bem-vindo, {user}!")
 
                 # ✅ Troca a tela de login pela tela principal
@@ -96,9 +100,11 @@ class LoginUI:
                 MainApp(self.root, user, role)
 
             else:
+                logger.warning(f"Tentativa de login falhou para o usuário '{user}'.")
                 messagebox.showerror("Erro", "Usuário ou senha incorretos.")
         except Exception as e:
-            messagebox.showerror("Erro", str(e))
+            logger.error(f"Erro inesperado ao tentar login de '{user}': {e}", exc_info=True)
+            messagebox.showerror("Erro", "Ocorreu um erro ao tentar realizar o login. Verifique os logs.")
 
     def register_action(self):
         """Cria novo usuário com confirmação de senha."""
@@ -107,19 +113,24 @@ class LoginUI:
 
         if not user or not password:
             messagebox.showwarning("Aviso", "Preencha todos os campos!")
+            logger.warning("Tentativa de cadastro com campos vazios.")
             return
 
         password2 = askstring("Confirmação", "Digite novamente a senha:")
 
         if not password2:
             messagebox.showwarning("Aviso", "Confirmação de senha cancelada.")
+            logger.info(f"Usuário '{user}' cancelou a criação de conta.")
             return
         if password != password2:
             messagebox.showerror("Erro", "As senhas não coincidem!")
+            logger.warning(f"Senhas não coincidem na tentativa de cadastro de '{user}'.")
             return
 
         try:
             User.registrar(user, password)
+            logger.info(f"Novo usuário '{user}' criado com sucesso.")
             messagebox.showinfo("Sucesso", "Usuário criado com sucesso!")
         except Exception as e:
-            messagebox.showerror("Erro", str(e))
+            logger.error(f"Erro ao registrar novo usuário '{user}': {e}", exc_info=True)
+            messagebox.showerror("Erro", "Ocorreu um erro ao criar o usuário. Verifique os logs.")
