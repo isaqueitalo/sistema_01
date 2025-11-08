@@ -1,136 +1,75 @@
-import ttkbootstrap as tb
-from ttkbootstrap.constants import *
-from tkinter import messagebox
-from tkinter.simpledialog import askstring
+import flet as ft
+from APP.core.config_manager import carregar_config
 from APP.models.usuarios_models import User
-from APP.config import APP_TITLE, WINDOW_SIZE
-from APP.logger import logger  # ✅ Importa o logger centralizado
+from APP.ui.dashboard_ui import DashboardUI
+from APP.core.logger import logger
+
+
+
+# APP/ui/login_ui.py
+import flet as ft
+from APP.core.config_manager import carregar_config
+from APP.models.usuarios_models import User
+from APP.ui.dashboard_ui import DashboardUI
+from APP.core.logger import logger
 
 
 class LoginUI:
-    def __init__(self, root):
-        self.root = root
-        self.root.title(APP_TITLE)
-        self.root.geometry(WINDOW_SIZE)
-        self.root.resizable(False, False)
+    """Tela minimalista de login com suporte a tema escuro/claro."""
 
-        # Tema moderno
-        self.style = tb.Style(theme="cyborg")
+    def __init__(self, page: ft.Page):
+        self.page = page
+        self.config = carregar_config()
+        self.page.theme_mode = ft.ThemeMode.DARK if self.config["tema"] == "dark" else ft.ThemeMode.LIGHT
+        self.build_ui()
+        logger.info("Tela de login carregada com suporte a tema dinâmico.")
 
-        # Frame principal centralizado
-        frame = tb.Frame(self.root, padding=30)
-        frame.place(relx=0.5, rely=0.5, anchor="center")
+    def build_ui(self):
+        self.page.clean()
+        self.page.title = "Sistema de Gestão — Login"
 
-        # Título
-        tb.Label(
-            frame,
-            text="🔐 Login",
-            font=("Segoe UI", 18, "bold"),
-            bootstyle="info"
-        ).pack(pady=(0, 20))
+        self.username = ft.TextField(label="Usuário", width=300)
+        self.password = ft.TextField(label="Senha", width=300, password=True, can_reveal_password=True)
+        self.message = ft.Text("", color=ft.Colors.RED_400)
 
-        # Campo Usuário
-        tb.Label(frame, text="Usuário:", font=("Segoe UI", 11)).pack(anchor="w")
-        self.username_entry = tb.Entry(frame, width=30)
-        self.username_entry.pack(pady=5)
+        btn_login = ft.ElevatedButton("Entrar", width=200, on_click=self.login_action)
+        btn_sair = ft.TextButton("Sair", on_click=lambda e: self.page.window_destroy())
 
-        # Campo Senha
-        tb.Label(frame, text="Senha:", font=("Segoe UI", 11)).pack(anchor="w", pady=(10, 0))
-        self.password_entry = tb.Entry(frame, show="*", width=30)
-        self.password_entry.pack(pady=5)
+        self.page.add(
+            ft.Column(
+                [
+                    ft.Text("🔐 Bem-vindo", size=26, weight=ft.FontWeight.BOLD),
+                    ft.Divider(),
+                    self.username,
+                    self.password,
+                    btn_login,
+                    self.message,
+                    btn_sair,
+                ],
+                horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+                alignment=ft.MainAxisAlignment.CENTER,
+            )
+        )
 
-        # Mostrar senha
-        self.mostrar_senha = tb.BooleanVar(value=False)
-        tb.Checkbutton(
-            frame,
-            text="Mostrar senha",
-            variable=self.mostrar_senha,
-            bootstyle="success-round-toggle",
-            command=self.toggle_password
-        ).pack(anchor="w", pady=(5, 0))
+    def login_action(self, e):
+        user = self.username.value.strip()
+        password = self.password.value.strip()
 
-        # Botões principais
-        btn_frame = tb.Frame(frame)
-        btn_frame.pack(pady=20)
-
-        tb.Button(btn_frame, text="Entrar", width=12, bootstyle=SUCCESS,
-                  command=self.login_action).grid(row=0, column=0, padx=5)
-        tb.Button(btn_frame, text="Criar Usuário", width=12, bootstyle=INFO,
-                  command=self.register_action).grid(row=0, column=1, padx=5)
-        tb.Button(btn_frame, text="Sair", width=12, bootstyle=DANGER,
-                  command=self.root.destroy).grid(row=0, column=2, padx=5)
-
-        logger.info("Tela de login carregada com sucesso.")
-
-    # === Funções ===
-
-    def toggle_password(self):
-        """Alterna entre mostrar e esconder a senha."""
-        if self.mostrar_senha.get():
-            self.password_entry.config(show="")
+        ok, role = User.autenticar(user, password)
+        if ok:
+            logger.info(f"Usuário '{user}' autenticado com sucesso.")
+            DashboardUI(self.page, user, role)
         else:
-            self.password_entry.config(show="*")
+            self.message.value = "Usuário ou senha incorretos."
+            self.message.color = ft.Colors.RED_400
+            self.page.update()
 
-    def login_action(self):
-        """Realiza o login. Se for sucesso, abre o Menu Principal."""
-        user = self.username_entry.get().strip()
-        password = self.password_entry.get().strip()
 
-        if not user or not password:
-            messagebox.showwarning("Aviso", "Preencha todos os campos.")
-            logger.warning("Tentativa de login com campos vazios.")
-            return
+    def open_dashboard(self, username, role):
+        logger.info(f"Abrindo dashboard para {username} ({role})")
+        self.page.clean()
+        DashboardUI(self.page, username, role)
 
-        try:
-            ok, role = User.autenticar(user, password)
-            if ok:
-                logger.info(f"Usuário '{user}' autenticado com sucesso. Permissão: {role}")
-                messagebox.showinfo("Sucesso", f"Bem-vindo, {user}!")
-
-                # ✅ Troca a tela de login pela tela principal
-                for widget in self.root.winfo_children():
-                    widget.destroy()
-
-                # Redefine janela para a nova tela
-                self.root.geometry("800x600")
-                self.root.resizable(True, True)
-
-                # Importa e abre o menu principal
-                from APP.ui.main_app import MainApp
-                MainApp(self.root, user, role)
-
-            else:
-                logger.warning(f"Tentativa de login falhou para o usuário '{user}'.")
-                messagebox.showerror("Erro", "Usuário ou senha incorretos.")
-        except Exception as e:
-            logger.error(f"Erro inesperado ao tentar login de '{user}': {e}", exc_info=True)
-            messagebox.showerror("Erro", "Ocorreu um erro ao tentar realizar o login. Verifique os logs.")
-
-    def register_action(self):
-        """Cria novo usuário com confirmação de senha."""
-        user = self.username_entry.get().strip()
-        password = self.password_entry.get().strip()
-
-        if not user or not password:
-            messagebox.showwarning("Aviso", "Preencha todos os campos!")
-            logger.warning("Tentativa de cadastro com campos vazios.")
-            return
-
-        password2 = askstring("Confirmação", "Digite novamente a senha:")
-
-        if not password2:
-            messagebox.showwarning("Aviso", "Confirmação de senha cancelada.")
-            logger.info(f"Usuário '{user}' cancelou a criação de conta.")
-            return
-        if password != password2:
-            messagebox.showerror("Erro", "As senhas não coincidem!")
-            logger.warning(f"Senhas não coincidem na tentativa de cadastro de '{user}'.")
-            return
-
-        try:
-            User.registrar(user, password)
-            logger.info(f"Novo usuário '{user}' criado com sucesso.")
-            messagebox.showinfo("Sucesso", "Usuário criado com sucesso!")
-        except Exception as e:
-            logger.error(f"Erro ao registrar novo usuário '{user}': {e}", exc_info=True)
-            messagebox.showerror("Erro", "Ocorreu um erro ao criar o usuário. Verifique os logs.")
+    def register_user(self, e):
+        self.message.value = "Cadastro de usuário ainda não implementado."
+        self.page.update()

@@ -1,20 +1,26 @@
-
-from APP.database import inicializar_banco
+import sys
+import flet as ft
+from APP.core.database import inicializar_banco
+from APP.core.logger import logger
 from APP.ui.login_ui import LoginUI
-from APP.logger import logger   # ✅ Importa o logger centralizado
-import ttkbootstrap as tb
 
-if __name__ == "__main__":
+
+def main(page: ft.Page):
     try:
-        logger.info(">>> Inicializando sistema...")
+        logger.info(">>> Inicializando o Sistema de Gestão com Flet...")
         inicializar_banco()
-        logger.info("Banco de dados inicializado com sucesso.")
 
-        root = tb.Window(themename="cyborg")
-        app = LoginUI(root)
-        logger.info("Interface de login carregada. Aplicação iniciada.")
-        root.mainloop()
+        page.title = "Sistema de Gestão - Login"
+        page.horizontal_alignment = "center"
+        page.vertical_alignment = "center"
+        page.theme_mode = ft.ThemeMode.DARK
 
+        LoginUI(page)
+        logger.info("Tela de login carregada com sucesso.")
     except Exception as e:
         logger.critical(f"Erro crítico ao iniciar o sistema: {e}", exc_info=True)
-        print("Ocorreu um erro grave. Verifique o arquivo de log em DATA/system.log.")
+        sys.exit(1)
+
+
+if __name__ == "__main__":
+    ft.app(target=main)

@@ -1,112 +1,71 @@
-# APP/models/produtos_model.py
-import sqlite3
-from datetime import datetime
-from APP.database import conectar
+# APP/models/produtos_models.py
+from APP.core.database import conectar
+from APP.core.logger import logger
 
 
-class ProdutoModel:
-    """Model responsável pelas operações no banco de produtos."""
+class Produto:
+    """Modelo de Produtos"""
 
     @staticmethod
-    def criar_tabela():
-        """Cria a tabela 'produtos' se não existir."""
+    def adicionar(nome, preco, estoque):
         conn = conectar()
-        cursor = conn.cursor()
-
-        cursor.execute("""
-            CREATE TABLE IF NOT EXISTS produtos (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                nome TEXT NOT NULL,
-                descricao TEXT,
-                preco_custo REAL NOT NULL DEFAULT 0.0,
-                preco_venda REAL NOT NULL DEFAULT 0.0,
-                estoque INTEGER NOT NULL DEFAULT 0,
-                categoria TEXT,
-                data_cadastro TEXT NOT NULL
-            )
-        """)
+        cur = conn.cursor()
+        cur.execute("INSERT INTO produtos (nome, preco, estoque) VALUES (?, ?, ?)", (nome, preco, estoque))
         conn.commit()
         conn.close()
-
-    # =====================================================
-    # === CRUD BÁSICO (Create, Read, Update, Delete) ===
-    # =====================================================
+        logger.info(f"Produto adicionado: {nome} - R${preco:.2f}, estoque={estoque}")
 
     @staticmethod
-    def inserir(nome, descricao, preco_custo, preco_venda, estoque, categoria):
-        """Insere um novo produto no banco."""
+    def listar():
         conn = conectar()
-        cursor = conn.cursor()
-        data_cadastro = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        cursor.execute("""
-            INSERT INTO produtos (nome, descricao, preco_custo, preco_venda, estoque, categoria, data_cadastro)
-            VALUES (?, ?, ?, ?, ?, ?, ?)
-        """, (nome, descricao, preco_custo, preco_venda, estoque, categoria, data_cadastro))
+        cur = conn.cursor()
+        cur.execute("SELECT id, nome, preco, estoque FROM produtos ORDER BY nome ASC")
+        produtos = cur.fetchall()
+        conn.close()
+        return produtos
+
+    @staticmethod
+    def atualizar(nome, preco=None, estoque=None):
+        conn = conectar()
+        cur = conn.cursor()
+
+        campos = []
+        valores = []
+
+        if preco is not None:
+            campos.append("preco = ?")
+            valores.append(preco)
+
+        if estoque is not None:
+            campos.append("estoque = ?")
+            valores.append(estoque)
+
+        if not campos:
+            raise Exception("Nenhum valor informado para atualizar.")
+
+        valores.append(nome)
+        cur.execute(f"UPDATE produtos SET {', '.join(campos)} WHERE nome = ?", valores)
         conn.commit()
         conn.close()
+        logger.info(f"Produto '{nome}' atualizado com sucesso.")
 
     @staticmethod
-    def listar_todos():
-        """Retorna todos os produtos cadastrados."""
+    def excluir(nome):
         conn = conectar()
-        cursor = conn.cursor()
-        cursor.execute("""
-            SELECT id, nome, categoria, preco_venda, estoque, data_cadastro
-            FROM produtos
-            ORDER BY id ASC
-        """)
-        rows = cursor.fetchall()
-        conn.close()
-        return rows
-
-    @staticmethod
-    def obter_por_id(id_produto):
-        """Retorna um produto pelo ID."""
-        conn = conectar()
-        cursor = conn.cursor()
-        cursor.execute("""
-            SELECT id, nome, descricao, preco_custo, preco_venda, estoque, categoria, data_cadastro
-            FROM produtos
-            WHERE id = ?
-        """, (id_produto,))
-        produto = cursor.fetchone()
-        conn.close()
-        return produto
-
-    @staticmethod
-    def buscar_por_nome(termo):
-        """Busca produtos pelo nome (parcial, case-insensitive)."""
-        conn = conectar()
-        cursor = conn.cursor()
-        termo_busca = f"%{termo}%"
-        cursor.execute("""
-            SELECT id, nome, categoria, preco_venda, estoque, data_cadastro
-            FROM produtos
-            WHERE nome LIKE ?
-            ORDER BY nome ASC
-        """, (termo_busca,))
-        rows = cursor.fetchall()
-        conn.close()
-        return rows
-
-    @staticmethod
-    def atualizar(id_produto, nome, descricao, preco_custo, preco_venda, estoque, categoria):
-        """Atualiza os dados de um produto existente."""
-        conn = conectar()
-        cursor = conn.cursor()
-        cursor.execute("""
-            UPDATE produtos
-            SET nome = ?, descricao = ?, preco_custo = ?, preco_venda = ?, estoque = ?, categoria = ?
-            WHERE id = ?
-        """, (nome, descricao, preco_custo, preco_venda, estoque, categoria, id_produto))
+        cur = conn.cursor()
+        cur.execute("DELETE FROM produtos WHERE nome = ?", (nome,))
         conn.commit()
         conn.close()
+        logger.info(f"Produto '{nome}' excluído.")
 
     @staticmethod
-    def excluir(id_produto):
-        """Remove um produto do banco."""
+    def obter_preco(nome_produto):
         conn = conectar()
-        cursor = conn.cursor()
-        cursor.execute("DELETE FROM produtos WHERE id = ?", (id_produto,))
-        conn.commit()
+        cur = conn.cursor()
+        cur.execute("SELECT preco FROM produtos WHERE nome = ?", (nome_produto,))
+        row = cur.fetchone()
         conn.close()
+        if row:
+            return float(row[0])
+        else:
+            raise Exception(f"Produto '{nome_produto}' não encontrado.")

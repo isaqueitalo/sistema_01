@@ -1,301 +1,213 @@
-import ttkbootstrap as tb
-from ttkbootstrap.constants import *
-from tkinter import messagebox
-from tkinter.simpledialog import askstring
-from APP.models.usuarios_models import Log
-from APP.logger import logger
-from APP.database import conectar
+# APP/ui/produtos_ui.py
+import flet as ft
+from APP.models.produtos_models import Produto
+from APP.core.logger import logger
 
 
-class ProdutosUI(tb.Frame):
-    """Tela de gerenciamento de produtos (para admins e vendedores)."""
+class ProdutosUI:
+    """Tela moderna e minimalista de gerenciamento de produtos (com busca dinâmica)."""
 
-    def __init__(self, master, user: str, role: str):
-        super().__init__(master)
-        self.master = master
-        self.user = user
-        self.role = role
-        self.pack(fill=BOTH, expand=True, padx=20, pady=20)
+    def __init__(self, page: ft.Page, voltar_callback=None):
+        self.page = page
+        self.voltar_callback = voltar_callback
+        self.produtos_cache = []  # cache para busca
+        self.build_ui()
+        logger.info("Tela de produtos carregada.")
 
-        tb.Label(
-            self,
-            text="📦 Gerenciamento de Produtos",
-            font=("Segoe UI", 18, "bold"),
-            bootstyle="info"
-        ).pack(pady=(0, 15))
+    # ======================================================
+    # === INTERFACE =======================================
+    # ======================================================
 
-        # === Barra de pesquisa ===
-        search_frame = tb.Frame(self)
-        search_frame.pack(fill=X, pady=5)
+    def build_ui(self):
+        self.page.clean()
+        self.page.title = "Gerenciamento de Produtos"
 
-        tb.Label(search_frame, text="🔍 Buscar produto:", bootstyle="secondary").pack(side=LEFT, padx=5)
-        self.search_var = tb.StringVar()
-        tb.Entry(search_frame, textvariable=self.search_var, width=40).pack(side=LEFT, padx=5)
+        title = ft.Text("📦 Controle de Produtos", size=22, weight=ft.FontWeight.BOLD)
 
-        tb.Button(
-            search_frame,
-            text="Pesquisar",
-            bootstyle=INFO,
-            command=self.pesquisar_produtos
-        ).pack(side=LEFT, padx=5)
+        # === Campos de formulário ===
+        self.nome_field = ft.TextField(label="Nome do produto", width=300)
+        self.preco_field = ft.TextField(label="Preço (R$)", width=150, keyboard_type=ft.KeyboardType.NUMBER)
+        self.estoque_field = ft.TextField(label="Estoque", width=150, keyboard_type=ft.KeyboardType.NUMBER)
 
-        tb.Button(
-            search_frame,
-            text="❌ Limpar",
-            bootstyle=SECONDARY,
-            command=self.limpar_pesquisa
-        ).pack(side=LEFT, padx=5)
-
-        # === Botões principais ===
-        btn_frame = tb.Frame(self)
-        btn_frame.pack(pady=10)
-
-        tb.Button(
-            btn_frame,
-            text="➕ Adicionar Produto",
-            bootstyle=SUCCESS,
-            command=self.adicionar_produto
-        ).grid(row=0, column=0, padx=10)
-
-        tb.Button(
-            btn_frame,
-            text="✏️ Editar Produto",
-            bootstyle=INFO,
-            command=self.editar_produto
-        ).grid(row=0, column=1, padx=10)
-
-        tb.Button(
-            btn_frame,
-            text="❌ Excluir Produto",
-            bootstyle=DANGER,
-            command=self.excluir_produto
-        ).grid(row=0, column=2, padx=10)
-
-        tb.Button(
-            btn_frame,
-            text="🔄 Atualizar Lista",
-            bootstyle=SECONDARY,
-            command=self.carregar_produtos
-        ).grid(row=0, column=3, padx=10)
-
-        tb.Button(
-            btn_frame,
-            text="⬅ Voltar ao Menu",
-            bootstyle=WARNING,
-            command=self.voltar_menu
-        ).grid(row=0, column=4, padx=10)
-
-        # === Tabela de produtos ===
-        self.tree = tb.Treeview(
-            self,
-            columns=("id", "nome", "preco", "estoque"),
-            show="headings",
-            height=15,
-            bootstyle="info"
+        # === Campo de busca ===
+        self.busca_field = ft.TextField(
+            label="🔍 Pesquisar produto...",
+            width=300,
+            on_change=self.filtrar_produtos,
+            hint_text="Digite parte do nome",
         )
-        self.tree.pack(fill=BOTH, expand=True, pady=10)
 
-        self.tree.heading("id", text="ID")
-        self.tree.heading("nome", text="Nome do Produto")
-        self.tree.heading("preco", text="Preço (R$)")
-        self.tree.heading("estoque", text="Estoque")
+        self.message = ft.Text("", color=ft.Colors.RED_400)
 
-        self.tree.column("id", width=60, anchor=CENTER)
-        self.tree.column("nome", width=250, anchor=W)
-        self.tree.column("preco", width=100, anchor=E)
-        self.tree.column("estoque", width=100, anchor=CENTER)
+        # === Botões ===
+        btn_add = ft.ElevatedButton("Adicionar", on_click=self.adicionar_produto)
+        btn_update = ft.ElevatedButton("Atualizar", on_click=self.atualizar_produto)
+        btn_delete = ft.ElevatedButton("Excluir", on_click=self.excluir_produto)
+        btn_voltar = ft.TextButton("Voltar", on_click=lambda e: self.voltar_callback())
 
-        self._criar_tabela_produtos()
-        self.carregar_produtos()
+        # === Tabela ===
+        self.tabela = ft.DataTable(
+            columns=[
+                ft.DataColumn(ft.Text("ID")),
+                ft.DataColumn(ft.Text("Nome")),
+                ft.DataColumn(ft.Text("Preço")),
+                ft.DataColumn(ft.Text("Estoque")),
+            ],
+            rows=[],
+            width=700
+        )
 
-        logger.info(f"Usuário '{self.user}' abriu o módulo de produtos (role={self.role}).")
+        # === Layout principal ===
+        self.page.add(
+            ft.Column(
+                [
+                    title,
+                    ft.Row([self.nome_field, self.preco_field, self.estoque_field]),
+                    ft.Row([btn_add, btn_update, btn_delete, btn_voltar], alignment=ft.MainAxisAlignment.CENTER),
+                    self.message,
+                    ft.Divider(),
+                    ft.Row([self.busca_field], alignment=ft.MainAxisAlignment.CENTER),
+                    ft.Text("📋 Lista de Produtos", size=18, weight=ft.FontWeight.BOLD),
+                    self.tabela,
+                ],
+                horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+                scroll=ft.ScrollMode.AUTO,
+            )
+        )
 
-    # === Banco de dados ===
+        self.atualizar_tabela()
 
-    def _criar_tabela_produtos(self):
-        """Cria tabela de produtos caso não exista."""
+    # ======================================================
+    # === FUNÇÕES ==========================================
+    # ======================================================
+
+    def atualizar_tabela(self):
+        """Carrega todos os produtos e atualiza tabela."""
         try:
-            conn = conectar()
-            cursor = conn.cursor()
-            cursor.execute("""
-                CREATE TABLE IF NOT EXISTS produtos (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    nome TEXT NOT NULL,
-                    preco REAL NOT NULL,
-                    estoque INTEGER DEFAULT 0
-                )
-            """)
-            conn.commit()
-            conn.close()
-        except Exception as e:
-            logger.error(f"Erro ao criar tabela de produtos: {e}", exc_info=True)
+            produtos = Produto.listar()
+            self.produtos_cache = produtos  # salva em cache para busca
+            self._render_tabela(produtos)
+        except Exception as err:
+            self.message.value = f"Erro ao carregar produtos: {err}"
+            self.message.color = ft.Colors.RED_400
+            logger.error(f"Erro ao listar produtos: {err}")
+        self.page.update()
 
-    # === CRUD ===
+    def _render_tabela(self, produtos):
+        """Renderiza a tabela a partir de uma lista de produtos."""
+        self.tabela.rows = [
+            ft.DataRow(
+                cells=[
+                    ft.DataCell(ft.Text(str(p[0]))),
+                    ft.DataCell(ft.Text(p[1])),
+                    ft.DataCell(ft.Text(f"R$ {p[2]:.2f}")),
+                    ft.DataCell(ft.Text(str(p[3]))),
+                ],
+                on_select_changed=lambda e, nome=p[1]: self._preencher_formulario(nome),
+            )
+            for p in produtos
+        ]
+        self.page.update()
 
-    def carregar_produtos(self):
-        """Carrega todos os produtos do banco."""
-        self._limpar_tabela()
-
-        try:
-            conn = conectar()
-            cursor = conn.cursor()
-            cursor.execute("SELECT id, nome, preco, estoque FROM produtos ORDER BY nome ASC")
-            produtos = cursor.fetchall()
-            conn.close()
-
-            for p in produtos:
-                self.tree.insert("", END, values=p)
-
-            logger.info(f"{len(produtos)} produtos carregados.")
-        except Exception as e:
-            logger.error(f"Erro ao carregar produtos: {e}", exc_info=True)
-            messagebox.showerror("Erro", "Falha ao carregar lista de produtos.")
-
-    def pesquisar_produtos(self):
-        """Filtra produtos pelo nome."""
-        termo = self.search_var.get().strip()
+    def filtrar_produtos(self, e):
+        """Filtra produtos em tempo real conforme o texto digitado."""
+        termo = self.busca_field.value.strip().lower()
         if not termo:
-            self.carregar_produtos()
+            self._render_tabela(self.produtos_cache)
             return
 
-        self._limpar_tabela()
+        filtrados = [p for p in self.produtos_cache if termo in p[1].lower()]
+        self._render_tabela(filtrados)
+
+    def _preencher_formulario(self, nome_produto):
+        """Preenche os campos ao clicar em um item da tabela."""
         try:
-            conn = conectar()
-            cursor = conn.cursor()
-            cursor.execute("SELECT id, nome, preco, estoque FROM produtos WHERE nome LIKE ?", (f"%{termo}%",))
-            resultados = cursor.fetchall()
-            conn.close()
+            produto = next((p for p in self.produtos_cache if p[1] == nome_produto), None)
+            if produto:
+                self.nome_field.value = produto[1]
+                self.preco_field.value = str(produto[2])
+                self.estoque_field.value = str(produto[3])
+                self.page.update()
+        except Exception as err:
+            logger.error(f"Erro ao preencher formulário: {err}")
 
-            if not resultados:
-                messagebox.showinfo("Aviso", f"Nenhum produto encontrado contendo '{termo}'.")
-            else:
-                for p in resultados:
-                    self.tree.insert("", END, values=p)
+    def adicionar_produto(self, e):
+        """Adiciona um novo produto ao banco."""
+        nome = self.nome_field.value.strip()
+        preco = self.preco_field.value.strip()
+        estoque = self.estoque_field.value.strip()
 
-            Log.registrar(self.user, f"pesquisou_produto({termo})")
-            logger.info(f"Usuário '{self.user}' pesquisou por '{termo}'.")
+        if not nome or not preco or not estoque:
+            self.message.value = "Preencha todos os campos!"
+            self.page.update()
+            return
 
-        except Exception as e:
-            logger.error(f"Erro ao pesquisar produto: {e}", exc_info=True)
-            messagebox.showerror("Erro", "Falha ao pesquisar produtos.")
+        try:
+            preco = float(preco)
+            estoque = int(estoque)
+            Produto.adicionar(nome, preco, estoque)
+            self.message.value = f"✅ Produto '{nome}' adicionado com sucesso!"
+            self.message.color = ft.Colors.GREEN_400
+            logger.info(f"Produto '{nome}' adicionado.")
+            self.atualizar_tabela()
+            self._limpar_campos()
+        except Exception as err:
+            self.message.value = f"Erro: {err}"
+            self.message.color = ft.Colors.RED_400
+            logger.error(f"Erro ao adicionar produto: {err}")
+        self.page.update()
 
-    def limpar_pesquisa(self):
-        """Limpa o campo de busca e recarrega todos os produtos."""
-        self.search_var.set("")
-        self.carregar_produtos()
+    def atualizar_produto(self, e):
+        """Atualiza um produto existente."""
+        nome = self.nome_field.value.strip()
+        preco = self.preco_field.value.strip()
+        estoque = self.estoque_field.value.strip()
 
-    def adicionar_produto(self):
-        """Adiciona um novo produto."""
-        nome = askstring("Novo Produto", "Digite o nome do produto:")
         if not nome:
-            return
-
-        preco = askstring("Preço", "Digite o preço do produto (ex: 9.99):")
-        if not preco:
-            return
-
-        estoque = askstring("Estoque", "Digite a quantidade em estoque:", initialvalue="0")
-        if not estoque:
-            estoque = 0
-
-        try:
-            conn = conectar()
-            cursor = conn.cursor()
-            cursor.execute(
-                "INSERT INTO produtos (nome, preco, estoque) VALUES (?, ?, ?)",
-                (nome, float(preco), int(estoque))
-            )
-            conn.commit()
-            conn.close()
-
-            Log.registrar(self.user, f"adicionou_produto({nome})")
-            logger.info(f"Usuário '{self.user}' adicionou o produto '{nome}'.")
-            self.carregar_produtos()
-            messagebox.showinfo("Sucesso", "Produto adicionado com sucesso!")
-
-        except Exception as e:
-            logger.error(f"Erro ao adicionar produto '{nome}': {e}", exc_info=True)
-            messagebox.showerror("Erro", "Falha ao adicionar produto.")
-
-    def editar_produto(self):
-        """Edita o produto selecionado."""
-        item = self.tree.selection()
-        if not item:
-            messagebox.showwarning("Aviso", "Selecione um produto para editar.")
-            return
-
-        produto = self.tree.item(item)["values"]
-        id_produto, nome_antigo, preco_antigo, estoque_antigo = produto
-
-        novo_nome = askstring("Editar Produto", "Novo nome:", initialvalue=nome_antigo)
-        if not novo_nome:
-            return
-
-        novo_preco = askstring("Editar Preço", "Novo preço:", initialvalue=str(preco_antigo))
-        novo_estoque = askstring("Editar Estoque", "Novo estoque:", initialvalue=str(estoque_antigo))
-
-        try:
-            conn = conectar()
-            cursor = conn.cursor()
-            cursor.execute(
-                "UPDATE produtos SET nome=?, preco=?, estoque=? WHERE id=?",
-                (novo_nome, float(novo_preco), int(novo_estoque), id_produto)
-            )
-            conn.commit()
-            conn.close()
-
-            Log.registrar(self.user, f"editou_produto({id_produto})")
-            logger.info(f"Usuário '{self.user}' editou o produto ID {id_produto}.")
-            self.carregar_produtos()
-            messagebox.showinfo("Sucesso", "Produto atualizado com sucesso!")
-
-        except Exception as e:
-            logger.error(f"Erro ao editar produto ID {id_produto}: {e}", exc_info=True)
-            messagebox.showerror("Erro", "Falha ao editar produto.")
-
-    def excluir_produto(self):
-        """Exclui o produto selecionado."""
-        item = self.tree.selection()
-        if not item:
-            messagebox.showwarning("Aviso", "Selecione um produto para excluir.")
-            return
-
-        produto = self.tree.item(item)["values"]
-        id_produto, nome, _, _ = produto
-
-        confirmar = messagebox.askyesno("Confirmação", f"Deseja excluir o produto '{nome}'?")
-        if not confirmar:
+            self.message.value = "Digite o nome do produto a atualizar!"
+            self.page.update()
             return
 
         try:
-            conn = conectar()
-            cursor = conn.cursor()
-            cursor.execute("DELETE FROM produtos WHERE id=?", (id_produto,))
-            conn.commit()
-            conn.close()
+            preco = float(preco) if preco else None
+            estoque = int(estoque) if estoque else None
+            Produto.atualizar(nome, preco, estoque)
+            self.message.value = f"🔁 Produto '{nome}' atualizado com sucesso!"
+            self.message.color = ft.Colors.GREEN_400
+            logger.info(f"Produto '{nome}' atualizado.")
+            self.atualizar_tabela()
+            self._limpar_campos()
+        except Exception as err:
+            self.message.value = f"Erro: {err}"
+            self.message.color = ft.Colors.RED_400
+            logger.error(f"Erro ao atualizar produto: {err}")
+        self.page.update()
 
-            Log.registrar(self.user, f"excluiu_produto({nome})")
-            logger.info(f"Usuário '{self.user}' excluiu o produto '{nome}'.")
-            self.carregar_produtos()
-            messagebox.showinfo("Sucesso", "Produto excluído com sucesso!")
+    def excluir_produto(self, e):
+        """Exclui um produto pelo nome."""
+        nome = self.nome_field.value.strip()
 
-        except Exception as e:
-            logger.error(f"Erro ao excluir produto '{nome}': {e}", exc_info=True)
-            messagebox.showerror("Erro", "Falha ao excluir produto.")
+        if not nome:
+            self.message.value = "Digite o nome do produto a excluir!"
+            self.page.update()
+            return
 
-    def _limpar_tabela(self):
-        """Remove todos os registros da tabela Treeview."""
-        for i in self.tree.get_children():
-            self.tree.delete(i)
-
-    def voltar_menu(self):
-        """Volta ao menu principal."""
         try:
-            for widget in self.master.winfo_children():
-                widget.destroy()
-            from APP.ui.main_app import MainApp
-            MainApp(self.master, self.user, self.role)
-            logger.info(f"Usuário '{self.user}' retornou ao menu principal.")
-        except Exception as e:
-            logger.error(f"Erro ao voltar ao menu principal: {e}", exc_info=True)
-            messagebox.showerror("Erro", "Falha ao retornar ao menu principal.")
+            Produto.excluir(nome)
+            self.message.value = f"🗑️ Produto '{nome}' excluído!"
+            self.message.color = ft.Colors.GREEN_400
+            logger.info(f"Produto '{nome}' excluído.")
+            self.atualizar_tabela()
+            self._limpar_campos()
+        except Exception as err:
+            self.message.value = f"Erro: {err}"
+            self.message.color = ft.Colors.RED_400
+            logger.error(f"Erro ao excluir produto: {err}")
+        self.page.update()
+
+    def _limpar_campos(self):
+        """Limpa os campos do formulário."""
+        self.nome_field.value = ""
+        self.preco_field.value = ""
+        self.estoque_field.value = ""
+        self.page.update()
