@@ -1,4 +1,3 @@
-# main.py
 import sys
 import flet as ft
 from APP.core.logger import logger
@@ -6,27 +5,23 @@ from APP.core.database import inicializar_banco
 from APP.core.config import config
 from APP.ui.login_ui import LoginUI
 from APP.core.migrations import run_migrations
-run_migrations()
 
-
-# ============================================================
-# FUNÇÃO PRINCIPAL (FLET)
-# ============================================================
-def run_app(page: ft.Page):
+def run_app(page: ft.Page) -> None:
     try:
         logger.info(f">>> Inicializando o {config.app_name} com Flet...")
 
-        # === Configurações básicas da página ===
+        # Configurações básicas da página
         page.title = config.app_name
-        page.theme_mode = ft.ThemeMode.DARK if config.theme == "dark" else ft.ThemeMode.LIGHT
+        page.theme_mode = ft.ThemeMode.DARK if config.theme.lower() == "dark" else ft.ThemeMode.LIGHT
         page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
         page.vertical_alignment = ft.MainAxisAlignment.CENTER
         page.padding = 20
 
-        # === Inicializa banco de dados ===
+        # Inicializa banco e aplica migrações
         inicializar_banco()
+        run_migrations()
 
-        # === Carrega tela de login ===
+        # Carrega tela de login
         LoginUI(page)
         logger.info("Tela de login carregada com sucesso.")
 
@@ -35,11 +30,7 @@ def run_app(page: ft.Page):
         print(f"[ERRO FATAL] O sistema não pôde ser iniciado: {e}")
         sys.exit(1)
 
-
-# ============================================================
-# EXECUÇÃO PRINCIPAL
-# ============================================================
-def main():
+def main() -> None:
     try:
         ft.app(target=run_app)
     except KeyboardInterrupt:
@@ -47,7 +38,6 @@ def main():
     except Exception as e:
         logger.critical(f"Erro fatal na aplicação: {e}", exc_info=True)
         sys.exit(1)
-
 
 if __name__ == "__main__":
     main()
