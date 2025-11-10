@@ -3449,3 +3449,83 @@ AttributeError: type object 'Venda' has no attribute 'listar_periodo'. Did you m
 2025-11-10 10:31:10 | INFO     | sistema_logger | Session ended: admin_master (admin_master) -> 8fe28a68-7d69-4cdd-958b-de56277fb58e
 2025-11-10 10:31:10 | INFO     | sistema_logger | Usuário 'admin_master' fez logout.
 2025-11-10 10:31:10 | INFO     | sistema_logger | Tela de login minimalista carregada.
+2025-11-10 16:29:58 | INFO     | sistema_logger | === Logger inicializado ===
+2025-11-10 16:29:58 | INFO     | sistema_logger | Arquivo de log: C:\Users\User\.vscode\files\sistema_01\DATA\system.log
+2025-11-10 16:30:01 | INFO     | sistema_logger | >>> Inicializando o Sistema de Gestão Minimalista com Flet...
+2025-11-10 16:30:01 | INFO     | sistema_logger | Inicializando o banco de dados...
+2025-11-10 16:30:01 | INFO     | sistema_logger | ✅ Usuários já existentes — nenhuma alteração feita.
+2025-11-10 16:30:01 | INFO     | sistema_logger | Banco de dados inicializado com sucesso.
+2025-11-10 16:30:01 | INFO     | sistema_logger | Verificando migrações do banco de dados...
+2025-11-10 16:30:01 | INFO     | sistema_logger | Versão atual do schema: 3. 3 migrações disponíveis.
+2025-11-10 16:30:01 | DEBUG    | sistema_logger | Migração 1 já aplicada, pulando.
+2025-11-10 16:30:01 | DEBUG    | sistema_logger | Migração 2 já aplicada, pulando.
+2025-11-10 16:30:01 | DEBUG    | sistema_logger | Migração 3 já aplicada, pulando.
+2025-11-10 16:30:01 | INFO     | sistema_logger | Verificação de migrações finalizada.
+2025-11-10 16:30:01 | INFO     | sistema_logger | Tela de login minimalista carregada.
+2025-11-10 16:30:01 | INFO     | sistema_logger | Tela de login carregada com sucesso.
+2025-11-10 16:30:35 | INFO     | sistema_logger | Usuário 'admin_master' autenticado com sucesso (admin_master).
+2025-11-10 16:30:35 | INFO     | sistema_logger | Session started: admin_master (admin_master) -> cd27b799-c6cb-4325-a0d0-8db9cb0b3484
+2025-11-10 16:30:35 | DEBUG    | sistema_logger | Log registrado: admin_master -> login
+2025-11-10 16:30:35 | INFO     | sistema_logger | Usuário 'admin_master' autenticado com sucesso (role=admin_master).
+2025-11-10 16:30:35 | INFO     | sistema_logger | Dashboard carregado para admin_master (admin_master).
+2025-11-10 16:30:37 | INFO     | sistema_logger | Tela de produtos carregada.
+2025-11-10 16:30:49 | INFO     | sistema_logger | Tela de vendas carregada.
+2025-11-10 16:31:13 | INFO     | sistema_logger | Venda registrada: coca cola 600 x1 = R$ 10.00
+2025-11-10 16:31:13 | INFO     | sistema_logger | Venda registrada: coca cola 600 x1 = R$10.00
+2025-11-10 16:31:17 | INFO     | sistema_logger | Tela de relatórios com PDF e botão de pasta carregada.
+2025-11-10 16:31:24 | INFO     | sistema_logger | 1 vendas encontradas no período 2025-11-10 → 2025-11-10
+2025-11-10 16:31:25 | INFO     | sistema_logger | Relatório gerado de 2025-11-10 a 2025-11-10.
+2025-11-10 16:31:33 | INFO     | sistema_logger | 5 vendas encontradas no período 2025-11-05 → 2025-11-10
+2025-11-10 16:31:33 | INFO     | sistema_logger | Relatório gerado de 2025-11-05 a 2025-11-10.
+2025-11-10 16:31:41 | DEBUG    | sistema_logger | 3 usuários listados.
+2025-11-10 16:31:41 | DEBUG    | sistema_logger | 3 usuários listados.
+2025-11-10 16:31:41 | INFO     | sistema_logger | Tela de gerenciamento de usuários carregada por '<bound method DashboardUI.voltar_dashboard of <APP.ui.dashboard_ui.DashboardUI object at 0x000001EC5DEB96A0>>'.
+2025-11-10 16:31:57 | INFO     | sistema_logger | Tela de produtos carregada.
+2025-11-10 16:32:12 | INFO     | sistema_logger | Tela de vendas carregada.
+2025-11-10 16:33:37 | INFO     | sistema_logger | Tela de produtos carregada.
+2025-11-10 16:34:19 | INFO     | sistema_logger | Tela de vendas carregada.
+2025-11-10 16:34:32 | INFO     | sistema_logger | Tela de relatórios com PDF e botão de pasta carregada.
+2025-11-10 16:34:39 | INFO     | sistema_logger | 5 vendas encontradas no período 2025-11-05 → 2025-11-10
+2025-11-10 16:34:39 | INFO     | sistema_logger | Relatório gerado de 2025-11-05 a 2025-11-10.
+2025-11-10 16:35:19 | DEBUG    | sistema_logger | 3 usuários listados.
+2025-11-10 16:35:19 | DEBUG    | sistema_logger | 3 usuários listados.
+2025-11-10 16:35:19 | INFO     | sistema_logger | Tela de gerenciamento de usuários carregada por '<bound method DashboardUI.voltar_dashboard of <APP.ui.dashboard_ui.DashboardUI object at 0x000001EC5DEB96A0>>'.
+2025-11-10 16:37:19 | INFO     | sistema_logger | Tela de produtos carregada.
+2025-11-10 16:37:54 | INFO     | sistema_logger | Produto adicionado: coxinha - R$10.00, estoque=10
+2025-11-10 16:37:54 | INFO     | sistema_logger | Produto 'coxinha' adicionado.
+2025-11-10 16:43:15 | INFO     | sistema_logger | Tela de produtos carregada.
+2025-11-10 16:43:38 | INFO     | sistema_logger | === Logger inicializado ===
+2025-11-10 16:43:38 | INFO     | sistema_logger | Arquivo de log: C:\Users\User\.vscode\files\sistema_01\DATA\system.log
+2025-11-10 16:43:39 | INFO     | sistema_logger | >>> Inicializando o Sistema de Gestão Minimalista com Flet...
+2025-11-10 16:43:39 | INFO     | sistema_logger | Inicializando o banco de dados...
+2025-11-10 16:43:39 | INFO     | sistema_logger | ✅ Usuários já existentes — nenhuma alteração feita.
+2025-11-10 16:43:39 | INFO     | sistema_logger | Banco de dados inicializado com sucesso.
+2025-11-10 16:43:39 | INFO     | sistema_logger | Verificando migrações do banco de dados...
+2025-11-10 16:43:39 | INFO     | sistema_logger | Versão atual do schema: 3. 3 migrações disponíveis.
+2025-11-10 16:43:39 | DEBUG    | sistema_logger | Migração 1 já aplicada, pulando.
+2025-11-10 16:43:39 | DEBUG    | sistema_logger | Migração 2 já aplicada, pulando.
+2025-11-10 16:43:39 | DEBUG    | sistema_logger | Migração 3 já aplicada, pulando.
+2025-11-10 16:43:39 | INFO     | sistema_logger | Verificação de migrações finalizada.
+2025-11-10 16:43:39 | INFO     | sistema_logger | Tela de login minimalista carregada.
+2025-11-10 16:43:39 | INFO     | sistema_logger | Tela de login carregada com sucesso.
+2025-11-10 16:44:01 | INFO     | sistema_logger | Usuário 'admin_master' autenticado com sucesso (admin_master).
+2025-11-10 16:44:01 | INFO     | sistema_logger | Session started: admin_master (admin_master) -> 76b6b805-bed5-4b20-9934-e7a11fe877e5
+2025-11-10 16:44:01 | DEBUG    | sistema_logger | Log registrado: admin_master -> login
+2025-11-10 16:44:01 | INFO     | sistema_logger | Usuário 'admin_master' autenticado com sucesso (role=admin_master).
+2025-11-10 16:44:01 | INFO     | sistema_logger | Dashboard carregado para admin_master (admin_master).
+2025-11-10 16:44:05 | INFO     | sistema_logger | Tela de vendas carregada.
+2025-11-10 16:44:14 | INFO     | sistema_logger | Tela de produtos carregada.
+2025-11-10 17:40:45 | INFO     | sistema_logger | === Logger inicializado ===
+2025-11-10 17:40:45 | INFO     | sistema_logger | Arquivo de log: C:\Users\User\.vscode\files\sistema_01\DATA\system.log
+2025-11-10 17:40:47 | INFO     | sistema_logger | >>> Inicializando o Sistema de Gestão Minimalista com Flet...
+2025-11-10 17:40:47 | INFO     | sistema_logger | Inicializando o banco de dados...
+2025-11-10 17:40:47 | INFO     | sistema_logger | ✅ Usuários já existentes — nenhuma alteração feita.
+2025-11-10 17:40:47 | INFO     | sistema_logger | Banco de dados inicializado com sucesso.
+2025-11-10 17:40:47 | INFO     | sistema_logger | Verificando migrações do banco de dados...
+2025-11-10 17:40:47 | INFO     | sistema_logger | Versão atual do schema: 3. 3 migrações disponíveis.
+2025-11-10 17:40:47 | DEBUG    | sistema_logger | Migração 1 já aplicada, pulando.
+2025-11-10 17:40:47 | DEBUG    | sistema_logger | Migração 2 já aplicada, pulando.
+2025-11-10 17:40:47 | DEBUG    | sistema_logger | Migração 3 já aplicada, pulando.
+2025-11-10 17:40:47 | INFO     | sistema_logger | Verificação de migrações finalizada.
+2025-11-10 17:40:47 | INFO     | sistema_logger | Tela de login minimalista carregada.
+2025-11-10 17:40:47 | INFO     | sistema_logger | Tela de login carregada com sucesso.
