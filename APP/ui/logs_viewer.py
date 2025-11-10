@@ -1,60 +1,68 @@
 # APP/ui/logs_viewer.py
 import flet as ft
-from APP.core.config import LOG_FILE
+import os
+from APP.core.config import config
 from APP.core.logger import logger
 
 
 class LogsViewer:
-    """Visualizador simples de logs do sistema (Flet)."""
+    """Visualizador de logs do sistema (somente leitura)."""
 
     def __init__(self, page: ft.Page, voltar_callback=None):
         self.page = page
         self.voltar_callback = voltar_callback
+        self.log_path = config.log_path  # ✅ novo atributo
         self.build_ui()
         logger.info("Tela de visualização de logs carregada.")
 
     def build_ui(self):
+        """Monta a interface de visualização de logs."""
         self.page.clean()
         self.page.title = "Visualizador de Logs"
 
-        title = ft.Text("🧾 Visualizador de Logs do Sistema", size=22, weight=ft.FontWeight.BOLD)
-
-        # Campo de exibição de logs
-        self.log_area = ft.TextField(
+        title = ft.Text("🪵 Visualizador de Logs", size=22, weight=ft.FontWeight.BOLD)
+        self.text_area = ft.TextField(
             multiline=True,
             read_only=True,
-            expand=True,
-            width=800,
+            width=700,
             height=400,
-            bgcolor=ft.Colors.BLACK,
-            color=ft.Colors.GREEN_ACCENT_400,
-            border=ft.InputBorder.OUTLINE,
+            border_color=ft.Colors.OUTLINE,
+            border_radius=10,
+            text_size=14,
+            label="Conteúdo do Log",
+            value=self._ler_logs(),
+            color=ft.Colors.ON_SURFACE,
         )
 
-        btn_refresh = ft.ElevatedButton("🔄 Atualizar Logs", on_click=self.carregar_logs)
-        btn_voltar = ft.TextButton("Voltar", on_click=lambda e: self.voltar_callback())
+        btn_atualizar = ft.ElevatedButton("🔄 Atualizar", on_click=lambda e: self._atualizar_logs())
+        btn_voltar = ft.TextButton("⬅️ Voltar", on_click=lambda e: self.voltar_callback())
 
         self.page.add(
             ft.Column(
                 [
                     title,
-                    ft.Row([btn_refresh, btn_voltar], alignment=ft.MainAxisAlignment.CENTER),
-                    self.log_area,
+                    ft.Row([btn_atualizar, btn_voltar], alignment=ft.MainAxisAlignment.CENTER),
+                    self.text_area,
                 ],
                 horizontal_alignment=ft.CrossAxisAlignment.CENTER,
-                alignment=ft.MainAxisAlignment.CENTER,
+                scroll=ft.ScrollMode.AUTO,
             )
         )
 
-        self.carregar_logs(None)
-
-    def carregar_logs(self, e):
-        """Carrega o conteúdo do arquivo de log system.log"""
+    def _ler_logs(self):
+        """Lê o conteúdo atual do arquivo de log."""
         try:
-            with open(LOG_FILE, "r", encoding="utf-8") as f:
-                conteudo = f.read()
-                self.log_area.value = conteudo if conteudo else "Nenhum log disponível."
-        except Exception as err:
-            self.log_area.value = f"Erro ao carregar logs: {err}"
-            logger.error(f"Erro ao abrir arquivo de log: {err}")
+            if os.path.exists(self.log_path):
+                with open(self.log_path, "r", encoding="utf-8") as f:
+                    return f.read()[-5000:]  # lê as últimas 5000 linhas
+            else:
+                return "Nenhum log encontrado."
+        except Exception as e:
+            logger.error(f"Erro ao ler logs: {e}")
+            return f"Erro ao ler logs: {e}"
+
+    def _atualizar_logs(self):
+        """Atualiza a área de texto com logs mais recentes."""
+        self.text_area.value = self._ler_logs()
         self.page.update()
+        logger.info("Logs atualizados na tela.")

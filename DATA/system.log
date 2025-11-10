@@ -2712,3 +2712,684 @@ AttributeError: type object 'Venda' has no attribute 'listar_periodo'. Did you m
 2025-11-08 17:03:52,902 | INFO     | sistema_logger | PDF gerado: relatorio_vendas_20251108_170352.pdf
 2025-11-08 17:08:01,697 | INFO     | sistema_logger | Tela de usuários carregada com controle de permissões.
 2025-11-08 17:08:01,700 | INFO     | sistema_logger | admin_master abriu o módulo de usuários.
+2025-11-09 08:45:56,694 | INFO     | sistema_logger | === Logger inicializado ===
+2025-11-09 08:45:56,695 | INFO     | sistema_logger | Arquivo de log: c:\Users\User\.vscode\files\sistema_01\APP\..\DATA\system.log
+2025-11-09 08:54:49,372 | INFO     | sistema_logger | === Logger inicializado ===
+2025-11-09 08:54:49,372 | INFO     | sistema_logger | Arquivo de log: c:\Users\User\.vscode\files\sistema_01\APP\..\DATA\system.log
+2025-11-09 08:54:54,058 | INFO     | sistema_logger | >>> Inicializando o Sistema de Gestão com Flet...
+2025-11-09 08:54:54,058 | INFO     | sistema_logger | Inicializando o banco de dados...
+2025-11-09 08:54:54,076 | INFO     | sistema_logger | Usuário 'admin_master' já existe. Nenhuma alteração necessária.
+2025-11-09 08:54:54,077 | INFO     | sistema_logger | Banco de dados inicializado com sucesso.
+2025-11-09 08:54:54,083 | INFO     | sistema_logger | Tela de login carregada (modo minimalista).
+2025-11-09 08:54:54,083 | INFO     | sistema_logger | Tela de login carregada com sucesso.
+2025-11-09 08:55:23,240 | WARNING  | sistema_logger | Tentativa de login inválida: admin_master
+2025-11-09 08:55:23,242 | WARNING  | sistema_logger | Tentativa de login inválida: admin_master
+2025-11-09 09:00:43,708 | WARNING  | sistema_logger | Tentativa de login inválida: admin_master
+2025-11-09 09:00:43,710 | WARNING  | sistema_logger | Tentativa de login inválida: admin_master
+2025-11-09 09:00:43,816 | WARNING  | sistema_logger | Tentativa de login inválida: admin_master
+2025-11-09 09:00:43,817 | WARNING  | sistema_logger | Tentativa de login inválida: admin_master
+2025-11-09 09:00:45,081 | WARNING  | sistema_logger | Tentativa de login inválida: admin_master
+2025-11-09 09:00:45,082 | WARNING  | sistema_logger | Tentativa de login inválida: admin_master
+2025-11-09 09:01:14,174 | WARNING  | sistema_logger | Tentativa de login inválida: admin_master
+2025-11-09 09:01:14,176 | WARNING  | sistema_logger | Tentativa de login inválida: admin_master
+2025-11-09 09:01:15,300 | WARNING  | sistema_logger | Tentativa de login inválida: admin_master
+2025-11-09 09:01:15,301 | WARNING  | sistema_logger | Tentativa de login inválida: admin_master
+2025-11-09 09:02:17,823 | WARNING  | sistema_logger | Tentativa de login inválida: admin_master
+2025-11-09 09:02:17,824 | WARNING  | sistema_logger | Tentativa de login inválida: admin_master
+2025-11-09 09:02:18,821 | WARNING  | sistema_logger | Tentativa de login inválida: admin_master
+2025-11-09 09:02:18,823 | WARNING  | sistema_logger | Tentativa de login inválida: admin_master
+2025-11-09 09:02:20,981 | WARNING  | sistema_logger | Tentativa de login inválida: admin_master
+2025-11-09 09:02:20,982 | WARNING  | sistema_logger | Tentativa de login inválida: admin_master
+2025-11-09 09:15:50,047 | INFO     | sistema_logger | === Logger inicializado ===
+2025-11-09 09:15:50,048 | INFO     | sistema_logger | Arquivo de log: C:\Users\User\.vscode\files\sistema_01\APP\..\DATA\system.log
+2025-11-09 09:17:13,836 | INFO     | sistema_logger | === Logger inicializado ===
+2025-11-09 09:17:13,836 | INFO     | sistema_logger | Arquivo de log: c:\Users\User\.vscode\files\sistema_01\APP\..\DATA\system.log
+2025-11-09 09:17:15,808 | INFO     | sistema_logger | >>> Inicializando o Sistema de Gestão com Flet...
+2025-11-09 09:17:15,808 | INFO     | sistema_logger | Inicializando o banco de dados...
+2025-11-09 09:17:15,815 | INFO     | sistema_logger | Usuário 'admin_master' já existe. Nenhuma alteração necessária.
+2025-11-09 09:17:15,816 | INFO     | sistema_logger | Banco de dados inicializado com sucesso.
+2025-11-09 09:17:15,823 | INFO     | sistema_logger | Tela de login carregada (modo minimalista).
+2025-11-09 09:17:15,823 | INFO     | sistema_logger | Tela de login carregada com sucesso.
+2025-11-09 09:17:39,991 | INFO     | sistema_logger | Usuário 'admin_master' autenticado com sucesso (admin).
+2025-11-09 09:17:39,992 | INFO     | sistema_logger | Usuário 'admin_master' autenticado com sucesso (admin).
+2025-11-09 09:17:39,998 | INFO     | sistema_logger | Dashboard carregado para admin_master (admin).
+2025-11-09 09:17:43,609 | INFO     | sistema_logger | Tela de gerenciamento de usuários aberta por 'admin_master'.
+2025-11-09 09:17:43,609 | INFO     | sistema_logger | admin_master abriu o módulo de usuários.
+2025-11-09 09:18:33,928 | WARNING  | sistema_logger | Tentativa de criar usuário já existente: 'gerente'.
+2025-11-09 09:18:33,928 | ERROR    | sistema_logger | Erro ao criar usuário: Usuário já existe!
+2025-11-09 09:18:43,458 | INFO     | sistema_logger | Tela de relatórios com PDF e botão de pasta carregada.
+2025-11-09 09:18:43,460 | INFO     | sistema_logger | admin_master abriu o módulo de relatórios.
+2025-11-09 09:18:45,764 | INFO     | sistema_logger | 0 vendas encontradas no período 2025-11-09 → 2025-11-09
+2025-11-09 09:18:53,687 | INFO     | sistema_logger | 7 vendas encontradas no período 2025-11-08 → 2025-11-09
+2025-11-09 09:18:54,280 | INFO     | sistema_logger | Relatório gerado de 2025-11-08 a 2025-11-09.
+2025-11-09 09:19:01,569 | INFO     | sistema_logger | 7 vendas encontradas no período 2025-11-07 → 2025-11-09
+2025-11-09 09:19:01,792 | INFO     | sistema_logger | Relatório gerado de 2025-11-07 a 2025-11-09.
+2025-11-09 09:19:09,487 | INFO     | sistema_logger | 7 vendas encontradas no período 2025-11-05 → 2025-11-09
+2025-11-09 09:19:09,693 | INFO     | sistema_logger | Relatório gerado de 2025-11-05 a 2025-11-09.
+2025-11-09 09:19:23,869 | INFO     | sistema_logger | Tela de produtos carregada.
+2025-11-09 09:19:23,869 | INFO     | sistema_logger | admin_master abriu o módulo de produtos.
+2025-11-09 09:19:47,314 | INFO     | sistema_logger | Produto adicionado: coca cola 600 - R$7.00, estoque=20
+2025-11-09 09:19:47,314 | INFO     | sistema_logger | Produto 'coca cola 600' adicionado.
+2025-11-09 09:19:58,610 | INFO     | sistema_logger | Tela de vendas carregada.
+2025-11-09 09:19:58,610 | INFO     | sistema_logger | admin_master abriu o módulo de vendas.
+2025-11-09 09:20:07,859 | INFO     | sistema_logger | Venda registrada: coca cola 600 x1 = R$ 7.00
+2025-11-09 09:20:07,860 | INFO     | sistema_logger | Venda registrada: coca cola 600 x1 = R$7.00
+2025-11-09 09:20:15,645 | INFO     | sistema_logger | Tela de gerenciamento de usuários aberta por 'admin_master'.
+2025-11-09 09:20:15,645 | INFO     | sistema_logger | admin_master abriu o módulo de usuários.
+2025-11-09 09:20:19,651 | INFO     | sistema_logger | Tela de produtos carregada.
+2025-11-09 09:20:19,651 | INFO     | sistema_logger | admin_master abriu o módulo de produtos.
+2025-11-09 09:20:23,232 | INFO     | sistema_logger | Tela de vendas carregada.
+2025-11-09 09:20:23,233 | INFO     | sistema_logger | admin_master abriu o módulo de vendas.
+2025-11-09 09:27:02,904 | INFO     | sistema_logger | Tela de login carregada (modo minimalista).
+2025-11-09 09:27:02,904 | INFO     | sistema_logger | admin_master saiu do sistema.
+2025-11-09 09:27:16,460 | INFO     | sistema_logger | === Logger inicializado ===
+2025-11-09 09:27:16,460 | INFO     | sistema_logger | Arquivo de log: c:\Users\User\.vscode\files\sistema_01\APP\..\DATA\system.log
+2025-11-09 09:27:17,882 | INFO     | sistema_logger | >>> Inicializando o Sistema de Gestão com Flet...
+2025-11-09 09:27:17,886 | INFO     | sistema_logger | Inicializando o banco de dados...
+2025-11-09 09:27:17,895 | INFO     | sistema_logger | ✅ Usuário 'admin_master' já existe — nenhuma alteração feita.
+2025-11-09 09:27:17,895 | INFO     | sistema_logger | Banco de dados inicializado com sucesso.
+2025-11-09 09:27:17,906 | INFO     | sistema_logger | Tela de login carregada (modo minimalista).
+2025-11-09 09:27:17,906 | INFO     | sistema_logger | Tela de login carregada com sucesso.
+2025-11-09 09:27:32,531 | INFO     | sistema_logger | Usuário 'admin_master' autenticado com sucesso (admin).
+2025-11-09 09:27:32,531 | INFO     | sistema_logger | Usuário 'admin_master' autenticado com sucesso (admin).
+2025-11-09 09:27:32,537 | INFO     | sistema_logger | Dashboard carregado para admin_master (admin).
+2025-11-09 09:27:40,445 | INFO     | sistema_logger | Tela de produtos carregada.
+2025-11-09 09:27:40,446 | INFO     | sistema_logger | admin_master abriu o módulo de produtos.
+2025-11-09 09:27:47,543 | INFO     | sistema_logger | Tela de login carregada (modo minimalista).
+2025-11-09 09:27:47,543 | INFO     | sistema_logger | admin_master saiu do sistema.
+2025-11-09 09:28:05,163 | WARNING  | sistema_logger | Tentativa de login inválida: vendedor1
+2025-11-09 09:28:05,166 | WARNING  | sistema_logger | Tentativa de login inválida: vendedor1
+2025-11-09 09:28:52,300 | WARNING  | sistema_logger | Tentativa de login inválida: vendedor1
+2025-11-09 09:28:52,301 | WARNING  | sistema_logger | Tentativa de login inválida: vendedor1
+2025-11-09 09:28:53,267 | WARNING  | sistema_logger | Tentativa de login inválida: vendedor1
+2025-11-09 09:28:53,268 | WARNING  | sistema_logger | Tentativa de login inválida: vendedor1
+2025-11-09 09:28:54,347 | WARNING  | sistema_logger | Tentativa de login inválida: vendedor1
+2025-11-09 09:28:54,349 | WARNING  | sistema_logger | Tentativa de login inválida: vendedor1
+2025-11-09 09:29:01,254 | WARNING  | sistema_logger | Tentativa de login com usuário inexistente: 'vendedor'.
+2025-11-09 09:29:01,258 | WARNING  | sistema_logger | Tentativa de login inválida: vendedor
+2025-11-09 09:29:01,935 | WARNING  | sistema_logger | Tentativa de login com usuário inexistente: 'vendedor'.
+2025-11-09 09:29:01,937 | WARNING  | sistema_logger | Tentativa de login inválida: vendedor
+2025-11-09 09:30:48,302 | WARNING  | sistema_logger | Tentativa de login inválida: admin_master
+2025-11-09 09:30:48,303 | WARNING  | sistema_logger | Tentativa de login inválida: admin_master
+2025-11-09 09:30:49,112 | WARNING  | sistema_logger | Tentativa de login inválida: admin_master
+2025-11-09 09:30:49,113 | WARNING  | sistema_logger | Tentativa de login inválida: admin_master
+2025-11-09 09:31:16,981 | INFO     | sistema_logger | Usuário 'admin_master' autenticado com sucesso (admin).
+2025-11-09 09:31:16,981 | INFO     | sistema_logger | Usuário 'admin_master' autenticado com sucesso (admin).
+2025-11-09 09:31:16,985 | INFO     | sistema_logger | Dashboard carregado para admin_master (admin).
+2025-11-09 09:31:43,446 | INFO     | sistema_logger | Tela de login carregada (modo minimalista).
+2025-11-09 09:31:43,446 | INFO     | sistema_logger | admin_master saiu do sistema.
+2025-11-09 09:32:10,635 | WARNING  | sistema_logger | Tentativa de login com usuário inexistente: 'admin'.
+2025-11-09 09:32:10,637 | WARNING  | sistema_logger | Tentativa de login inválida: admin
+2025-11-09 09:32:46,629 | WARNING  | sistema_logger | Tentativa de login com usuário inexistente: 'admin'.
+2025-11-09 09:32:46,630 | WARNING  | sistema_logger | Tentativa de login inválida: admin
+2025-11-09 09:32:47,041 | WARNING  | sistema_logger | Tentativa de login com usuário inexistente: 'admin'.
+2025-11-09 09:32:47,042 | WARNING  | sistema_logger | Tentativa de login inválida: admin
+2025-11-09 09:33:17,356 | WARNING  | sistema_logger | Tentativa de login inválida: admin_master
+2025-11-09 09:33:17,357 | WARNING  | sistema_logger | Tentativa de login inválida: admin_master
+2025-11-09 09:33:30,615 | WARNING  | sistema_logger | Tentativa de login com usuário inexistente: 'admin'.
+2025-11-09 09:33:30,616 | WARNING  | sistema_logger | Tentativa de login inválida: admin
+2025-11-09 09:33:48,629 | WARNING  | sistema_logger | Tentativa de login com usuário inexistente: 'vendedor'.
+2025-11-09 09:33:48,630 | WARNING  | sistema_logger | Tentativa de login inválida: vendedor
+2025-11-09 09:33:49,393 | WARNING  | sistema_logger | Tentativa de login com usuário inexistente: 'vendedor'.
+2025-11-09 09:33:49,398 | WARNING  | sistema_logger | Tentativa de login inválida: vendedor
+2025-11-09 09:34:48,208 | INFO     | sistema_logger | Usuário 'admin_master' autenticado com sucesso (admin).
+2025-11-09 09:34:48,208 | INFO     | sistema_logger | Usuário 'admin_master' autenticado com sucesso (admin).
+2025-11-09 09:34:48,212 | INFO     | sistema_logger | Dashboard carregado para admin_master (admin).
+2025-11-09 09:34:50,145 | INFO     | sistema_logger | Tela de gerenciamento de usuários aberta por 'admin_master'.
+2025-11-09 09:34:50,146 | INFO     | sistema_logger | admin_master abriu o módulo de usuários.
+2025-11-09 09:35:14,468 | INFO     | sistema_logger | Usuário 'vendedor1' excluído por 'admin_master'.
+2025-11-09 09:35:14,468 | INFO     | sistema_logger | Usuário 'vendedor1' excluído por 'admin_master'.
+2025-11-09 09:35:28,190 | WARNING  | sistema_logger | Tentativa de excluir usuário inexistente: 'geren'.
+2025-11-09 09:35:28,190 | ERROR    | sistema_logger | Erro ao excluir usuário: Usuário não encontrado!
+2025-11-09 09:35:33,363 | INFO     | sistema_logger | Usuário 'gerente' excluído por 'admin_master'.
+2025-11-09 09:35:33,364 | INFO     | sistema_logger | Usuário 'gerente' excluído por 'admin_master'.
+2025-11-09 09:36:00,693 | INFO     | sistema_logger | Usuário 'gerente' criado com sucesso (função: admin).
+2025-11-09 09:36:00,694 | INFO     | sistema_logger | Usuário 'gerente' criado com sucesso (admin).
+2025-11-09 09:36:33,789 | INFO     | sistema_logger | Usuário 'vendedor1' criado com sucesso (função: admin).
+2025-11-09 09:36:33,790 | INFO     | sistema_logger | Usuário 'vendedor1' criado com sucesso (admin).
+2025-11-09 09:36:47,870 | INFO     | sistema_logger | Usuário 'vendedor1' excluído por 'admin_master'.
+2025-11-09 09:36:47,870 | INFO     | sistema_logger | Usuário 'vendedor1' excluído por 'admin_master'.
+2025-11-09 09:37:03,583 | INFO     | sistema_logger | Usuário 'vendedor1' criado com sucesso (função: vendedor).
+2025-11-09 09:37:03,583 | INFO     | sistema_logger | Usuário 'vendedor1' criado com sucesso (vendedor).
+2025-11-09 09:37:59,359 | WARNING  | sistema_logger | Tentativa de criar usuário já existente: 'admin_master'.
+2025-11-09 09:37:59,360 | ERROR    | sistema_logger | Erro ao criar usuário: Usuário já existe!
+2025-11-09 09:38:35,130 | INFO     | sistema_logger | Usuário 'dono' criado com sucesso (função: admin_master).
+2025-11-09 09:38:35,131 | INFO     | sistema_logger | Usuário 'dono' criado com sucesso (admin_master).
+2025-11-09 09:38:56,275 | WARNING  | sistema_logger | Tentativa de excluir 'admin_master' bloqueada.
+2025-11-09 09:39:07,712 | WARNING  | sistema_logger | Tentativa de excluir 'admin_master' bloqueada.
+2025-11-09 09:39:15,574 | WARNING  | sistema_logger | Tentativa de excluir 'admin_master' bloqueada.
+2025-11-09 09:39:20,629 | INFO     | sistema_logger | Tela de gerenciamento de usuários aberta por 'admin_master'.
+2025-11-09 09:39:20,630 | INFO     | sistema_logger | admin_master abriu o módulo de usuários.
+2025-11-09 09:39:25,307 | INFO     | sistema_logger | Tela de login carregada (modo minimalista).
+2025-11-09 09:39:25,307 | INFO     | sistema_logger | admin_master saiu do sistema.
+2025-11-09 09:39:41,089 | INFO     | sistema_logger | Usuário 'dono' autenticado com sucesso (admin_master).
+2025-11-09 09:39:41,089 | INFO     | sistema_logger | Usuário 'dono' autenticado com sucesso (admin_master).
+2025-11-09 09:39:41,093 | INFO     | sistema_logger | Dashboard carregado para dono (admin_master).
+2025-11-09 09:39:45,132 | INFO     | sistema_logger | Tela de gerenciamento de usuários aberta por 'dono'.
+2025-11-09 09:39:45,132 | INFO     | sistema_logger | dono abriu o módulo de usuários.
+2025-11-09 09:40:04,825 | WARNING  | sistema_logger | Tentativa de excluir 'admin_master' bloqueada.
+2025-11-09 09:40:13,989 | WARNING  | sistema_logger | Tentativa de excluir 'admin_master' bloqueada.
+2025-11-09 09:40:14,951 | WARNING  | sistema_logger | Tentativa de excluir 'admin_master' bloqueada.
+2025-11-09 09:40:15,121 | WARNING  | sistema_logger | Tentativa de excluir 'admin_master' bloqueada.
+2025-11-09 09:40:15,542 | WARNING  | sistema_logger | Tentativa de excluir 'admin_master' bloqueada.
+2025-11-09 10:33:26,064 | INFO     | sistema_logger | Tela de login carregada (modo minimalista).
+2025-11-09 10:33:26,066 | INFO     | sistema_logger | dono saiu do sistema.
+2025-11-09 10:33:47,789 | WARNING  | sistema_logger | Tentativa de login inválida: admin_master
+2025-11-09 10:33:47,791 | WARNING  | sistema_logger | Tentativa de login inválida: admin_master
+2025-11-09 10:34:06,111 | WARNING  | sistema_logger | Tentativa de login inválida: admin_master
+2025-11-09 10:34:06,113 | WARNING  | sistema_logger | Tentativa de login inválida: admin_master
+2025-11-09 10:34:07,378 | WARNING  | sistema_logger | Tentativa de login inválida: admin_master
+2025-11-09 10:34:07,379 | WARNING  | sistema_logger | Tentativa de login inválida: admin_master
+2025-11-09 10:34:12,336 | WARNING  | sistema_logger | Tentativa de login inválida: admin_master
+2025-11-09 10:34:12,338 | WARNING  | sistema_logger | Tentativa de login inválida: admin_master
+2025-11-09 10:34:13,063 | WARNING  | sistema_logger | Tentativa de login inválida: admin_master
+2025-11-09 10:34:13,064 | WARNING  | sistema_logger | Tentativa de login inválida: admin_master
+2025-11-09 10:38:13,110 | INFO     | sistema_logger | === Logger inicializado ===
+2025-11-09 10:38:13,110 | INFO     | sistema_logger | Arquivo de log: c:\Users\User\.vscode\files\sistema_01\APP\..\DATA\system.log
+2025-11-09 10:38:16,114 | INFO     | sistema_logger | >>> Inicializando o Sistema de Gestão com Flet...
+2025-11-09 10:38:16,114 | INFO     | sistema_logger | Inicializando o banco de dados...
+2025-11-09 10:38:16,120 | INFO     | sistema_logger | ✅ Usuário 'admin_master' já existe — nenhuma alteração feita.
+2025-11-09 10:38:16,121 | INFO     | sistema_logger | Banco de dados inicializado com sucesso.
+2025-11-09 10:38:16,127 | INFO     | sistema_logger | Tela de login carregada (modo minimalista).
+2025-11-09 10:38:16,127 | INFO     | sistema_logger | Tela de login carregada com sucesso.
+2025-11-09 10:38:27,820 | INFO     | sistema_logger | === Logger inicializado ===
+2025-11-09 10:38:27,820 | INFO     | sistema_logger | Arquivo de log: C:\Users\User\.vscode\files\sistema_01\APP\..\DATA\system.log
+2025-11-09 10:41:05,746 | INFO     | sistema_logger | === Logger inicializado ===
+2025-11-09 10:41:05,747 | INFO     | sistema_logger | Arquivo de log: c:\Users\User\.vscode\files\sistema_01\APP\..\DATA\system.log
+2025-11-09 10:41:06,953 | INFO     | sistema_logger | >>> Inicializando o Sistema de Gestão com Flet...
+2025-11-09 10:41:06,954 | INFO     | sistema_logger | Inicializando o banco de dados...
+2025-11-09 10:41:06,964 | INFO     | sistema_logger | ✅ Usuário 'admin_master' já existe — nenhuma alteração feita.
+2025-11-09 10:41:06,965 | INFO     | sistema_logger | Banco de dados inicializado com sucesso.
+2025-11-09 10:41:06,971 | INFO     | sistema_logger | Tela de login carregada (modo minimalista).
+2025-11-09 10:41:06,971 | INFO     | sistema_logger | Tela de login carregada com sucesso.
+2025-11-09 10:41:23,296 | INFO     | sistema_logger | Usuário 'admin_master' autenticado com sucesso (admin).
+2025-11-09 10:41:23,296 | INFO     | sistema_logger | Usuário 'admin_master' autenticado com sucesso (admin).
+2025-11-09 10:41:23,301 | INFO     | sistema_logger | Dashboard carregado para admin_master (admin).
+2025-11-09 10:41:38,331 | INFO     | sistema_logger | Tela de gerenciamento de usuários carregada por admin_master.
+2025-11-09 10:41:38,331 | INFO     | sistema_logger | admin_master abriu o módulo de usuários.
+2025-11-09 10:42:15,747 | INFO     | sistema_logger | Tela de gerenciamento de usuários carregada por admin_master.
+2025-11-09 10:42:15,748 | INFO     | sistema_logger | admin_master abriu o módulo de usuários.
+2025-11-09 10:53:23,771 | INFO     | sistema_logger | === Logger inicializado ===
+2025-11-09 10:53:23,771 | INFO     | sistema_logger | Arquivo de log: c:\Users\User\.vscode\files\sistema_01\APP\..\DATA\system.log
+2025-11-09 10:53:25,605 | INFO     | sistema_logger | >>> Inicializando o Sistema de Gestão com Flet...
+2025-11-09 10:53:25,605 | INFO     | sistema_logger | Inicializando o banco de dados...
+2025-11-09 10:53:25,612 | INFO     | sistema_logger | ✅ Usuário 'admin_master' já existe — nenhuma alteração feita.
+2025-11-09 10:53:25,612 | INFO     | sistema_logger | Banco de dados inicializado com sucesso.
+2025-11-09 10:53:25,621 | INFO     | sistema_logger | Tela de login carregada (modo minimalista).
+2025-11-09 10:53:25,621 | INFO     | sistema_logger | Tela de login carregada com sucesso.
+2025-11-09 10:53:42,188 | WARNING  | sistema_logger | Tentativa de login inválida: admin_master
+2025-11-09 10:53:42,190 | WARNING  | sistema_logger | Tentativa de login inválida: admin_master
+2025-11-09 10:54:11,357 | INFO     | sistema_logger | Usuário 'admin_master' autenticado com sucesso (admin).
+2025-11-09 10:54:11,357 | INFO     | sistema_logger | Usuário 'admin_master' autenticado com sucesso (admin).
+2025-11-09 10:54:11,365 | INFO     | sistema_logger | Dashboard carregado para admin_master (admin).
+2025-11-09 10:54:58,595 | INFO     | sistema_logger | Tela de gerenciamento de usuários carregada por 'admin_master'.
+2025-11-09 10:54:58,596 | INFO     | sistema_logger | admin_master abriu o módulo de usuários.
+2025-11-09 10:56:12,561 | ERROR    | sistema_logger | Role inválida: user
+2025-11-09 10:56:12,562 | ERROR    | sistema_logger | Erro ao criar usuário: Tipo de usuário inválido! Use um dos seguintes: ('admin_master', 'admin', 'vendedor')
+2025-11-09 10:56:23,182 | ERROR    | sistema_logger | Role inválida: user
+2025-11-09 10:56:23,182 | ERROR    | sistema_logger | Erro ao criar usuário: Tipo de usuário inválido! Use um dos seguintes: ('admin_master', 'admin', 'vendedor')
+2025-11-09 10:56:24,800 | ERROR    | sistema_logger | Role inválida: user
+2025-11-09 10:56:24,801 | ERROR    | sistema_logger | Erro ao criar usuário: Tipo de usuário inválido! Use um dos seguintes: ('admin_master', 'admin', 'vendedor')
+2025-11-09 11:01:30,301 | INFO     | sistema_logger | Tela de gerenciamento de usuários carregada por 'admin_master'.
+2025-11-09 11:01:30,301 | INFO     | sistema_logger | admin_master abriu o módulo de usuários.
+2025-11-09 11:02:01,128 | INFO     | sistema_logger | Tela de gerenciamento de usuários carregada por 'admin_master'.
+2025-11-09 11:02:01,128 | INFO     | sistema_logger | admin_master abriu o módulo de usuários.
+2025-11-09 11:02:07,043 | INFO     | sistema_logger | Tela de login carregada (modo minimalista).
+2025-11-09 11:02:07,043 | INFO     | sistema_logger | admin_master saiu do sistema.
+2025-11-09 11:02:18,641 | WARNING  | sistema_logger | Tentativa de login inválida: dono
+2025-11-09 11:02:18,642 | WARNING  | sistema_logger | Tentativa de login inválida: dono
+2025-11-09 11:02:29,463 | WARNING  | sistema_logger | Tentativa de login inválida: dono
+2025-11-09 11:02:29,466 | WARNING  | sistema_logger | Tentativa de login inválida: dono
+2025-11-09 11:02:36,311 | INFO     | sistema_logger | Usuário 'dono' autenticado com sucesso (admin_master).
+2025-11-09 11:02:36,311 | INFO     | sistema_logger | Usuário 'dono' autenticado com sucesso (admin_master).
+2025-11-09 11:02:36,319 | INFO     | sistema_logger | Dashboard carregado para dono (admin_master).
+2025-11-09 11:02:38,308 | INFO     | sistema_logger | Tela de gerenciamento de usuários carregada por 'dono'.
+2025-11-09 11:02:38,309 | INFO     | sistema_logger | dono abriu o módulo de usuários.
+2025-11-09 11:03:31,277 | INFO     | sistema_logger | Tela de gerenciamento de usuários carregada por 'dono'.
+2025-11-09 11:03:31,277 | INFO     | sistema_logger | dono abriu o módulo de usuários.
+2025-11-09 11:04:19,734 | ERROR    | sistema_logger | Role inválida: user
+2025-11-09 11:04:19,734 | ERROR    | sistema_logger | Erro ao criar usuário: Tipo de usuário inválido! Use um dos seguintes: ('admin_master', 'admin', 'vendedor')
+2025-11-09 11:07:48,411 | ERROR    | sistema_logger | Role inválida: user
+2025-11-09 11:07:48,413 | ERROR    | sistema_logger | Erro ao criar usuário: Tipo de usuário inválido! Use um dos seguintes: ('admin_master', 'admin', 'vendedor')
+2025-11-09 11:10:02,074 | INFO     | sistema_logger | === Logger inicializado ===
+2025-11-09 11:10:02,074 | INFO     | sistema_logger | Arquivo de log: c:\Users\User\.vscode\files\sistema_01\APP\..\DATA\system.log
+2025-11-09 11:10:03,657 | INFO     | sistema_logger | >>> Inicializando o Sistema de Gestão com Flet...
+2025-11-09 11:10:03,658 | INFO     | sistema_logger | Inicializando o banco de dados...
+2025-11-09 11:10:03,665 | INFO     | sistema_logger | ✅ Usuário 'admin_master' já existe — nenhuma alteração feita.
+2025-11-09 11:10:03,665 | INFO     | sistema_logger | Banco de dados inicializado com sucesso.
+2025-11-09 11:10:03,671 | INFO     | sistema_logger | Tela de login carregada (modo minimalista).
+2025-11-09 11:10:03,671 | INFO     | sistema_logger | Tela de login carregada com sucesso.
+2025-11-09 11:10:15,699 | WARNING  | sistema_logger | Tentativa de login inválida: dono
+2025-11-09 11:10:15,701 | WARNING  | sistema_logger | Tentativa de login inválida: dono
+2025-11-09 11:10:18,960 | WARNING  | sistema_logger | Tentativa de login inválida: dono
+2025-11-09 11:10:18,961 | WARNING  | sistema_logger | Tentativa de login inválida: dono
+2025-11-09 11:10:58,259 | WARNING  | sistema_logger | Tentativa de login inválida: dono
+2025-11-09 11:10:58,261 | WARNING  | sistema_logger | Tentativa de login inválida: dono
+2025-11-09 11:10:59,037 | WARNING  | sistema_logger | Tentativa de login inválida: dono
+2025-11-09 11:10:59,039 | WARNING  | sistema_logger | Tentativa de login inválida: dono
+2025-11-09 11:11:03,803 | WARNING  | sistema_logger | Tentativa de login inválida: dono
+2025-11-09 11:11:03,804 | WARNING  | sistema_logger | Tentativa de login inválida: dono
+2025-11-09 11:11:47,090 | INFO     | sistema_logger | Usuário 'dono' autenticado com sucesso (admin_master).
+2025-11-09 11:11:47,091 | INFO     | sistema_logger | Usuário 'dono' autenticado com sucesso (admin_master).
+2025-11-09 11:11:47,101 | INFO     | sistema_logger | Dashboard carregado para dono (admin_master).
+2025-11-09 11:11:51,061 | INFO     | sistema_logger | Tela de gerenciamento de usuários carregada por 'dono'.
+2025-11-09 11:11:51,061 | INFO     | sistema_logger | dono abriu o módulo de usuários.
+2025-11-09 11:14:09,768 | INFO     | sistema_logger | Tela de login carregada (modo minimalista).
+2025-11-09 11:14:09,768 | INFO     | sistema_logger | dono saiu do sistema.
+2025-11-09 11:14:28,473 | WARNING  | sistema_logger | Tentativa de login inválida: vendedor1
+2025-11-09 11:14:28,475 | WARNING  | sistema_logger | Tentativa de login inválida: vendedor1
+2025-11-09 11:14:40,077 | WARNING  | sistema_logger | Tentativa de login inválida: vendedor1
+2025-11-09 11:14:40,079 | WARNING  | sistema_logger | Tentativa de login inválida: vendedor1
+2025-11-09 11:14:40,954 | WARNING  | sistema_logger | Tentativa de login inválida: vendedor1
+2025-11-09 11:14:40,955 | WARNING  | sistema_logger | Tentativa de login inválida: vendedor1
+2025-11-09 11:14:43,069 | WARNING  | sistema_logger | Tentativa de login inválida: vendedor1
+2025-11-09 11:14:43,070 | WARNING  | sistema_logger | Tentativa de login inválida: vendedor1
+2025-11-09 11:14:49,211 | WARNING  | sistema_logger | Tentativa de login inválida: vendedor1
+2025-11-09 11:14:49,213 | WARNING  | sistema_logger | Tentativa de login inválida: vendedor1
+2025-11-09 11:14:50,021 | WARNING  | sistema_logger | Tentativa de login inválida: vendedor1
+2025-11-09 11:14:50,022 | WARNING  | sistema_logger | Tentativa de login inválida: vendedor1
+2025-11-09 11:15:01,685 | WARNING  | sistema_logger | Tentativa de login inválida: vendedor1
+2025-11-09 11:15:01,686 | WARNING  | sistema_logger | Tentativa de login inválida: vendedor1
+2025-11-09 11:15:02,456 | WARNING  | sistema_logger | Tentativa de login inválida: vendedor1
+2025-11-09 11:15:02,457 | WARNING  | sistema_logger | Tentativa de login inválida: vendedor1
+2025-11-09 11:38:00,809 | INFO     | sistema_logger | === Logger inicializado ===
+2025-11-09 11:38:00,809 | INFO     | sistema_logger | Arquivo de log: C:\Users\User\.vscode\files\sistema_01\APP\..\DATA\system.log
+2025-11-09 11:38:00,821 | INFO     | sistema_logger | 🔄 Resetando tabela de usuários no banco: C:\Users\User\.vscode\files\sistema_01\DATA\sistema.db
+2025-11-09 11:38:00,842 | INFO     | sistema_logger | ✅ Usuário criado: admin_master (admin_master)
+2025-11-09 11:38:00,842 | INFO     | sistema_logger | ✅ Usuário criado: admin (admin)
+2025-11-09 11:38:00,842 | INFO     | sistema_logger | ✅ Usuário criado: vendedor1 (vendedor)
+2025-11-09 11:38:00,851 | INFO     | sistema_logger | 🏁 Reset de usuários concluído com sucesso!
+2025-11-09 11:49:22,019 | INFO     | sistema_logger | === Logger inicializado ===
+2025-11-09 11:49:22,020 | INFO     | sistema_logger | Arquivo de log: c:\Users\User\.vscode\files\sistema_01\APP\..\DATA\system.log
+2025-11-09 11:49:23,733 | INFO     | sistema_logger | >>> Inicializando o Sistema de Gestão com Flet...
+2025-11-09 11:49:23,734 | INFO     | sistema_logger | Inicializando o banco de dados...
+2025-11-09 11:49:23,748 | INFO     | sistema_logger | ✅ Usuário 'admin_master' já existe — nenhuma alteração feita.
+2025-11-09 11:49:23,748 | INFO     | sistema_logger | Banco de dados inicializado com sucesso.
+2025-11-09 11:49:23,755 | INFO     | sistema_logger | Tela de login carregada (modo minimalista).
+2025-11-09 11:49:23,756 | INFO     | sistema_logger | Tela de login carregada com sucesso.
+2025-11-09 11:49:42,672 | INFO     | sistema_logger | Usuário 'admin_master' autenticado com sucesso (admin_master).
+2025-11-09 11:49:42,673 | INFO     | sistema_logger | Usuário 'admin_master' autenticado com sucesso (admin_master).
+2025-11-09 11:49:42,680 | INFO     | sistema_logger | Dashboard carregado para admin_master (admin_master).
+2025-11-09 11:49:48,868 | INFO     | sistema_logger | Tela de gerenciamento de usuários carregada por 'admin_master'.
+2025-11-09 11:49:48,868 | INFO     | sistema_logger | admin_master abriu o módulo de usuários.
+2025-11-09 11:50:01,302 | INFO     | sistema_logger | Tela de vendas carregada.
+2025-11-09 11:50:01,302 | INFO     | sistema_logger | admin_master abriu o módulo de vendas.
+2025-11-09 11:50:05,137 | INFO     | sistema_logger | Tela de relatórios com PDF e botão de pasta carregada.
+2025-11-09 11:50:05,138 | INFO     | sistema_logger | admin_master abriu o módulo de relatórios.
+2025-11-09 11:50:12,022 | INFO     | sistema_logger | 8 vendas encontradas no período 2025-11-04 → 2025-11-09
+2025-11-09 11:50:12,267 | INFO     | sistema_logger | Relatório gerado de 2025-11-04 a 2025-11-09.
+2025-11-09 11:50:19,489 | INFO     | sistema_logger | Tela de gerenciamento de usuários carregada por 'admin_master'.
+2025-11-09 11:50:19,490 | INFO     | sistema_logger | admin_master abriu o módulo de usuários.
+2025-11-09 11:50:53,659 | ERROR    | sistema_logger | Role inválida: user
+2025-11-09 11:50:53,659 | ERROR    | sistema_logger | Erro ao criar usuário: Tipo de usuário inválido! Use um dos seguintes: ('admin_master', 'admin', 'vendedor')
+2025-11-09 11:53:49,566 | INFO     | sistema_logger | === Logger inicializado ===
+2025-11-09 11:53:49,566 | INFO     | sistema_logger | Arquivo de log: c:\Users\User\.vscode\files\sistema_01\APP\..\DATA\system.log
+2025-11-09 11:53:50,734 | INFO     | sistema_logger | >>> Inicializando o Sistema de Gestão com Flet...
+2025-11-09 11:53:50,734 | INFO     | sistema_logger | Inicializando o banco de dados...
+2025-11-09 11:53:50,737 | INFO     | sistema_logger | ✅ Usuário 'admin_master' já existe — nenhuma alteração feita.
+2025-11-09 11:53:50,737 | INFO     | sistema_logger | Banco de dados inicializado com sucesso.
+2025-11-09 11:53:50,744 | INFO     | sistema_logger | Tela de login carregada (modo minimalista).
+2025-11-09 11:53:50,744 | INFO     | sistema_logger | Tela de login carregada com sucesso.
+2025-11-09 11:54:05,919 | INFO     | sistema_logger | Usuário 'admin_master' autenticado com sucesso (admin_master).
+2025-11-09 11:54:05,919 | INFO     | sistema_logger | Usuário 'admin_master' autenticado com sucesso (admin_master).
+2025-11-09 11:54:05,927 | INFO     | sistema_logger | Dashboard carregado para admin_master (admin_master).
+2025-11-09 11:54:07,577 | INFO     | sistema_logger | Tela de gerenciamento de usuários carregada por 'admin_master'.
+2025-11-09 11:54:07,578 | INFO     | sistema_logger | admin_master abriu o módulo de usuários.
+2025-11-09 11:54:54,418 | INFO     | sistema_logger | === Logger inicializado ===
+2025-11-09 11:54:54,418 | INFO     | sistema_logger | Arquivo de log: c:\Users\User\.vscode\files\sistema_01\APP\..\DATA\system.log
+2025-11-09 11:54:55,544 | INFO     | sistema_logger | >>> Inicializando o Sistema de Gestão com Flet...
+2025-11-09 11:54:55,544 | INFO     | sistema_logger | Inicializando o banco de dados...
+2025-11-09 11:54:55,549 | INFO     | sistema_logger | ✅ Usuário 'admin_master' já existe — nenhuma alteração feita.
+2025-11-09 11:54:55,549 | INFO     | sistema_logger | Banco de dados inicializado com sucesso.
+2025-11-09 11:54:55,557 | INFO     | sistema_logger | Tela de login carregada (modo minimalista).
+2025-11-09 11:54:55,558 | INFO     | sistema_logger | Tela de login carregada com sucesso.
+2025-11-09 11:55:10,065 | INFO     | sistema_logger | Usuário 'admin_master' autenticado com sucesso (admin_master).
+2025-11-09 11:55:10,065 | INFO     | sistema_logger | Usuário 'admin_master' autenticado com sucesso (admin_master).
+2025-11-09 11:55:10,071 | INFO     | sistema_logger | Dashboard carregado para admin_master (admin_master).
+2025-11-09 11:55:11,281 | INFO     | sistema_logger | Tela de gerenciamento de usuários carregada por 'admin_master'.
+2025-11-09 11:55:11,281 | INFO     | sistema_logger | admin_master abriu o módulo de usuários.
+2025-11-09 11:56:00,348 | INFO     | sistema_logger | === Logger inicializado ===
+2025-11-09 11:56:00,348 | INFO     | sistema_logger | Arquivo de log: c:\Users\User\.vscode\files\sistema_01\APP\..\DATA\system.log
+2025-11-09 11:56:01,444 | INFO     | sistema_logger | >>> Inicializando o Sistema de Gestão com Flet...
+2025-11-09 11:56:01,445 | INFO     | sistema_logger | Inicializando o banco de dados...
+2025-11-09 11:56:01,448 | INFO     | sistema_logger | ✅ Usuário 'admin_master' já existe — nenhuma alteração feita.
+2025-11-09 11:56:01,448 | INFO     | sistema_logger | Banco de dados inicializado com sucesso.
+2025-11-09 11:56:01,452 | INFO     | sistema_logger | Tela de login carregada (modo minimalista).
+2025-11-09 11:56:01,452 | INFO     | sistema_logger | Tela de login carregada com sucesso.
+2025-11-09 11:56:15,158 | INFO     | sistema_logger | Usuário 'admin_master' autenticado com sucesso (admin_master).
+2025-11-09 11:56:15,158 | INFO     | sistema_logger | Usuário 'admin_master' autenticado com sucesso (admin_master).
+2025-11-09 11:56:15,165 | INFO     | sistema_logger | Dashboard carregado para admin_master (admin_master).
+2025-11-09 11:56:16,305 | INFO     | sistema_logger | Tela de gerenciamento de usuários carregada por 'admin_master'.
+2025-11-09 11:56:16,305 | INFO     | sistema_logger | admin_master abriu o módulo de usuários.
+2025-11-09 18:41:14 | INFO     | sistema_logger | === Logger inicializado ===
+2025-11-09 18:41:14 | INFO     | sistema_logger | Arquivo de log: C:\Users\User\.vscode\files\sistema_01\DATA\system.log
+2025-11-09 18:46:02 | INFO     | sistema_logger | === Logger inicializado ===
+2025-11-09 18:46:02 | INFO     | sistema_logger | Arquivo de log: C:\Users\User\.vscode\files\sistema_01\DATA\system.log
+2025-11-09 18:46:05 | INFO     | sistema_logger | >>> Inicializando o Sistema de Gestão Minimalista com Flet...
+2025-11-09 18:46:05 | INFO     | sistema_logger | Inicializando o banco de dados...
+2025-11-09 18:46:05 | INFO     | sistema_logger | ✅ Usuário padrão criado: admin_master (admin_master)
+2025-11-09 18:46:05 | INFO     | sistema_logger | ✅ Usuário padrão criado: admin (admin)
+2025-11-09 18:46:05 | INFO     | sistema_logger | ✅ Usuário padrão criado: vendedor1 (vendedor)
+2025-11-09 18:46:05 | INFO     | sistema_logger | ✅ Usuários padrão criados com sucesso.
+2025-11-09 18:46:05 | INFO     | sistema_logger | Banco de dados inicializado com sucesso.
+2025-11-09 18:46:05 | DEBUG    | sistema_logger | Usuário 'admin_master' já existe.
+2025-11-09 18:46:05 | INFO     | sistema_logger | Tela de login carregada (modo minimalista).
+2025-11-09 18:46:05 | INFO     | sistema_logger | Tela de login carregada com sucesso.
+2025-11-09 18:46:24 | INFO     | sistema_logger | Usuário 'admin_master' autenticado com sucesso (admin_master).
+2025-11-09 18:46:24 | INFO     | sistema_logger | Usuário 'admin_master' autenticado com sucesso (admin_master).
+2025-11-09 18:46:24 | INFO     | sistema_logger | Dashboard carregado para admin_master (admin_master).
+2025-11-09 18:46:26 | DEBUG    | sistema_logger | 3 usuários listados.
+2025-11-09 18:46:26 | INFO     | sistema_logger | Tela de gerenciamento de usuários carregada por 'admin_master'.
+2025-11-09 18:46:26 | INFO     | sistema_logger | admin_master abriu o módulo de usuários.
+2025-11-09 18:46:36 | INFO     | sistema_logger | Tela de relatórios com PDF e botão de pasta carregada.
+2025-11-09 18:46:36 | INFO     | sistema_logger | admin_master abriu o módulo de relatórios.
+2025-11-09 18:46:45 | INFO     | sistema_logger | 0 vendas encontradas no período 2025-11-04 → 2025-11-09
+2025-11-09 18:46:49 | INFO     | sistema_logger | 0 vendas encontradas no período 2025-11-04 → 2025-11-09
+2025-11-09 18:46:53 | INFO     | sistema_logger | Tela de vendas carregada.
+2025-11-09 18:46:53 | INFO     | sistema_logger | admin_master abriu o módulo de vendas.
+2025-11-09 18:47:13 | INFO     | sistema_logger | Tela de produtos carregada.
+2025-11-09 18:47:13 | INFO     | sistema_logger | admin_master abriu o módulo de produtos.
+2025-11-09 18:47:29 | INFO     | sistema_logger | Produto adicionado: agua - R$2.00, estoque=10
+2025-11-09 18:47:29 | INFO     | sistema_logger | Produto 'agua' adicionado.
+2025-11-09 18:47:47 | INFO     | sistema_logger | Produto adicionado: coca cola 600 - R$10.00, estoque=10
+2025-11-09 18:47:47 | INFO     | sistema_logger | Produto 'coca cola 600' adicionado.
+2025-11-09 18:48:22 | INFO     | sistema_logger | Produto adicionado: pastel de queijo - R$10.00, estoque=10
+2025-11-09 18:48:22 | INFO     | sistema_logger | Produto 'pastel de queijo' adicionado.
+2025-11-09 18:48:38 | INFO     | sistema_logger | Produto adicionado: monster - R$15.00, estoque=10
+2025-11-09 18:48:38 | INFO     | sistema_logger | Produto 'monster' adicionado.
+2025-11-09 18:48:42 | INFO     | sistema_logger | Tela de vendas carregada.
+2025-11-09 18:48:42 | INFO     | sistema_logger | admin_master abriu o módulo de vendas.
+2025-11-09 18:48:52 | INFO     | sistema_logger | Venda registrada: agua x1 = R$ 2.00
+2025-11-09 18:48:52 | INFO     | sistema_logger | Venda registrada: agua x1 = R$2.00
+2025-11-09 18:49:09 | INFO     | sistema_logger | Venda registrada: coca cola 600 x1 = R$ 10.00
+2025-11-09 18:49:09 | INFO     | sistema_logger | Venda registrada: coca cola 600 x1 = R$10.00
+2025-11-09 18:49:22 | INFO     | sistema_logger | Venda registrada: pastel de queijo x2 = R$ 20.00
+2025-11-09 18:49:22 | INFO     | sistema_logger | Venda registrada: pastel de queijo x2 = R$20.00
+2025-11-09 18:49:26 | INFO     | sistema_logger | Tela de relatórios com PDF e botão de pasta carregada.
+2025-11-09 18:49:26 | INFO     | sistema_logger | admin_master abriu o módulo de relatórios.
+2025-11-09 18:49:29 | INFO     | sistema_logger | 3 vendas encontradas no período 2025-11-09 → 2025-11-09
+2025-11-09 18:49:29 | INFO     | sistema_logger | Relatório gerado de 2025-11-09 a 2025-11-09.
+2025-11-09 18:49:41 | INFO     | sistema_logger | Tela de produtos carregada.
+2025-11-09 18:49:41 | INFO     | sistema_logger | admin_master abriu o módulo de produtos.
+2025-11-09 18:50:16 | INFO     | sistema_logger | Tela de vendas carregada.
+2025-11-09 18:50:16 | INFO     | sistema_logger | admin_master abriu o módulo de vendas.
+2025-11-09 18:50:25 | INFO     | sistema_logger | Tela de produtos carregada.
+2025-11-09 18:50:25 | INFO     | sistema_logger | admin_master abriu o módulo de produtos.
+2025-11-09 18:50:45 | INFO     | sistema_logger | Tela de vendas carregada.
+2025-11-09 18:50:45 | INFO     | sistema_logger | admin_master abriu o módulo de vendas.
+2025-11-09 18:50:54 | INFO     | sistema_logger | Venda registrada: monster x5 = R$ 75.00
+2025-11-09 18:50:54 | INFO     | sistema_logger | Venda registrada: monster x5 = R$75.00
+2025-11-09 18:50:58 | INFO     | sistema_logger | Tela de produtos carregada.
+2025-11-09 18:50:58 | INFO     | sistema_logger | admin_master abriu o módulo de produtos.
+2025-11-09 18:51:12 | ERROR    | sistema_logger | Erro ao atualizar produto: Nenhum valor informado para atualizar.
+2025-11-09 18:51:38 | INFO     | sistema_logger | Tela de visualização de logs carregada.
+2025-11-09 18:51:38 | INFO     | sistema_logger | admin_master abriu o módulo de logs.
+2025-11-09 19:18:18 | INFO     | sistema_logger | === Logger inicializado ===
+2025-11-09 19:18:18 | INFO     | sistema_logger | Arquivo de log: C:\Users\User\.vscode\files\sistema_01\DATA\system.log
+2025-11-09 19:18:20 | INFO     | sistema_logger | Verificando migrações do banco de dados...
+2025-11-09 19:18:20 | INFO     | sistema_logger | Versão atual do schema: 0. 3 migrações disponíveis.
+2025-11-09 19:18:20 | INFO     | sistema_logger | Aplicando migração 1/3 -> _migration_001_create_missing_role_column
+2025-11-09 19:18:20 | DEBUG    | sistema_logger | Migração 001: coluna 'role' já existe — pulando.
+2025-11-09 19:18:20 | INFO     | sistema_logger | Migração 1 aplicada com sucesso.
+2025-11-09 19:18:20 | INFO     | sistema_logger | Aplicando migração 2/3 -> _migration_002_add_vendedor_to_vendas
+2025-11-09 19:18:20 | DEBUG    | sistema_logger | Migração 002: coluna 'vendedor' já existe — pulando.
+2025-11-09 19:18:20 | INFO     | sistema_logger | Migração 2 aplicada com sucesso.
+2025-11-09 19:18:20 | INFO     | sistema_logger | Aplicando migração 3/3 -> _migration_003_create_migrations_table
+2025-11-09 19:18:20 | INFO     | sistema_logger | Migração 3 aplicada com sucesso.
+2025-11-09 19:18:20 | INFO     | sistema_logger | Verificação de migrações finalizada.
+2025-11-09 19:18:21 | INFO     | sistema_logger | >>> Inicializando o Sistema de Gestão Minimalista com Flet...
+2025-11-09 19:18:21 | INFO     | sistema_logger | Inicializando o banco de dados...
+2025-11-09 19:18:21 | INFO     | sistema_logger | ✅ Usuários já existentes — nenhuma alteração feita.
+2025-11-09 19:18:21 | INFO     | sistema_logger | Banco de dados inicializado com sucesso.
+2025-11-09 19:18:21 | INFO     | sistema_logger | Tela de login minimalista carregada.
+2025-11-09 19:18:21 | INFO     | sistema_logger | Tela de login carregada com sucesso.
+2025-11-09 19:18:49 | WARNING  | sistema_logger | Tentativa de login inválida: admin_master
+2025-11-09 19:18:49 | WARNING  | sistema_logger | Tentativa de login inválida: admin_master
+2025-11-09 19:19:13 | INFO     | sistema_logger | Usuário 'admin_master' autenticado com sucesso (admin_master).
+2025-11-09 19:19:13 | INFO     | sistema_logger | Session started: admin_master (admin_master) -> 1436402a-121d-419b-b744-d60f426bd619
+2025-11-09 19:19:13 | DEBUG    | sistema_logger | Log registrado: admin_master -> login
+2025-11-09 19:19:13 | INFO     | sistema_logger | Usuário 'admin_master' autenticado com sucesso (role=admin_master).
+2025-11-09 19:23:27 | INFO     | sistema_logger | === Logger inicializado ===
+2025-11-09 19:23:27 | INFO     | sistema_logger | Arquivo de log: C:\Users\User\.vscode\files\sistema_01\DATA\system.log
+2025-11-09 19:30:51 | INFO     | sistema_logger | === Logger inicializado ===
+2025-11-09 19:30:51 | INFO     | sistema_logger | Arquivo de log: C:\Users\User\.vscode\files\sistema_01\DATA\system.log
+2025-11-09 19:30:52 | INFO     | sistema_logger | Verificando migrações do banco de dados...
+2025-11-09 19:30:52 | INFO     | sistema_logger | Versão atual do schema: 3. 3 migrações disponíveis.
+2025-11-09 19:30:52 | DEBUG    | sistema_logger | Migração 1 já aplicada, pulando.
+2025-11-09 19:30:52 | DEBUG    | sistema_logger | Migração 2 já aplicada, pulando.
+2025-11-09 19:30:52 | DEBUG    | sistema_logger | Migração 3 já aplicada, pulando.
+2025-11-09 19:30:52 | INFO     | sistema_logger | Verificação de migrações finalizada.
+2025-11-09 19:30:53 | INFO     | sistema_logger | >>> Inicializando o Sistema de Gestão Minimalista com Flet...
+2025-11-09 19:30:53 | INFO     | sistema_logger | Inicializando o banco de dados...
+2025-11-09 19:30:53 | INFO     | sistema_logger | ✅ Usuários já existentes — nenhuma alteração feita.
+2025-11-09 19:30:53 | INFO     | sistema_logger | Banco de dados inicializado com sucesso.
+2025-11-09 19:30:53 | INFO     | sistema_logger | Tela de login minimalista carregada.
+2025-11-09 19:30:53 | INFO     | sistema_logger | Tela de login carregada com sucesso.
+2025-11-09 19:31:10 | INFO     | sistema_logger | Usuário 'admin_master' autenticado com sucesso (admin_master).
+2025-11-09 19:31:10 | INFO     | sistema_logger | Session started: admin_master (admin_master) -> bd008dc4-a67e-4d92-a089-384fc452c639
+2025-11-09 19:31:10 | DEBUG    | sistema_logger | Log registrado: admin_master -> login
+2025-11-09 19:31:10 | INFO     | sistema_logger | Usuário 'admin_master' autenticado com sucesso (role=admin_master).
+2025-11-09 19:31:10 | INFO     | sistema_logger | Dashboard carregado para admin_master (admin_master).
+2025-11-09 19:31:21 | INFO     | sistema_logger | Tela de produtos carregada.
+2025-11-09 19:31:34 | INFO     | sistema_logger | Tela de vendas carregada.
+2025-11-09 19:31:36 | INFO     | sistema_logger | Tela de relatórios com PDF e botão de pasta carregada.
+2025-11-09 19:31:39 | INFO     | sistema_logger | 4 vendas encontradas no período 2025-11-09 → 2025-11-09
+2025-11-09 19:31:40 | INFO     | sistema_logger | Relatório gerado de 2025-11-09 a 2025-11-09.
+2025-11-09 19:31:44 | DEBUG    | sistema_logger | 3 usuários listados.
+2025-11-09 19:31:44 | INFO     | sistema_logger | Tela de gerenciamento de usuários carregada por '<bound method DashboardUI.voltar_dashboard of <APP.ui.dashboard_ui.DashboardUI object at 0x0000017CEFFCD6A0>>'.
+2025-11-09 19:33:49 | INFO     | sistema_logger | === Logger inicializado ===
+2025-11-09 19:33:49 | INFO     | sistema_logger | Arquivo de log: C:\Users\User\.vscode\files\sistema_01\DATA\system.log
+2025-11-09 19:33:50 | INFO     | sistema_logger | Verificando migrações do banco de dados...
+2025-11-09 19:33:50 | INFO     | sistema_logger | Versão atual do schema: 3. 3 migrações disponíveis.
+2025-11-09 19:33:50 | DEBUG    | sistema_logger | Migração 1 já aplicada, pulando.
+2025-11-09 19:33:50 | DEBUG    | sistema_logger | Migração 2 já aplicada, pulando.
+2025-11-09 19:33:50 | DEBUG    | sistema_logger | Migração 3 já aplicada, pulando.
+2025-11-09 19:33:50 | INFO     | sistema_logger | Verificação de migrações finalizada.
+2025-11-09 19:33:51 | INFO     | sistema_logger | >>> Inicializando o Sistema de Gestão Minimalista com Flet...
+2025-11-09 19:33:51 | INFO     | sistema_logger | Inicializando o banco de dados...
+2025-11-09 19:33:51 | INFO     | sistema_logger | ✅ Usuários já existentes — nenhuma alteração feita.
+2025-11-09 19:33:51 | INFO     | sistema_logger | Banco de dados inicializado com sucesso.
+2025-11-09 19:33:51 | INFO     | sistema_logger | Tela de login minimalista carregada.
+2025-11-09 19:33:51 | INFO     | sistema_logger | Tela de login carregada com sucesso.
+2025-11-09 19:34:07 | INFO     | sistema_logger | Usuário 'admin_master' autenticado com sucesso (admin_master).
+2025-11-09 19:34:07 | INFO     | sistema_logger | Session started: admin_master (admin_master) -> fc1f727b-e531-4adc-8584-3d55046b4aa9
+2025-11-09 19:34:07 | DEBUG    | sistema_logger | Log registrado: admin_master -> login
+2025-11-09 19:34:07 | INFO     | sistema_logger | Usuário 'admin_master' autenticado com sucesso (role=admin_master).
+2025-11-09 19:34:07 | INFO     | sistema_logger | Dashboard carregado para admin_master (admin_master).
+2025-11-09 19:34:22 | DEBUG    | sistema_logger | 3 usuários listados.
+2025-11-09 19:34:22 | INFO     | sistema_logger | Tela de gerenciamento de usuários carregada por '<bound method DashboardUI.voltar_dashboard of <APP.ui.dashboard_ui.DashboardUI object at 0x0000014AAB5FD6A0>>'.
+2025-11-09 19:42:28 | INFO     | sistema_logger | === Logger inicializado ===
+2025-11-09 19:42:28 | INFO     | sistema_logger | Arquivo de log: C:\Users\User\.vscode\files\sistema_01\DATA\system.log
+2025-11-09 19:42:29 | INFO     | sistema_logger | Verificando migrações do banco de dados...
+2025-11-09 19:42:29 | INFO     | sistema_logger | Versão atual do schema: 3. 3 migrações disponíveis.
+2025-11-09 19:42:29 | DEBUG    | sistema_logger | Migração 1 já aplicada, pulando.
+2025-11-09 19:42:29 | DEBUG    | sistema_logger | Migração 2 já aplicada, pulando.
+2025-11-09 19:42:29 | DEBUG    | sistema_logger | Migração 3 já aplicada, pulando.
+2025-11-09 19:42:29 | INFO     | sistema_logger | Verificação de migrações finalizada.
+2025-11-09 19:42:30 | INFO     | sistema_logger | >>> Inicializando o Sistema de Gestão Minimalista com Flet...
+2025-11-09 19:42:30 | INFO     | sistema_logger | Inicializando o banco de dados...
+2025-11-09 19:42:30 | INFO     | sistema_logger | ✅ Usuários já existentes — nenhuma alteração feita.
+2025-11-09 19:42:30 | INFO     | sistema_logger | Banco de dados inicializado com sucesso.
+2025-11-09 19:42:30 | INFO     | sistema_logger | Tela de login minimalista carregada.
+2025-11-09 19:42:30 | INFO     | sistema_logger | Tela de login carregada com sucesso.
+2025-11-09 19:42:48 | INFO     | sistema_logger | Usuário 'admin_master' autenticado com sucesso (admin_master).
+2025-11-09 19:42:48 | INFO     | sistema_logger | Session started: admin_master (admin_master) -> 5b4a53f1-90ee-4e64-a301-1519e9c80822
+2025-11-09 19:42:48 | DEBUG    | sistema_logger | Log registrado: admin_master -> login
+2025-11-09 19:42:48 | INFO     | sistema_logger | Usuário 'admin_master' autenticado com sucesso (role=admin_master).
+2025-11-09 19:42:48 | INFO     | sistema_logger | Dashboard carregado para admin_master (admin_master).
+2025-11-09 19:47:11 | INFO     | sistema_logger | === Logger inicializado ===
+2025-11-09 19:47:11 | INFO     | sistema_logger | Arquivo de log: C:\Users\User\.vscode\files\sistema_01\DATA\system.log
+2025-11-09 19:47:12 | INFO     | sistema_logger | Verificando migrações do banco de dados...
+2025-11-09 19:47:12 | INFO     | sistema_logger | Versão atual do schema: 3. 3 migrações disponíveis.
+2025-11-09 19:47:12 | DEBUG    | sistema_logger | Migração 1 já aplicada, pulando.
+2025-11-09 19:47:12 | DEBUG    | sistema_logger | Migração 2 já aplicada, pulando.
+2025-11-09 19:47:12 | DEBUG    | sistema_logger | Migração 3 já aplicada, pulando.
+2025-11-09 19:47:12 | INFO     | sistema_logger | Verificação de migrações finalizada.
+2025-11-09 19:47:13 | INFO     | sistema_logger | >>> Inicializando o Sistema de Gestão Minimalista com Flet...
+2025-11-09 19:47:13 | INFO     | sistema_logger | Inicializando o banco de dados...
+2025-11-09 19:47:13 | INFO     | sistema_logger | ✅ Usuários já existentes — nenhuma alteração feita.
+2025-11-09 19:47:13 | INFO     | sistema_logger | Banco de dados inicializado com sucesso.
+2025-11-09 19:47:13 | INFO     | sistema_logger | Tela de login minimalista carregada.
+2025-11-09 19:47:13 | INFO     | sistema_logger | Tela de login carregada com sucesso.
+2025-11-09 19:47:29 | INFO     | sistema_logger | Usuário 'admin_master' autenticado com sucesso (admin_master).
+2025-11-09 19:47:29 | INFO     | sistema_logger | Session started: admin_master (admin_master) -> 25d36587-4acd-447a-8d47-9871018065d4
+2025-11-09 19:47:29 | DEBUG    | sistema_logger | Log registrado: admin_master -> login
+2025-11-09 19:47:29 | INFO     | sistema_logger | Usuário 'admin_master' autenticado com sucesso (role=admin_master).
+2025-11-09 19:49:48 | INFO     | sistema_logger | === Logger inicializado ===
+2025-11-09 19:49:48 | INFO     | sistema_logger | Arquivo de log: C:\Users\User\.vscode\files\sistema_01\DATA\system.log
+2025-11-09 19:49:49 | INFO     | sistema_logger | Verificando migrações do banco de dados...
+2025-11-09 19:49:49 | INFO     | sistema_logger | Versão atual do schema: 3. 3 migrações disponíveis.
+2025-11-09 19:49:49 | DEBUG    | sistema_logger | Migração 1 já aplicada, pulando.
+2025-11-09 19:49:49 | DEBUG    | sistema_logger | Migração 2 já aplicada, pulando.
+2025-11-09 19:49:49 | DEBUG    | sistema_logger | Migração 3 já aplicada, pulando.
+2025-11-09 19:49:49 | INFO     | sistema_logger | Verificação de migrações finalizada.
+2025-11-09 19:49:49 | INFO     | sistema_logger | >>> Inicializando o Sistema de Gestão Minimalista com Flet...
+2025-11-09 19:49:49 | INFO     | sistema_logger | Inicializando o banco de dados...
+2025-11-09 19:49:49 | INFO     | sistema_logger | ✅ Usuários já existentes — nenhuma alteração feita.
+2025-11-09 19:49:49 | INFO     | sistema_logger | Banco de dados inicializado com sucesso.
+2025-11-09 19:49:49 | INFO     | sistema_logger | Tela de login minimalista carregada.
+2025-11-09 19:49:49 | INFO     | sistema_logger | Tela de login carregada com sucesso.
+2025-11-09 19:50:03 | INFO     | sistema_logger | Usuário 'admin_master' autenticado com sucesso (admin_master).
+2025-11-09 19:50:03 | INFO     | sistema_logger | Session started: admin_master (admin_master) -> acfd8b4a-1f7a-42b6-8411-c6d462ceff6d
+2025-11-09 19:50:03 | DEBUG    | sistema_logger | Log registrado: admin_master -> login
+2025-11-09 19:50:03 | INFO     | sistema_logger | Usuário 'admin_master' autenticado com sucesso (role=admin_master).
+2025-11-09 19:53:33 | INFO     | sistema_logger | === Logger inicializado ===
+2025-11-09 19:53:33 | INFO     | sistema_logger | Arquivo de log: C:\Users\User\.vscode\files\sistema_01\DATA\system.log
+2025-11-09 19:53:34 | INFO     | sistema_logger | Verificando migrações do banco de dados...
+2025-11-09 19:53:34 | INFO     | sistema_logger | Versão atual do schema: 3. 3 migrações disponíveis.
+2025-11-09 19:53:34 | DEBUG    | sistema_logger | Migração 1 já aplicada, pulando.
+2025-11-09 19:53:34 | DEBUG    | sistema_logger | Migração 2 já aplicada, pulando.
+2025-11-09 19:53:34 | DEBUG    | sistema_logger | Migração 3 já aplicada, pulando.
+2025-11-09 19:53:34 | INFO     | sistema_logger | Verificação de migrações finalizada.
+2025-11-09 19:53:34 | INFO     | sistema_logger | >>> Inicializando o Sistema de Gestão Minimalista com Flet...
+2025-11-09 19:53:35 | INFO     | sistema_logger | Inicializando o banco de dados...
+2025-11-09 19:53:35 | INFO     | sistema_logger | ✅ Usuários já existentes — nenhuma alteração feita.
+2025-11-09 19:53:35 | INFO     | sistema_logger | Banco de dados inicializado com sucesso.
+2025-11-09 19:53:35 | INFO     | sistema_logger | Tela de login minimalista carregada.
+2025-11-09 19:53:35 | INFO     | sistema_logger | Tela de login carregada com sucesso.
+2025-11-09 19:53:48 | INFO     | sistema_logger | Usuário 'admin_master' autenticado com sucesso (admin_master).
+2025-11-09 19:53:48 | INFO     | sistema_logger | Session started: admin_master (admin_master) -> 5289f6ff-bdc6-4591-96fe-125fe552228e
+2025-11-09 19:53:48 | DEBUG    | sistema_logger | Log registrado: admin_master -> login
+2025-11-09 19:53:48 | INFO     | sistema_logger | Usuário 'admin_master' autenticado com sucesso (role=admin_master).
+2025-11-09 19:53:48 | INFO     | sistema_logger | Dashboard carregado para admin_master (admin_master).
+2025-11-09 19:53:52 | INFO     | sistema_logger | Tela de produtos carregada.
+2025-11-09 19:53:55 | INFO     | sistema_logger | Tela de vendas carregada.
+2025-11-09 19:53:59 | INFO     | sistema_logger | Tela de relatórios com PDF e botão de pasta carregada.
+2025-11-09 19:54:01 | INFO     | sistema_logger | 4 vendas encontradas no período 2025-11-09 → 2025-11-09
+2025-11-09 19:54:02 | INFO     | sistema_logger | Relatório gerado de 2025-11-09 a 2025-11-09.
+2025-11-09 19:54:05 | DEBUG    | sistema_logger | 3 usuários listados.
+2025-11-09 19:54:05 | DEBUG    | sistema_logger | 3 usuários listados.
+2025-11-09 19:54:05 | INFO     | sistema_logger | Tela de gerenciamento de usuários carregada por '<bound method DashboardUI.voltar_dashboard of <APP.ui.dashboard_ui.DashboardUI object at 0x0000021C487F96A0>>'.
+2025-11-09 19:54:15 | INFO     | sistema_logger | Session ended: admin_master (admin_master) -> 5289f6ff-bdc6-4591-96fe-125fe552228e
+2025-11-09 19:54:15 | INFO     | sistema_logger | Usuário 'admin_master' fez logout.
+2025-11-09 19:54:15 | INFO     | sistema_logger | Tela de login minimalista carregada.
+2025-11-09 20:02:31 | INFO     | sistema_logger | === Logger inicializado ===
+2025-11-09 20:02:31 | INFO     | sistema_logger | Arquivo de log: C:\Users\User\.vscode\files\sistema_01\DATA\system.log
+2025-11-09 20:02:32 | INFO     | sistema_logger | Verificando migrações do banco de dados...
+2025-11-09 20:02:32 | INFO     | sistema_logger | Versão atual do schema: 3. 3 migrações disponíveis.
+2025-11-09 20:02:32 | DEBUG    | sistema_logger | Migração 1 já aplicada, pulando.
+2025-11-09 20:02:32 | DEBUG    | sistema_logger | Migração 2 já aplicada, pulando.
+2025-11-09 20:02:32 | DEBUG    | sistema_logger | Migração 3 já aplicada, pulando.
+2025-11-09 20:02:32 | INFO     | sistema_logger | Verificação de migrações finalizada.
+2025-11-09 20:02:32 | INFO     | sistema_logger | >>> Inicializando o Sistema de Gestão Minimalista com Flet...
+2025-11-09 20:02:32 | INFO     | sistema_logger | Inicializando o banco de dados...
+2025-11-09 20:02:32 | INFO     | sistema_logger | ✅ Usuários já existentes — nenhuma alteração feita.
+2025-11-09 20:02:32 | INFO     | sistema_logger | Banco de dados inicializado com sucesso.
+2025-11-09 20:02:32 | INFO     | sistema_logger | Tela de login minimalista carregada.
+2025-11-09 20:02:32 | INFO     | sistema_logger | Tela de login carregada com sucesso.
+2025-11-09 20:02:52 | INFO     | sistema_logger | Usuário 'admin_master' autenticado com sucesso (admin_master).
+2025-11-09 20:02:52 | INFO     | sistema_logger | Session started: admin_master (admin_master) -> a8f03fc2-b1a7-4a15-917f-784a504d0f5e
+2025-11-09 20:02:52 | DEBUG    | sistema_logger | Log registrado: admin_master -> login
+2025-11-09 20:02:52 | INFO     | sistema_logger | Usuário 'admin_master' autenticado com sucesso (role=admin_master).
+2025-11-09 20:02:52 | INFO     | sistema_logger | Dashboard carregado para admin_master (admin_master).
+2025-11-09 20:02:54 | INFO     | sistema_logger | Tela de produtos carregada.
+2025-11-09 20:02:55 | INFO     | sistema_logger | Tela de vendas carregada.
+2025-11-09 20:02:57 | INFO     | sistema_logger | Tela de relatórios com PDF e botão de pasta carregada.
+2025-11-09 20:03:00 | INFO     | sistema_logger | 4 vendas encontradas no período 2025-11-09 → 2025-11-09
+2025-11-09 20:03:00 | INFO     | sistema_logger | Relatório gerado de 2025-11-09 a 2025-11-09.
+2025-11-09 20:03:04 | DEBUG    | sistema_logger | 3 usuários listados.
+2025-11-09 20:03:04 | DEBUG    | sistema_logger | 3 usuários listados.
+2025-11-09 20:03:04 | INFO     | sistema_logger | Tela de gerenciamento de usuários carregada por '<bound method DashboardUI.voltar_dashboard of <APP.ui.dashboard_ui.DashboardUI object at 0x000001E49D991550>>'.
+2025-11-09 20:11:39 | INFO     | sistema_logger | === Logger inicializado ===
+2025-11-09 20:11:39 | INFO     | sistema_logger | Arquivo de log: C:\Users\User\.vscode\files\sistema_01\DATA\system.log
+2025-11-09 20:11:42 | INFO     | sistema_logger | Verificando migrações do banco de dados...
+2025-11-09 20:11:42 | INFO     | sistema_logger | Versão atual do schema: 3. 3 migrações disponíveis.
+2025-11-09 20:11:42 | DEBUG    | sistema_logger | Migração 1 já aplicada, pulando.
+2025-11-09 20:11:42 | DEBUG    | sistema_logger | Migração 2 já aplicada, pulando.
+2025-11-09 20:11:42 | DEBUG    | sistema_logger | Migração 3 já aplicada, pulando.
+2025-11-09 20:11:42 | INFO     | sistema_logger | Verificação de migrações finalizada.
+2025-11-09 20:15:42 | INFO     | sistema_logger | === Logger inicializado ===
+2025-11-09 20:15:42 | INFO     | sistema_logger | Arquivo de log: C:\Users\User\.vscode\files\sistema_01\DATA\system.log
+2025-11-09 20:15:43 | INFO     | sistema_logger | Verificando migrações do banco de dados...
+2025-11-09 20:15:43 | INFO     | sistema_logger | Versão atual do schema: 3. 3 migrações disponíveis.
+2025-11-09 20:15:43 | DEBUG    | sistema_logger | Migração 1 já aplicada, pulando.
+2025-11-09 20:15:43 | DEBUG    | sistema_logger | Migração 2 já aplicada, pulando.
+2025-11-09 20:15:43 | DEBUG    | sistema_logger | Migração 3 já aplicada, pulando.
+2025-11-09 20:15:43 | INFO     | sistema_logger | Verificação de migrações finalizada.
+2025-11-09 20:15:44 | INFO     | sistema_logger | >>> Inicializando o Sistema de Gestão Minimalista com Flet...
+2025-11-09 20:15:44 | INFO     | sistema_logger | Inicializando o banco de dados...
+2025-11-09 20:15:44 | INFO     | sistema_logger | ✅ Usuários já existentes — nenhuma alteração feita.
+2025-11-09 20:15:44 | INFO     | sistema_logger | Banco de dados inicializado com sucesso.
+2025-11-09 20:15:44 | INFO     | sistema_logger | Tela de login minimalista carregada.
+2025-11-09 20:15:44 | INFO     | sistema_logger | Tela de login carregada com sucesso.
+2025-11-09 20:17:02 | INFO     | sistema_logger | === Logger inicializado ===
+2025-11-09 20:17:02 | INFO     | sistema_logger | Arquivo de log: C:\Users\User\.vscode\files\sistema_01\DATA\system.log
+2025-11-09 20:17:03 | INFO     | sistema_logger | Verificando migrações do banco de dados...
+2025-11-09 20:17:03 | INFO     | sistema_logger | Versão atual do schema: 3. 3 migrações disponíveis.
+2025-11-09 20:17:03 | DEBUG    | sistema_logger | Migração 1 já aplicada, pulando.
+2025-11-09 20:17:03 | DEBUG    | sistema_logger | Migração 2 já aplicada, pulando.
+2025-11-09 20:17:03 | DEBUG    | sistema_logger | Migração 3 já aplicada, pulando.
+2025-11-09 20:17:03 | INFO     | sistema_logger | Verificação de migrações finalizada.
+2025-11-09 20:17:03 | INFO     | sistema_logger | >>> Inicializando o Sistema de Gestão Minimalista com Flet...
+2025-11-09 20:17:03 | INFO     | sistema_logger | Inicializando o banco de dados...
+2025-11-09 20:17:03 | INFO     | sistema_logger | ✅ Usuários já existentes — nenhuma alteração feita.
+2025-11-09 20:17:03 | INFO     | sistema_logger | Banco de dados inicializado com sucesso.
+2025-11-09 20:17:03 | INFO     | sistema_logger | Tela de login minimalista carregada.
+2025-11-09 20:17:03 | INFO     | sistema_logger | Tela de login carregada com sucesso.
+2025-11-09 20:17:19 | INFO     | sistema_logger | Usuário 'admin_master' autenticado com sucesso (admin_master).
+2025-11-09 20:17:19 | INFO     | sistema_logger | Session started: admin_master (admin_master) -> f71741f9-b180-42f9-904e-3691f8e2ebd1
+2025-11-09 20:17:19 | DEBUG    | sistema_logger | Log registrado: admin_master -> login
+2025-11-09 20:17:19 | INFO     | sistema_logger | Usuário 'admin_master' autenticado com sucesso (role=admin_master).
+2025-11-09 20:17:19 | INFO     | sistema_logger | Dashboard carregado para admin_master (admin_master).
+2025-11-09 20:17:20 | INFO     | sistema_logger | Tela de produtos carregada.
+2025-11-09 20:24:07 | INFO     | sistema_logger | Session ended: admin_master (admin_master) -> f71741f9-b180-42f9-904e-3691f8e2ebd1
+2025-11-09 20:24:07 | INFO     | sistema_logger | Usuário 'admin_master' fez logout.
+2025-11-09 20:24:07 | INFO     | sistema_logger | Tela de login minimalista carregada.
+2025-11-09 20:24:11 | INFO     | sistema_logger | === Logger inicializado ===
+2025-11-09 20:24:11 | INFO     | sistema_logger | Arquivo de log: C:\Users\User\.vscode\files\sistema_01\DATA\system.log
+2025-11-09 20:24:13 | INFO     | sistema_logger | Verificando migrações do banco de dados...
+2025-11-09 20:24:13 | INFO     | sistema_logger | Versão atual do schema: 3. 3 migrações disponíveis.
+2025-11-09 20:24:13 | DEBUG    | sistema_logger | Migração 1 já aplicada, pulando.
+2025-11-09 20:24:13 | DEBUG    | sistema_logger | Migração 2 já aplicada, pulando.
+2025-11-09 20:24:13 | DEBUG    | sistema_logger | Migração 3 já aplicada, pulando.
+2025-11-09 20:24:13 | INFO     | sistema_logger | Verificação de migrações finalizada.
+2025-11-09 20:24:13 | INFO     | sistema_logger | >>> Inicializando o Sistema de Gestão Minimalista com Flet...
+2025-11-09 20:24:13 | INFO     | sistema_logger | Inicializando o banco de dados...
+2025-11-09 20:24:13 | INFO     | sistema_logger | ✅ Usuários já existentes — nenhuma alteração feita.
+2025-11-09 20:24:13 | INFO     | sistema_logger | Banco de dados inicializado com sucesso.
+2025-11-09 20:24:13 | INFO     | sistema_logger | Tela de login minimalista carregada.
+2025-11-09 20:24:13 | INFO     | sistema_logger | Tela de login carregada com sucesso.
+2025-11-09 20:24:36 | INFO     | sistema_logger | Usuário 'admin_master' autenticado com sucesso (admin_master).
+2025-11-09 20:24:36 | INFO     | sistema_logger | Session started: admin_master (admin_master) -> 3301e3ea-d75a-4d85-9cee-b1f40de117f8
+2025-11-09 20:24:36 | DEBUG    | sistema_logger | Log registrado: admin_master -> login
+2025-11-09 20:24:36 | INFO     | sistema_logger | Usuário 'admin_master' autenticado com sucesso (role=admin_master).
+2025-11-09 20:24:36 | INFO     | sistema_logger | Dashboard carregado para admin_master (admin_master).
+2025-11-09 20:24:43 | INFO     | sistema_logger | Tela de produtos carregada.
+2025-11-09 20:24:45 | INFO     | sistema_logger | Tela de relatórios com PDF e botão de pasta carregada.
+2025-11-09 20:24:49 | DEBUG    | sistema_logger | 3 usuários listados.
+2025-11-09 20:24:49 | DEBUG    | sistema_logger | 3 usuários listados.
+2025-11-09 20:24:49 | INFO     | sistema_logger | Tela de gerenciamento de usuários carregada por '<bound method DashboardUI.voltar_dashboard of <APP.ui.dashboard_ui.DashboardUI object at 0x000002D9477996A0>>'.
+2025-11-09 20:25:08 | INFO     | sistema_logger | Tela de vendas carregada.
+2025-11-09 20:25:13 | INFO     | sistema_logger | Tela de vendas carregada.
+2025-11-09 20:25:17 | INFO     | sistema_logger | Tela de produtos carregada.
+2025-11-09 20:25:20 | INFO     | sistema_logger | Session ended: admin_master (admin_master) -> 3301e3ea-d75a-4d85-9cee-b1f40de117f8
+2025-11-09 20:25:20 | INFO     | sistema_logger | Usuário 'admin_master' fez logout.
+2025-11-09 20:25:20 | INFO     | sistema_logger | Tela de login minimalista carregada.
+2025-11-09 20:26:10 | INFO     | sistema_logger | === Logger inicializado ===
+2025-11-09 20:26:10 | INFO     | sistema_logger | Arquivo de log: C:\Users\User\.vscode\files\sistema_01\DATA\system.log
+2025-11-09 20:26:12 | INFO     | sistema_logger | Verificando migrações do banco de dados...
+2025-11-09 20:26:12 | INFO     | sistema_logger | Versão atual do schema: 3. 3 migrações disponíveis.
+2025-11-09 20:26:12 | DEBUG    | sistema_logger | Migração 1 já aplicada, pulando.
+2025-11-09 20:26:12 | DEBUG    | sistema_logger | Migração 2 já aplicada, pulando.
+2025-11-09 20:26:12 | DEBUG    | sistema_logger | Migração 3 já aplicada, pulando.
+2025-11-09 20:26:12 | INFO     | sistema_logger | Verificação de migrações finalizada.

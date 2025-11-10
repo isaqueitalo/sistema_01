@@ -1,0 +1,25 @@
+{
+    "app_name": "Sistema de Gestão Minimalista",
+    "version": "1.0.0",
+    "theme": "dark",
+    "debug": true,
+    "database_path": "DATA/system.db",
+    "log_path": "DATA/system.log",
+    "default_users": [
+        {
+            "username": "admin_master",
+            "password": "Master@123",
+            "role": "admin_master"
+        },
+        {
+            "username": "admin",
+            "password": "Admin@123",
+            "role": "admin"
+        },
+        {
+            "username": "vendedor1",
+            "password": "Vendedor@123",
+            "role": "vendedor"
+        }
+    ]
+}

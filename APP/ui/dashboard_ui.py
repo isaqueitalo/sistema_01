@@ -1,153 +1,173 @@
-# APP/ui/dashboard_ui.py
 import flet as ft
-from APP.ui.produtos_ui import ProdutosUI
-from APP.ui.vendas_ui import VendasUI
-from APP.ui.usuarios_ui import UsuariosUI
-from APP.ui.logs_viewer import LogsViewer
-from APP.ui.relatorios_ui import RelatoriosUI
 from APP.core.logger import logger
+from APP.core.session import session_manager
+from APP.ui.vendas_ui import VendasUI
+from APP.ui.produtos_ui import ProdutosUI
+from APP.ui.usuarios_ui import UsuariosUI
+from APP.ui.relatorios_ui import RelatoriosUI
+import time
 
 
 class DashboardUI:
-    """Painel principal do sistema."""
+    """Tela principal do sistema com controle de sessão e permissões."""
 
-    def __init__(self, page: ft.Page, username: str, role: str):
+    def __init__(self, page: ft.Page, username: str, role: str, session_id: str):
         self.page = page
         self.username = username
         self.role = role
+        self.session_id = session_id
+        self.page.clean()
+        self.page.title = f"Dashboard - {username} ({role})"
         self.build_ui()
         logger.info(f"Dashboard carregado para {username} ({role}).")
 
-    # ==================================================
-    # === CONSTRUÇÃO DA INTERFACE =======================
-    # ==================================================
+    # ============================================================
+    # === INTERFACE PRINCIPAL ===================================
+    # ============================================================
     def build_ui(self):
-        self.page.clean()
-        self.page.title = "Painel Principal"
-
-        # === Cabeçalho ===
         header = ft.Row(
             [
-                ft.Text("🏠 Painel de Controle", size=22, weight=ft.FontWeight.BOLD),
-                ft.Text(f"Usuário: {self.username} ({self.role})", size=14),
+                ft.Text(f"Bem-vindo, {self.username}!", size=20, weight=ft.FontWeight.BOLD),
+                ft.Container(expand=True),
+                ft.ElevatedButton("Sair", bgcolor=ft.Colors.RED_600, color=ft.Colors.WHITE, on_click=self.logout),
             ],
             alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
         )
 
-        # === Grelha de botões principais ===
-        botoes = [
+        cards = [
             self._card("📦 Produtos", "Gerencie o estoque", self.abrir_produtos),
-            self._card("💰 Vendas", "Registre e visualize vendas", self.abrir_vendas),
+            self._card("💰 Vendas", "Controle as vendas e histórico", self.abrir_vendas),
+            self._card("📊 Relatórios", "Gere relatórios e PDFs", self.abrir_relatorios),
         ]
 
-        # Botões exclusivos de administradores
-        if self.role == "admin":
-            botoes.append(self._card("📊 Relatórios", "Análises e gráficos", self.abrir_relatorios))
-            botoes.append(self._card("👥 Usuários", "Gerencie contas do sistema", self.abrir_usuarios))
-            botoes.append(self._card("🧾 Logs", "Visualize atividades do sistema", self.abrir_logs))
+        # Só admin e admin_master veem os usuários
+        if self.role in ("admin", "admin_master"):
+            cards.append(
+                self._card("👥 Usuários", "Gerencie contas e permissões", self.abrir_usuarios)
+            )
 
-        # === Layout dos botões ===
-        grid = ft.Row(
-            controls=botoes,
-            alignment=ft.MainAxisAlignment.CENTER,
-            wrap=True,
-        )
-
-        # === Botão de sair ===
-        btn_sair = ft.ElevatedButton(
-            "🚪 Sair",
-            bgcolor=ft.Colors.ERROR_CONTAINER,
-            color=ft.Colors.ON_ERROR_CONTAINER,
-            on_click=lambda e: self.voltar_login(),
-        )
+        sessoes_col = []
+        if self.role in ("admin", "admin_master"):
+            sessoes_col = [
+                ft.Divider(),
+                ft.Text("💻 Sessões Ativas", size=18, weight=ft.FontWeight.BOLD),
+                self._exibir_sessoes(),
+            ]
 
         self.page.add(
-            ft.Column(
-                [
-                    header,
-                    ft.Divider(),
-                    grid,
-                    ft.Divider(),
-                    btn_sair,
-                ],
-                horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+            ft.Container(
+                content=ft.Column(
+                    [
+                        header,
+                        ft.Divider(),
+                        ft.ResponsiveRow(cards, alignment=ft.MainAxisAlignment.CENTER),
+                        *sessoes_col,
+                    ],
+                    horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+                    spacing=20,
+                ),
+                padding=30,
+                bgcolor=ft.Colors.BLUE_GREY_900,
                 expand=True,
             )
         )
+        self.page.update()
 
-    # ==================================================
-    # === FUNÇÕES AUXILIARES ============================
-    # ==================================================
+    # ============================================================
+    # === CARDS COMPACTOS =======================================
+    # ============================================================
     def _card(self, titulo, subtitulo, callback):
-        """Cria um card de botão."""
-        return ft.Container(
+        """Cria um card clicável moderno e responsivo com hover funcional."""
+        c = ft.Container(
             content=ft.Column(
                 [
-                    ft.Text(titulo, size=20, weight=ft.FontWeight.BOLD),
-                    ft.Text(subtitulo, size=13),
+                    ft.Text(titulo, size=16, weight=ft.FontWeight.W_600, color=ft.Colors.WHITE),
+                    ft.Text(subtitulo, size=12, color=ft.Colors.GREY_400),
                 ],
                 alignment=ft.MainAxisAlignment.CENTER,
                 horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+                spacing=3,
             ),
-            width=180,
-            height=130,
-            bgcolor=ft.Colors.PRIMARY_CONTAINER,  # ✅ corrigido
-            border_radius=12,
-            alignment=ft.alignment.center,
+            width=160,
+            height=110,
+            bgcolor=ft.Colors.BLUE_GREY_800,
+            border_radius=8,
+            padding=12,
             ink=True,
+            shadow=ft.BoxShadow(
+                blur_radius=6,
+                spread_radius=1,
+                color=ft.Colors.with_opacity(0.2, ft.Colors.BLACK),
+            ),
+            animate=ft.Animation(150, "easeInOut"),
             on_click=lambda e: callback(),
-            padding=10,
         )
 
-    # ==================================================
-    # === FUNÇÕES DE NAVEGAÇÃO =========================
-    # ==================================================
-    def abrir_produtos(self):
-        ProdutosUI(self.page, voltar_callback=self.voltar_dashboard)
-        logger.info(f"{self.username} abriu o módulo de produtos.")
+        # Corrigido: agora a animação de hover é feita alterando a propriedade diretamente
+        def on_hover(e):
+            if e.data == "true":
+                c.bgcolor = ft.Colors.BLUE_700
+            else:
+                c.bgcolor = ft.Colors.BLUE_GREY_800
+            c.update()
 
-    def abrir_vendas(self):
-        VendasUI(self.page, voltar_callback=self.voltar_dashboard)
-        logger.info(f"{self.username} abriu o módulo de vendas.")
+        c.on_hover = on_hover
+        return c
 
-    def abrir_usuarios(self):
-        if self.role != "admin":
-            self.permissao_negada()
-            return
-        UsuariosUI(self.page, usuario_logado=self.username, voltar_callback=self.voltar_dashboard)
-        logger.info(f"{self.username} abriu o módulo de usuários.")
+    # ============================================================
+    # === LISTAGEM DE SESSÕES ===================================
+    # ============================================================
+    def _exibir_sessoes(self):
+        sessoes = session_manager.get_active_sessions()
+        if not sessoes:
+            return ft.Text("Nenhuma sessão ativa.", color=ft.Colors.GREY_400)
 
-    def abrir_logs(self):
-        if self.role != "admin":
-            self.permissao_negada()
-            return
-        LogsViewer(self.page, voltar_callback=self.voltar_dashboard)
-        logger.info(f"{self.username} abriu o módulo de logs.")
+        lista = []
+        for sid, s in sessoes.items():
+            tempo = int(time.time() - s["started_at"])
+            minutos = tempo // 60
+            lista.append(ft.Text(f"• {s['username']} ({s['role']}) — ativo há {minutos} min"))
+        return ft.Column(lista, spacing=4)
 
-    def abrir_relatorios(self):
-        if self.role != "admin":
-            self.permissao_negada()
-            return
-        RelatoriosUI(self.page, voltar_callback=self.voltar_dashboard)
-        logger.info(f"{self.username} abriu o módulo de relatórios.")
+    # ============================================================
+    # === AÇÕES ==================================================
+    # ============================================================
+    def logout(self, e):
+        try:
+            session_manager.end_session(self.session_id)
+            self._registrar_log("logout")
+            logger.info(f"Usuário '{self.username}' fez logout.")
+        except Exception as err:
+            logger.error(f"Erro ao encerrar sessão: {err}")
 
-    def voltar_dashboard(self):
-        """Recarrega o painel principal."""
-        self.build_ui()
-
-    def voltar_login(self):
-        """Retorna para a tela de login."""
+        # Import local para evitar circular import
         from APP.ui.login_ui import LoginUI
         self.page.clean()
         LoginUI(self.page)
-        logger.info(f"{self.username} saiu do sistema.")
 
-    def permissao_negada(self):
-        """Exibe alerta de acesso restrito."""
-        dlg = ft.AlertDialog(
-            title=ft.Text("Acesso negado ❌"),
-            content=ft.Text("Você não possui permissão para acessar esta área."),
-        )
-        self.page.dialog = dlg
-        dlg.open = True
-        self.page.update()
+    def abrir_produtos(self):
+        ProdutosUI(self.page, self.voltar_dashboard)
+
+    def abrir_vendas(self):
+        VendasUI(self.page, self.voltar_dashboard)
+
+    def abrir_usuarios(self):
+        UsuariosUI(self.page, self.voltar_dashboard)
+
+    def abrir_relatorios(self):
+        RelatoriosUI(self.page, self.voltar_dashboard)
+
+    def voltar_dashboard(self):
+        self.page.clean()
+        self.build_ui()
+
+    def _registrar_log(self, acao):
+        try:
+            from APP.core.database import conectar
+            conn = conectar()
+            cur = conn.cursor()
+            cur.execute("INSERT INTO logs (usuario, acao) VALUES (?, ?)", (self.username, acao))
+            conn.commit()
+            conn.close()
+        except Exception as e:
+            logger.error(f"Erro ao registrar log '{acao}': {e}", exc_info=True)

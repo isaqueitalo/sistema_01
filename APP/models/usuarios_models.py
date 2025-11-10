@@ -1,10 +1,10 @@
 from APP.core.database import conectar
-from APP.core.utils import hash_password
+from APP.core.utils import hash_password, check_password
 from APP.core.logger import logger
 
 
 class User:
-    """Modelo de Usuários — controle de autenticação, permissões e segurança."""
+    """Modelo de Usuários — autenticação, permissões e segurança com 3 níveis."""
 
     # ============================================================
     # AUTENTICAÇÃO
@@ -24,7 +24,7 @@ class User:
             return False, None
 
         senha_hash, role = row
-        if senha_hash == hash_password(password):
+        if check_password(password, senha_hash):
             logger.info(f"Usuário '{username}' autenticado com sucesso ({role}).")
             return True, role
         else:
@@ -35,16 +35,34 @@ class User:
     # REGISTRO
     # ============================================================
     @staticmethod
-    def registrar(username, password, role="user"):
-        """Cria um novo usuário, verificando duplicatas."""
+    def registrar(username, password, role="vendedor"):
+        """
+        Cria um novo usuário.
+        Roles válidos: 'admin_master', 'admin', 'vendedor'
+        """
+        roles_validos = ("admin_master", "admin", "vendedor")
+
+        if role not in roles_validos:
+            logger.error(f"Role inválida: {role}")
+            raise ValueError(f"Tipo de usuário inválido! Use um dos seguintes: {roles_validos}")
+
         conn = conectar()
         cur = conn.cursor()
 
+        # Verifica se o usuário já existe
         cur.execute("SELECT id FROM usuarios WHERE username = ?", (username,))
         if cur.fetchone():
             conn.close()
             logger.warning(f"Tentativa de criar usuário já existente: '{username}'.")
             raise ValueError("Usuário já existe!")
+
+        # Garante que só exista um admin_master
+        if role == "admin_master":
+            cur.execute("SELECT id FROM usuarios WHERE role = 'admin_master'")
+            if cur.fetchone():
+                conn.close()
+                logger.warning("Tentativa de criar outro admin_master bloqueada.")
+                raise PermissionError("Já existe um admin_master cadastrado!")
 
         cur.execute(
             "INSERT INTO usuarios (username, password_hash, role) VALUES (?, ?, ?)",
@@ -76,10 +94,9 @@ class User:
     def excluir(nome_alvo, usuario_logado):
         """
         Exclui um usuário, com segurança:
-        - Admin comum não pode se excluir.
-        - admin_master não pode ser excluído.
+        - 'admin_master' não pode ser excluído.
+        - O usuário logado não pode se autoexcluir.
         """
-
         if nome_alvo == "admin_master":
             logger.warning("Tentativa de excluir 'admin_master' bloqueada.")
             raise PermissionError("O usuário 'admin_master' não pode ser excluído!")
@@ -108,7 +125,7 @@ class User:
     # ============================================================
     @staticmethod
     def garantir_admin_padrao():
-        """Garante que 'admin_master' sempre exista no banco."""
+        """Garante que 'admin_master' exista no banco de dados."""
         conn = conectar()
         cur = conn.cursor()
 
@@ -117,10 +134,11 @@ class User:
             senha_hash = hash_password("1234")
             cur.execute(
                 "INSERT INTO usuarios (username, password_hash, role) VALUES (?, ?, ?)",
-                ("admin_master", senha_hash, "admin"),
+                ("admin_master", senha_hash, "admin_master"),
             )
             conn.commit()
-            logger.info("Usuário 'admin_master' criado automaticamente (senha: 1234).")
+            logger.info("Usuário 'admin_master' criado automaticamente (senha padrão: 1234).")
         else:
             logger.debug("Usuário 'admin_master' já existe.")
+
         conn.close()
