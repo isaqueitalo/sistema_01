@@ -46,21 +46,21 @@ class User:
 
         with conectar() as conn:
             cur = conn.cursor()
-        
-        # Verifica se o usuário já existe
+
+            # Verifica se o usuário já existe
             cur.execute("SELECT id FROM usuarios WHERE username = ?", (username,))
             if cur.fetchone():
                 logger.warning(f"Tentativa de criar usuário já existente: '{username}'.")
                 raise ValueError("Usuário já existe!")
 
-        # Garante que só exista um admin_master
-        if role == "admin_master":
-            cur.execute("SELECT id FROM usuarios WHERE role = 'admin_master'")
-            if cur.fetchone():
-                logger.warning("Tentativa de criar outro admin_master bloqueada.")
-                raise PermissionError("Já existe um admin_master cadastrado!")
+            # Garante que só exista um admin_master
+            if role == "admin_master":
+                cur.execute("SELECT id FROM usuarios WHERE role = 'admin_master'")
+                if cur.fetchone():
+                    logger.warning("Tentativa de criar outro admin_master bloqueada.")
+                    raise PermissionError("Já existe um admin_master cadastrado!")
 
-        cur.execute(
+            cur.execute(
                 "INSERT INTO usuarios (username, password_hash, role) VALUES (?, ?, ?)",
                 (username, hash_password(password), role),
             )
@@ -101,13 +101,12 @@ class User:
         with conectar() as conn:
             cur = conn.cursor()
 
+            cur.execute("SELECT id FROM usuarios WHERE username = ?", (nome_alvo,))
+            if not cur.fetchone():
+                logger.warning(f"Tentativa de excluir usuário inexistente: '{nome_alvo}'.")
+                raise ValueError("Usuário não encontrado!")
 
-        cur.execute("SELECT id FROM usuarios WHERE username = ?", (nome_alvo,))
-        if not cur.fetchone():
-            logger.warning(f"Tentativa de excluir usuário inexistente: '{nome_alvo}'.")
-            raise ValueError("Usuário não encontrado!")
-
-        cur.execute("DELETE FROM usuarios WHERE username = ?", (nome_alvo,))
+            cur.execute("DELETE FROM usuarios WHERE username = ?", (nome_alvo,))
 
         logger.info(f"Usuário '{nome_alvo}' excluído por '{usuario_logado}'.")
 

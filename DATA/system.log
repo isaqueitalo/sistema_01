@@ -3639,3 +3639,76 @@ AttributeError: type object 'Venda' has no attribute 'listar_periodo'. Did you m
 2025-11-10 22:26:53 | INFO     | sistema_logger | Tela de relatórios com PDF e botão de pasta carregada.
 2025-11-10 22:27:06 | INFO     | sistema_logger | 5 vendas encontradas no período 2025-11-04 → 2025-11-10
 2025-11-10 22:27:07 | INFO     | sistema_logger | Relatório gerado de 2025-11-04 a 2025-11-10.
+2025-11-10 23:17:35 | INFO     | sistema_logger | === Logger inicializado ===
+2025-11-10 23:17:35 | INFO     | sistema_logger | Arquivo de log: C:\Users\User\.vscode\files\sistema_01-1\DATA\system.log
+2025-11-10 23:17:37 | INFO     | sistema_logger | >>> Inicializando o Sistema de Gestão Minimalista com Flet...
+2025-11-10 23:17:37 | INFO     | sistema_logger | Inicializando o banco de dados...
+2025-11-10 23:17:37 | INFO     | sistema_logger | ✅ Usuários já existentes — nenhuma alteração feita.
+2025-11-10 23:17:37 | INFO     | sistema_logger | Banco de dados inicializado com sucesso.
+2025-11-10 23:17:37 | INFO     | sistema_logger | Verificando migrações do banco de dados...
+2025-11-10 23:17:37 | INFO     | sistema_logger | Versão atual do schema: 3. 3 migrações disponíveis.
+2025-11-10 23:17:37 | DEBUG    | sistema_logger | Migração 1 já aplicada, pulando.
+2025-11-10 23:17:37 | DEBUG    | sistema_logger | Migração 2 já aplicada, pulando.
+2025-11-10 23:17:37 | DEBUG    | sistema_logger | Migração 3 já aplicada, pulando.
+2025-11-10 23:17:37 | INFO     | sistema_logger | Verificação de migrações finalizada.
+2025-11-10 23:17:37 | CRITICAL | sistema_logger | Erro crítico ao iniciar o sistema: module 'flet' has no attribute 'MaterialState'
+Traceback (most recent call last):
+  File "c:\Users\User\.vscode\files\sistema_01-1\main.py", line 44, in run_app
+    LoginUI(page)
+    ~~~~~~~^^^^^^
+  File "c:\Users\User\.vscode\files\sistema_01-1\APP\ui\login_ui.py", line 42, in __init__
+    self.login_button = style.primary_button("Entrar", on_click=self.login_action)
+                        ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\User\.vscode\files\sistema_01-1\APP\ui\style.py", line 51, in primary_button
+    bgcolor={ft.MaterialState.HOVERED: ACCENT_HOVER},
+             ^^^^^^^^^^^^^^^^
+AttributeError: module 'flet' has no attribute 'MaterialState'
+2025-11-10 23:29:09 | INFO     | sistema_logger | === Logger inicializado ===
+2025-11-10 23:29:09 | INFO     | sistema_logger | Arquivo de log: C:\Users\User\.vscode\files\sistema_01-1\DATA\system.log
+2025-11-10 23:29:11 | INFO     | sistema_logger | >>> Inicializando o Sistema de Gestão Minimalista com Flet...
+2025-11-10 23:29:11 | INFO     | sistema_logger | Inicializando o banco de dados...
+2025-11-10 23:29:11 | INFO     | sistema_logger | ✅ Usuários já existentes — nenhuma alteração feita.
+2025-11-10 23:29:11 | INFO     | sistema_logger | Banco de dados inicializado com sucesso.
+2025-11-10 23:29:11 | INFO     | sistema_logger | Verificando migrações do banco de dados...
+2025-11-10 23:29:11 | INFO     | sistema_logger | Versão atual do schema: 3. 3 migrações disponíveis.
+2025-11-10 23:29:11 | DEBUG    | sistema_logger | Migração 1 já aplicada, pulando.
+2025-11-10 23:29:11 | DEBUG    | sistema_logger | Migração 2 já aplicada, pulando.
+2025-11-10 23:29:11 | DEBUG    | sistema_logger | Migração 3 já aplicada, pulando.
+2025-11-10 23:29:11 | INFO     | sistema_logger | Verificação de migrações finalizada.
+2025-11-10 23:29:11 | INFO     | sistema_logger | Tela de login minimalista carregada.
+2025-11-10 23:29:11 | INFO     | sistema_logger | Tela de login carregada com sucesso.
+2025-11-10 23:29:32 | INFO     | sistema_logger | Usuário 'admin_master' autenticado com sucesso (admin_master).
+2025-11-10 23:29:32 | INFO     | sistema_logger | Session started: admin_master (admin_master) -> f95735c1-3b00-4251-802b-9d242541ab9b
+2025-11-10 23:29:32 | DEBUG    | sistema_logger | Log registrado: admin_master -> login
+2025-11-10 23:29:32 | INFO     | sistema_logger | Usuário 'admin_master' autenticado com sucesso (role=admin_master).
+2025-11-10 23:29:32 | INFO     | sistema_logger | Dashboard carregado para admin_master (admin_master).
+2025-11-10 23:40:03 | INFO     | sistema_logger | === Logger inicializado ===
+2025-11-10 23:40:03 | INFO     | sistema_logger | Arquivo de log: C:\Users\User\.vscode\files\sistema_01-1\DATA\system.log
+2025-11-10 23:40:05 | INFO     | sistema_logger | >>> Inicializando o Sistema de Gestão Minimalista com Flet...
+2025-11-10 23:40:05 | INFO     | sistema_logger | Inicializando o banco de dados...
+2025-11-10 23:40:05 | INFO     | sistema_logger | ✅ Usuários já existentes — nenhuma alteração feita.
+2025-11-10 23:40:05 | INFO     | sistema_logger | Banco de dados inicializado com sucesso.
+2025-11-10 23:40:05 | INFO     | sistema_logger | Verificando migrações do banco de dados...
+2025-11-10 23:40:05 | INFO     | sistema_logger | Versão atual do schema: 3. 3 migrações disponíveis.
+2025-11-10 23:40:05 | DEBUG    | sistema_logger | Migração 1 já aplicada, pulando.
+2025-11-10 23:40:05 | DEBUG    | sistema_logger | Migração 2 já aplicada, pulando.
+2025-11-10 23:40:05 | DEBUG    | sistema_logger | Migração 3 já aplicada, pulando.
+2025-11-10 23:40:05 | INFO     | sistema_logger | Verificação de migrações finalizada.
+2025-11-10 23:40:05 | INFO     | sistema_logger | Tela de login minimalista carregada.
+2025-11-10 23:40:05 | INFO     | sistema_logger | Tela de login carregada com sucesso.
+2025-11-10 23:40:19 | INFO     | sistema_logger | Usuário 'admin_master' autenticado com sucesso (admin_master).
+2025-11-10 23:40:19 | INFO     | sistema_logger | Session started: admin_master (admin_master) -> a8cf0d8e-3124-40bd-86a3-6565df278dc8
+2025-11-10 23:40:19 | DEBUG    | sistema_logger | Log registrado: admin_master -> login
+2025-11-10 23:40:19 | INFO     | sistema_logger | Usuário 'admin_master' autenticado com sucesso (role=admin_master).
+2025-11-10 23:40:19 | INFO     | sistema_logger | Dashboard carregado para admin_master (admin_master).
+2025-11-10 23:40:39 | INFO     | sistema_logger | Tela de vendas carregada.
+2025-11-10 23:40:52 | INFO     | sistema_logger | Tela de produtos carregada.
+2025-11-10 23:41:04 | INFO     | sistema_logger | Tela de relatórios com PDF e botão de pasta carregada.
+2025-11-10 23:41:11 | INFO     | sistema_logger | 5 vendas encontradas no período 2025-11-05 → 2025-11-10
+2025-11-10 23:41:11 | INFO     | sistema_logger | Relatório gerado de 2025-11-05 a 2025-11-10.
+2025-11-10 23:41:17 | DEBUG    | sistema_logger | 3 usuários listados.
+2025-11-10 23:41:17 | DEBUG    | sistema_logger | 3 usuários listados.
+2025-11-10 23:41:17 | INFO     | sistema_logger | Tela de gerenciamento de usuários carregada por '<bound method DashboardUI.voltar_dashboard of <APP.ui.dashboard_ui.DashboardUI object at 0x000002AE047741A0>>'.
+2025-11-10 23:41:24 | INFO     | sistema_logger | Session ended: admin_master (admin_master) -> a8cf0d8e-3124-40bd-86a3-6565df278dc8
+2025-11-10 23:41:24 | INFO     | sistema_logger | Usuário 'admin_master' fez logout.
+2025-11-10 23:41:24 | INFO     | sistema_logger | Tela de login minimalista carregada.

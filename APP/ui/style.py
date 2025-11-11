@@ -48,7 +48,7 @@ def primary_button(label: str, *, icon: str | None = None, on_click=None) -> ft.
             shape=_BUTTON_SHAPE,
             padding=ft.Padding(22, 0, 22, 0),
             elevation=0,
-            bgcolor={ft.MaterialState.HOVERED: ACCENT_HOVER},
+            bgcolor={ft.ControlState.HOVERED: ACCENT_HOVER},
         ),
     )
 
@@ -67,7 +67,7 @@ def danger_button(label: str, *, icon: str | None = None, on_click=None) -> ft.E
             shape=_BUTTON_SHAPE,
             padding=ft.Padding(22, 0, 22, 0),
             elevation=0,
-            bgcolor={ft.MaterialState.HOVERED: "#FF7F88"},
+            bgcolor={ft.ControlState.HOVERED: "#FF7F88"},
         ),
     )
 
@@ -80,10 +80,10 @@ def ghost_button(label: str, *, icon: str | None = None, on_click=None) -> ft.Te
         icon=icon,
         on_click=on_click,
         style=ft.ButtonStyle(
-            color={ft.MaterialState.DEFAULT: TEXT_SECONDARY, ft.MaterialState.HOVERED: TEXT_PRIMARY},
+             color={ft.ControlState.DEFAULT: TEXT_SECONDARY, ft.ControlState.HOVERED: TEXT_PRIMARY},
             shape=_BUTTON_SHAPE,
             padding=ft.Padding(18, 0, 18, 0),
-            overlay_color={ft.MaterialState.HOVERED: "#ffffff20"},
+            overlay_color={ft.ControlState.HOVERED: "#ffffff20"},
         ),
     )
 

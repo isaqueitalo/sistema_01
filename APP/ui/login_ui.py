@@ -4,6 +4,7 @@ from APP.ui.dashboard_ui import DashboardUI
 from APP.core.logger import logger
 from APP.core.session import session_manager
 from APP.core.database import conectar
+from APP.ui import style
 
 
 class LoginUI:
@@ -14,61 +15,60 @@ class LoginUI:
         self.page.title = "Sistema de Gestão - Login"
         self.page.vertical_alignment = ft.MainAxisAlignment.CENTER
         self.page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
-        self.page.bgcolor = ft.Colors.BLUE_GREY_900
+        self.page.bgcolor = style.BACKGROUND
         self.page.theme_mode = ft.ThemeMode.DARK
 
-        self.username_field = ft.TextField(
-            label="Usuário",
-            width=280,
-            prefix_icon=ft.Icons.PERSON_OUTLINE,
-            autofocus=True,
+        self.username_field = style.apply_textfield_style(
+            ft.TextField(
+                label="Usuário",
+                width=320,
+                prefix_icon=ft.Icons.PERSON_OUTLINE,
+                autofocus=True,
+            )
         )
 
-        self.password_field = ft.TextField(
-            label="Senha",
-            password=True,
-            can_reveal_password=True,
-            width=280,
-            prefix_icon=ft.Icons.LOCK_OUTLINE,
+        self.password_field = style.apply_textfield_style(
+            ft.TextField(
+                label="Senha",
+                password=True,
+                can_reveal_password=True,
+                width=320,
+                prefix_icon=ft.Icons.LOCK_OUTLINE,
+            )
         )
 
-        self.feedback = ft.Text("", color=ft.Colors.RED_400, size=13)
+        self.feedback = ft.Text("", color=style.ERROR, size=13)
 
-        self.login_button = ft.ElevatedButton(
-            "Entrar",
-            width=280,
-            bgcolor=ft.Colors.BLUE_600,
-            color=ft.Colors.WHITE,
-            on_click=self.login_action,
-        )
+        self.login_button = style.primary_button("Entrar", on_click=self.login_action)
 
         self.page.add(
-            ft.Container(
-                content=ft.Column(
+            style.surface_container(
+                ft.Column(
                     [
-                        ft.Text("🔐 Sistema de Gestão", size=24, weight=ft.FontWeight.BOLD),
-                        ft.Text("Acesse com suas credenciais", size=14, color=ft.Colors.GREY_400),
-                        ft.Divider(height=20, color="transparent"),
+                        ft.Text(
+                            "Sistema de Gestão",
+                            size=26,
+                            weight=ft.FontWeight.BOLD,
+                            color=style.TEXT_PRIMARY,
+                        ),
+                        ft.Text(
+                            "Acesse com suas credenciais",
+                            size=14,
+                            color=style.TEXT_SECONDARY,
+                        ),
+                        ft.Divider(height=20, color=style.DIVIDER),
                         self.username_field,
                         self.password_field,
                         self.feedback,
-                        ft.Divider(height=10, color="transparent"),
+                        ft.Container(height=4),
                         self.login_button,
-                        ft.TextButton(
-                            "Esqueci minha senha",
-                            on_click=self.forgot_password,
-                            style=ft.ButtonStyle(color=ft.Colors.BLUE_200),
-                        ),
+                        style.ghost_button("Esqueci minha senha", on_click=self.forgot_password),
                     ],
                     horizontal_alignment=ft.CrossAxisAlignment.CENTER,
-                    spacing=10,
+                    spacing=12,
                 ),
-                padding=40,
-                width=400,
-                border_radius=10,
-                bgcolor=ft.Colors.BLUE_GREY_800,
-                alignment=ft.alignment.center,
-                shadow=ft.BoxShadow(blur_radius=20, color=ft.Colors.BLACK12),
+                padding=36,
+                width=420,
             )
         )
 

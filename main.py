@@ -5,6 +5,7 @@ from APP.core.database import inicializar_banco
 from APP.core.config import config
 from APP.ui.login_ui import LoginUI
 from APP.core.migrations import run_migrations
+from APP.ui import style
 
 def run_app(page: ft.Page) -> None:
     try:
@@ -12,10 +13,28 @@ def run_app(page: ft.Page) -> None:
 
         # Configurações básicas da página
         page.title = config.app_name
-        page.theme_mode = ft.ThemeMode.DARK if config.theme.lower() == "dark" else ft.ThemeMode.LIGHT
+        page.theme_mode = ft.ThemeMode.DARK
+        page.theme = ft.Theme(
+            color_scheme=ft.ColorScheme(
+                primary=style.ACCENT,
+                on_primary=style.TEXT_PRIMARY,
+                secondary=style.SURFACE_ALT,
+                on_secondary=style.TEXT_PRIMARY,
+                surface=style.SURFACE,
+                on_surface=style.TEXT_PRIMARY,
+                background=style.BACKGROUND,
+                on_background=style.TEXT_PRIMARY,
+                error=style.ERROR,
+                on_error=style.TEXT_PRIMARY,
+                primary_container=style.SURFACE_ALT,
+                on_primary_container=style.TEXT_PRIMARY,
+            ),
+            visual_density=ft.VisualDensity.COMPACT,
+        )
+        page.bgcolor = style.BACKGROUND
         page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
         page.vertical_alignment = ft.MainAxisAlignment.CENTER
-        page.padding = 20
+        page.padding = 0
 
         # Inicializa banco e aplica migrações
         inicializar_banco()

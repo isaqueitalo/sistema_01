@@ -1,6 +1,7 @@
 import flet as ft
 from APP.models.usuarios_models import User
 from APP.core.logger import logger
+from APP.ui import style
 
 
 class UsuariosUI:
@@ -18,16 +19,26 @@ class UsuariosUI:
     def build_ui(self):
         self.page.clean()
         self.page.title = "Gerenciamento de Usuários"
+        self.page.bgcolor = style.BACKGROUND
 
-        titulo = ft.Text("👥 Gerenciamento de Usuários", size=22, weight=ft.FontWeight.BOLD)
+        titulo = ft.Text(
+            "👥 Gerenciamento de Usuários",
+            size=22,
+            weight=ft.FontWeight.BOLD,
+            color=style.TEXT_PRIMARY,
+        )
 
         # Campos
-        self.username_field = ft.TextField(label="Usuário", width=250)
-        self.password_field = ft.TextField(
-            label="Senha",
-            password=True,
-            can_reveal_password=True,
-            width=250
+        self.username_field = style.apply_textfield_style(
+            ft.TextField(label="Usuário", width=260)
+        )
+        self.password_field = style.apply_textfield_style(
+            ft.TextField(
+                label="Senha",
+                password=True,
+                can_reveal_password=True,
+                width=260,
+            )
         )
         self.role_dropdown = ft.Dropdown(
             label="Função",
@@ -37,44 +48,75 @@ class UsuariosUI:
                 ft.dropdown.Option("vendedor"),
             ],
             value="vendedor",
-            width=200,
+            width=220,
+            bgcolor=style.SURFACE_ALT,
+            border_radius=8,
+            border_color=style.BORDER,
+            focused_border_color=style.ACCENT,
+            color=style.TEXT_PRIMARY,
+            text_style=ft.TextStyle(color=style.TEXT_PRIMARY),
+            label_style=ft.TextStyle(color=style.TEXT_SECONDARY),
+            hint_style=ft.TextStyle(color=style.TEXT_SECONDARY),
         )
 
         # Mensagem
-        self.message = ft.Text("", color=ft.Colors.RED_400)
+        self.message = ft.Text("", color=style.TEXT_SECONDARY)
 
         # Botões
-        btn_add = ft.ElevatedButton("Adicionar Usuário", on_click=self.adicionar_usuario)
-        btn_voltar = ft.OutlinedButton(
-            "← Voltar",
-            on_click=lambda e: self.voltar_callback() if callable(self.voltar_callback) else self.voltar_login()
+        btn_add = style.primary_button(
+            "Adicionar Usuário",
+            icon=ft.Icons.PERSON_ADD_ALT,
+            on_click=self.adicionar_usuario,
+        )
+        btn_voltar = style.ghost_button(
+            "Voltar",
+            icon=ft.Icons.ARROW_BACK_ROUNDED,
+            on_click=lambda e: self.voltar_callback() if callable(self.voltar_callback) else self.voltar_login(),
         )
 
         # Tabela
-        self.tabela = ft.DataTable(
-            columns=[
-                ft.DataColumn(ft.Text("ID")),
-                ft.DataColumn(ft.Text("Usuário")),
-                ft.DataColumn(ft.Text("Função")),
-            ],
-            rows=[],
+        self.tabela = style.stylize_datatable(
+            ft.DataTable(
+                columns=[
+                    ft.DataColumn(ft.Text("ID")),
+                    ft.DataColumn(ft.Text("Usuário")),
+                    ft.DataColumn(ft.Text("Função")),
+                ],
+                rows=[],
+            )
         )
 
         # Layout principal
+        layout = ft.Column(
+            [
+                titulo,
+                ft.Row(
+                    [self.username_field, self.password_field, self.role_dropdown],
+                    alignment=ft.MainAxisAlignment.CENTER,
+                    spacing=12,
+                    wrap=True,
+                ),
+                ft.Row([btn_add, btn_voltar], alignment=ft.MainAxisAlignment.CENTER, spacing=12),
+                self.message,
+                ft.Divider(color=style.DIVIDER),
+                ft.Text(
+                    "📋 Usuários Cadastrados",
+                    size=18,
+                    weight=ft.FontWeight.BOLD,
+                    color=style.TEXT_PRIMARY,
+                ),
+                self.tabela,
+            ],
+            spacing=18,
+            horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+            scroll=ft.ScrollMode.AUTO,
+        )
         self.page.add(
-            ft.Column(
-                [
-                    titulo,
-                    ft.Row([self.username_field, self.password_field, self.role_dropdown]),
-                    ft.Row([btn_add, btn_voltar]),
-                    self.message,
-                    ft.Divider(),
-                    ft.Text("📋 Usuários Cadastrados", size=18, weight=ft.FontWeight.BOLD),
-                    self.tabela,
-                ],
-                spacing=15,
-                horizontal_alignment=ft.CrossAxisAlignment.CENTER,
-                scroll=ft.ScrollMode.AUTO,
+            ft.Container(
+                content=style.surface_container(layout, padding=28),
+                padding=ft.Padding(24, 24, 24, 24),
+                expand=True,
+                alignment=ft.alignment.center,
             )
         )
 
@@ -90,9 +132,9 @@ class UsuariosUI:
         self.tabela.rows = [
             ft.DataRow(
                 cells=[
-                    ft.DataCell(ft.Text(str(u[0]))),
-                    ft.DataCell(ft.Text(u[1])),
-                    ft.DataCell(ft.Text(u[2])),
+                    ft.DataCell(ft.Text(str(u[0]), color=style.TEXT_SECONDARY)),
+                    ft.DataCell(ft.Text(u[1], color=style.TEXT_PRIMARY)),
+                    ft.DataCell(ft.Text(u[2], color=style.TEXT_SECONDARY)),
                 ]
             ) for u in usuarios
         ]
@@ -106,19 +148,19 @@ class UsuariosUI:
 
         if not nome or not senha:
             self.message.value = "Preencha todos os campos."
-            self.message.color = ft.Colors.RED_400
+            self.message.color = style.ERROR
             self.page.update()
             return
 
         try:
             User.registrar(nome, senha, role)
             self.message.value = f"✅ Usuário '{nome}' criado com sucesso."
-            self.message.color = ft.Colors.GREEN_400
+            self.message.color = style.SUCCESS
             logger.info(f"Usuário '{nome}' criado com função '{role}'.")
             self.atualizar_tabela()
         except Exception as err:
             self.message.value = f"Erro: {err}"
-            self.message.color = ft.Colors.RED_400
+            self.message.color = style.ERROR
             logger.error(f"Erro ao criar usuário: {err}")
 
         self.page.update()

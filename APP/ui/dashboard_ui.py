@@ -5,6 +5,7 @@ from APP.ui.vendas_ui import VendasUI
 from APP.ui.produtos_ui import ProdutosUI
 from APP.ui.usuarios_ui import UsuariosUI
 from APP.ui.relatorios_ui import RelatoriosUI
+from APP.ui import style
 import time
 
 
@@ -18,6 +19,7 @@ class DashboardUI:
         self.session_id = session_id
         self.page.clean()
         self.page.title = f"Dashboard - {username} ({role})"
+        self.page.bgcolor = style.BACKGROUND
         self.build_ui()
         logger.info(f"Dashboard carregado para {username} ({role}).")
 
@@ -27,9 +29,14 @@ class DashboardUI:
     def build_ui(self):
         header = ft.Row(
             [
-                ft.Text(f"Bem-vindo, {self.username}!", size=20, weight=ft.FontWeight.BOLD),
+                ft.Text(
+                    f"Bem-vindo, {self.username}!",
+                    size=22,
+                    weight=ft.FontWeight.BOLD,
+                    color=style.TEXT_PRIMARY,
+                ),
                 ft.Container(expand=True),
-                ft.ElevatedButton("Sair", bgcolor=ft.Colors.RED_600, color=ft.Colors.WHITE, on_click=self.logout),
+                style.danger_button("Sair", icon=ft.Icons.LOGOUT_ROUNDED, on_click=self.logout),
             ],
             alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
         )
@@ -49,26 +56,37 @@ class DashboardUI:
         sessoes_col = []
         if self.role in ("admin", "admin_master"):
             sessoes_col = [
-                ft.Divider(),
-                ft.Text("💻 Sessões Ativas", size=18, weight=ft.FontWeight.BOLD),
+                ft.Divider(color=style.DIVIDER),
+                ft.Text(
+                    "💻 Sessões Ativas",
+                    size=18,
+                    weight=ft.FontWeight.BOLD,
+                    color=style.TEXT_PRIMARY,
+                ),
                 self._exibir_sessoes(),
             ]
 
-        self.page.add(
-            ft.Container(
-                content=ft.Column(
-                    [
-                        header,
-                        ft.Divider(),
-                        ft.ResponsiveRow(cards, alignment=ft.MainAxisAlignment.CENTER),
-                        *sessoes_col,
-                    ],
-                    horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+        content = ft.Column(
+            [
+                header,
+                ft.Divider(color=style.DIVIDER),
+                ft.ResponsiveRow(
+                    cards,
+                    alignment=ft.MainAxisAlignment.CENTER,
+                    run_spacing=20,
                     spacing=20,
                 ),
-                padding=30,
-                bgcolor=ft.Colors.BLUE_GREY_900,
+                *sessoes_col,
+            ],
+            horizontal_alignment=ft.CrossAxisAlignment.STRETCH,
+            spacing=24,
+        )
+        self.page.add(
+            ft.Container(
+                content=style.surface_container(content, padding=32),
+                padding=ft.Padding(24, 24, 24, 24),
                 expand=True,
+                alignment=ft.alignment.center,
             )
         )
         self.page.update()
@@ -81,34 +99,30 @@ class DashboardUI:
         c = ft.Container(
             content=ft.Column(
                 [
-                    ft.Text(titulo, size=16, weight=ft.FontWeight.W_600, color=ft.Colors.WHITE),
-                    ft.Text(subtitulo, size=12, color=ft.Colors.GREY_400),
+                   ft.Text(titulo, size=15, weight=ft.FontWeight.W_600, color=style.TEXT_PRIMARY),
+                    ft.Text(subtitulo, size=12, color=style.TEXT_SECONDARY, text_align=ft.TextAlign.CENTER),
                 ],
                 alignment=ft.MainAxisAlignment.CENTER,
                 horizontal_alignment=ft.CrossAxisAlignment.CENTER,
-                spacing=3,
+                spacing=6,
             ),
-            width=160,
-            height=110,
-            bgcolor=ft.Colors.BLUE_GREY_800,
-            border_radius=8,
-            padding=12,
+            
+            bgcolor=style.SURFACE_ALT,
+            border_radius=12,
+            padding=ft.Padding(16, 20, 16, 20),
             ink=True,
-            shadow=ft.BoxShadow(
-                blur_radius=6,
-                spread_radius=1,
-                color=ft.Colors.with_opacity(0.2, ft.Colors.BLACK),
-            ),
+            border=ft.border.all(1, style.BORDER),
             animate=ft.Animation(150, "easeInOut"),
             on_click=lambda e: callback(),
+            col={"xs": 12, "sm": 6, "md": 4, "lg": 3},
         )
 
         # Corrigido: agora a animação de hover é feita alterando a propriedade diretamente
         def on_hover(e):
             if e.data == "true":
-                c.bgcolor = ft.Colors.BLUE_700
+                c.bgcolor = style.ACCENT
             else:
-                c.bgcolor = ft.Colors.BLUE_GREY_800
+                c.bgcolor = style.SURFACE_ALT
             c.update()
 
         c.on_hover = on_hover
@@ -120,13 +134,18 @@ class DashboardUI:
     def _exibir_sessoes(self):
         sessoes = session_manager.get_active_sessions()
         if not sessoes:
-            return ft.Text("Nenhuma sessão ativa.", color=ft.Colors.GREY_400)
+            return ft.Text("Nenhuma sessão ativa.", color=style.TEXT_SECONDARY)
 
         lista = []
         for sid, s in sessoes.items():
             tempo = int(time.time() - s["started_at"])
             minutos = tempo // 60
-            lista.append(ft.Text(f"• {s['username']} ({s['role']}) — ativo há {minutos} min"))
+            lista.append(
+                ft.Text(
+                    f"• {s['username']} ({s['role']}) — ativo há {minutos} min",
+                    color=style.TEXT_SECONDARY,
+                )
+            )
         return ft.Column(lista, spacing=4)
 
     # ============================================================

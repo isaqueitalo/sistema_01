@@ -7,10 +7,12 @@ import subprocess
 import matplotlib
 matplotlib.use("Agg")  # ✅ Evita aviso de GUI fora da main thread
 import matplotlib.pyplot as plt
+plt.style.use("dark_background")
 from datetime import datetime
 from fpdf import FPDF
 from APP.models.vendas_models import Venda
 from APP.core.logger import logger
+from APP.ui import style
 
 
 class RelatoriosUI:
@@ -27,49 +29,79 @@ class RelatoriosUI:
     def build_ui(self):
         self.page.clean()
         self.page.title = "Relatórios de Vendas"
+        self.page.bgcolor = style.BACKGROUND
 
         hoje = datetime.now().strftime("%d/%m/%Y")
 
         # Campos de data
-        self.data_inicio = ft.TextField(
-            label="Data Início (DD/MM/YYYY)",
-            value=hoje,
-            width=200,
-            keyboard_type=ft.KeyboardType.DATETIME,
+        self.data_inicio = style.apply_textfield_style(
+            ft.TextField(
+                label="Data Início (DD/MM/YYYY)",
+                value=hoje,
+                width=220,
+                keyboard_type=ft.KeyboardType.DATETIME,
+            )
         )
-        self.data_fim = ft.TextField(
-            label="Data Fim (DD/MM/YYYY)",
-            value=hoje,
-            width=200,
-            keyboard_type=ft.KeyboardType.DATETIME,
+        self.data_fim = style.apply_textfield_style(
+            ft.TextField(
+                label="Data Fim (DD/MM/YYYY)",
+                value=hoje,
+                width=220,
+                keyboard_type=ft.KeyboardType.DATETIME,
+            )
         )
 
-        gerar_btn = ft.ElevatedButton("🔍 Gerar Relatório", on_click=self.gerar_relatorio)
-        exportar_btn = ft.ElevatedButton("📄 Exportar PDF", on_click=self.exportar_pdf)
-        abrir_pasta_btn = ft.OutlinedButton("📂 Abrir Pasta", on_click=self.abrir_pasta)
-        voltar_btn = ft.OutlinedButton("← Voltar", on_click=lambda e: self.voltar_callback())
+        gerar_btn = style.primary_button("Gerar Relatório", icon=ft.Icons.SEARCH_ROUNDED, on_click=self.gerar_relatorio)
+        exportar_btn = style.primary_button("Exportar PDF", icon=ft.Icons.PICTURE_AS_PDF_OUTLINED, on_click=self.exportar_pdf)
+        abrir_pasta_btn = style.ghost_button("Abrir Pasta", icon=ft.Icons.FOLDER_OPEN, on_click=self.abrir_pasta)
+        voltar_btn = style.ghost_button(
+            "Voltar",
+            icon=ft.Icons.ARROW_BACK_ROUNDED,
+            on_click=lambda e: self.voltar_callback() if callable(self.voltar_callback) else None,
+        )
 
         self.resumo_text = ft.Text(
             "Selecione um período e clique em 'Gerar Relatório'.",
             size=16,
             weight=ft.FontWeight.BOLD,
+            color=style.TEXT_PRIMARY,
         )
 
         self.graficos = ft.Row(spacing=20, wrap=True, alignment=ft.MainAxisAlignment.CENTER)
 
+        header = ft.Text(
+            "📊 Relatórios de Vendas",
+            size=22,
+            weight=ft.FontWeight.BOLD,
+            color=style.TEXT_PRIMARY,
+        )
+
+        layout = ft.Column(
+            [
+                header,
+                ft.Row(
+                    [self.data_inicio, self.data_fim, gerar_btn, exportar_btn, abrir_pasta_btn, voltar_btn],
+                    alignment=ft.MainAxisAlignment.CENTER,
+                    spacing=14,
+                    wrap=True,
+                ),
+                ft.Divider(color=style.DIVIDER),
+                self.resumo_text,
+                ft.Divider(color=style.DIVIDER),
+                self.graficos,
+            ],
+            alignment=ft.MainAxisAlignment.CENTER,
+            horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+            spacing=18,
+            scroll=ft.ScrollMode.AUTO,
+        )
+
         self.page.add(
-            ft.Column(
-                [
-                    ft.Text("📊 Relatórios de Vendas", size=22, weight=ft.FontWeight.BOLD),
-                    ft.Row([self.data_inicio, self.data_fim, gerar_btn, exportar_btn, abrir_pasta_btn, voltar_btn]),
-                    ft.Divider(),
-                    self.resumo_text,
-                    ft.Divider(),
-                    self.graficos,
-                ],
-                alignment=ft.MainAxisAlignment.CENTER,
-                horizontal_alignment=ft.CrossAxisAlignment.CENTER,
-                scroll=ft.ScrollMode.AUTO,
+            ft.Container(
+                content=style.surface_container(layout, padding=28),
+                padding=ft.Padding(24, 24, 24, 24),
+                expand=True,
+                alignment=ft.alignment.center,
             )
         )
 
@@ -96,12 +128,14 @@ class RelatoriosUI:
 
         if not vendas:
             self.resumo_text.value = f"⚠️ Nenhuma venda encontrada entre {self.data_inicio.value} e {self.data_fim.value}."
+            self.resumo_text.color = style.TEXT_SECONDARY
             self.page.update()
             return
 
         total_vendas = len(vendas)
         total_valor = sum(v[3] for v in vendas)
         self.resumo_text.value = f"🧾 Total de vendas: {total_vendas} | 💵 Valor total: R$ {total_valor:.2f}"
+        self.resumo_text.color = style.TEXT_PRIMARY
 
         produtos = {}
         for v in vendas:
@@ -109,11 +143,14 @@ class RelatoriosUI:
 
         # === Gráfico de Barras ===
         fig1, ax1 = plt.subplots(figsize=(5, 3))
-        ax1.bar(produtos.keys(), produtos.values(), color="#4A90E2")
-        ax1.set_title("Vendas por Produto", fontsize=12, weight="bold")
-        ax1.set_xlabel("Produto")
-        ax1.set_ylabel("Quantidade")
-        ax1.grid(axis="y", linestyle="--", alpha=0.6)
+        fig1.patch.set_facecolor(style.SURFACE)
+        ax1.set_facecolor(style.SURFACE_ALT)
+        ax1.bar(produtos.keys(), produtos.values(), color=style.ACCENT)
+        ax1.set_title("Vendas por Produto", fontsize=12, weight="bold", color=style.TEXT_PRIMARY)
+        ax1.set_xlabel("Produto", color=style.TEXT_SECONDARY)
+        ax1.set_ylabel("Quantidade", color=style.TEXT_SECONDARY)
+        ax1.tick_params(colors=style.TEXT_SECONDARY)
+        ax1.grid(axis="y", linestyle="--", alpha=0.3, color=style.TEXT_SECONDARY)
         plt.tight_layout()
 
         buf1 = io.BytesIO()
@@ -125,13 +162,16 @@ class RelatoriosUI:
 
         # === Gráfico de Pizza ===
         fig2, ax2 = plt.subplots(figsize=(4, 4))
+        fig2.patch.set_facecolor(style.SURFACE)
+        colors = [style.ACCENT, "#6B9BFF", "#54C0EB", "#4ADE80", "#FBCB4A"]
         ax2.pie(
             produtos.values(),
             labels=produtos.keys(),
             autopct="%1.1f%%",
-            colors=["#6FA8DC", "#93C47D", "#FFD966", "#E06666", "#8E7CC3"],
+            colors=colors,
+            textprops={"color": style.TEXT_PRIMARY},
         )
-        ax2.set_title("Participação nas Vendas", fontsize=12, weight="bold")
+        ax2.set_title("Participação nas Vendas", fontsize=12, weight="bold", color=style.TEXT_PRIMARY)
         plt.tight_layout()
 
         buf2 = io.BytesIO()
@@ -142,8 +182,8 @@ class RelatoriosUI:
         self.graficos_binarios.append(img2_bytes)
 
         # === Exibe na tela ===
-        img1 = ft.Image(src_base64=base64.b64encode(img1_bytes).decode(), width=380, height=280)
-        img2 = ft.Image(src_base64=base64.b64encode(img2_bytes).decode(), width=380, height=280)
+        img1 = ft.Image(src_base64=base64.b64encode(img1_bytes).decode(), width=380, height=280, border_radius=12)
+        img2 = ft.Image(src_base64=base64.b64encode(img2_bytes).decode(), width=380, height=280, border_radius=12)
         self.graficos.controls.extend([img1, img2])
 
         logger.info(f"Relatório gerado de {data_inicio} a {data_fim}.")
@@ -188,13 +228,9 @@ class RelatoriosUI:
             pdf.cell(0, 10, "Resumo de Vendas:", ln=True)
             pdf.set_font("Arial", "", 11)
             for v in self.vendas_atual:
-                try:
-                    data_formatada = datetime.strptime(v[5], "%Y-%m-%d %H:%M:%S").strftime("%d/%m/%Y %H:%M")
-                except Exception:
-                    data_formatada = v[5] or "-"
-                vendedor = v[4] or "N/D"
-                pdf.cell(0, 8, f"#{v[0]} | {v[1]} x{v[2]} | R$ {v[3]:.2f} | {vendedor} | {data_formatada}", ln=True)
-                
+                data_formatada = datetime.strptime(v[4], "%Y-%m-%d %H:%M:%S").strftime("%d/%m/%Y %H:%M")
+                pdf.cell(0, 8, f"#{v[0]} | {v[1]} x{v[2]} | R$ {v[3]:.2f} | {data_formatada}", ln=True)
+
             # Salva arquivo
             filename = f"relatorio_vendas_{datetime.now().strftime('%Y%m%d_%H%M%S')}.pdf"
             pdf.output(filename)
