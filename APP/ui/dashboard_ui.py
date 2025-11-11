@@ -149,7 +149,7 @@ class DashboardUI:
         ProdutosUI(self.page, self.voltar_dashboard)
 
     def abrir_vendas(self):
-        VendasUI(self.page, self.voltar_dashboard)
+        VendasUI(self.page, self.voltar_dashboard, vendedor=self.username)
 
     def abrir_usuarios(self):
         UsuariosUI(self.page, self.voltar_dashboard)

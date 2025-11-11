@@ -188,9 +188,13 @@ class RelatoriosUI:
             pdf.cell(0, 10, "Resumo de Vendas:", ln=True)
             pdf.set_font("Arial", "", 11)
             for v in self.vendas_atual:
-                data_formatada = datetime.strptime(v[4], "%Y-%m-%d %H:%M:%S").strftime("%d/%m/%Y %H:%M")
-                pdf.cell(0, 8, f"#{v[0]} | {v[1]} x{v[2]} | R$ {v[3]:.2f} | {data_formatada}", ln=True)
-
+                try:
+                    data_formatada = datetime.strptime(v[5], "%Y-%m-%d %H:%M:%S").strftime("%d/%m/%Y %H:%M")
+                except Exception:
+                    data_formatada = v[5] or "-"
+                vendedor = v[4] or "N/D"
+                pdf.cell(0, 8, f"#{v[0]} | {v[1]} x{v[2]} | R$ {v[3]:.2f} | {vendedor} | {data_formatada}", ln=True)
+                
             # Salva arquivo
             filename = f"relatorio_vendas_{datetime.now().strftime('%Y%m%d_%H%M%S')}.pdf"
             pdf.output(filename)

@@ -6,43 +6,47 @@ class Venda:
     """Modelo de Vendas"""
 
     @staticmethod
-    def registrar(produto, quantidade, total):
-        conn = conectar()
-        cur = conn.cursor()
-        cur.execute(
-            "INSERT INTO vendas (produto, quantidade, total, data_hora) VALUES (?, ?, ?, datetime('now', 'localtime'))",
-            (produto, quantidade, total),
+    def registrar(produto, quantidade, total, vendedor=None):
+        with conectar() as conn:
+            cur = conn.cursor()
+            cur.execute(
+                """
+                INSERT INTO vendas (produto, quantidade, total, vendedor, data_hora)
+                VALUES (?, ?, ?, ?, datetime('now', 'localtime'))
+                """,
+                (produto, quantidade, total, vendedor),
+            )
+        logger.info(
+            f"Venda registrada: {produto} x{quantidade} = R$ {total:.2f} por {vendedor if vendedor else 'desconhecido'}"
         )
-        conn.commit()
-        conn.close()
-        logger.info(f"Venda registrada: {produto} x{quantidade} = R$ {total:.2f}")
+
 
     @staticmethod
     def listar():
-        conn = conectar()
-        cur = conn.cursor()
-        cur.execute("SELECT id, produto, quantidade, total, data_hora FROM vendas ORDER BY id DESC")
-        rows = cur.fetchall()
-        conn.close()
-        return rows
+         with conectar() as conn:
+            cur = conn.cursor()
+            cur.execute(
+                "SELECT id, produto, quantidade, total, vendedor, data_hora FROM vendas ORDER BY id DESC"
+            )
+            rows = cur.fetchall()
+            return rows
 
     @staticmethod
     def listar_periodo(data_inicio, data_fim):
         """Retorna todas as vendas entre as datas informadas (inclusive)."""
         try:
-            conn = conectar()
-            cur = conn.cursor()
-            cur.execute(
-                """
-                SELECT id, produto, quantidade, total, data_hora 
-                FROM vendas
-                WHERE substr(data_hora, 1, 10) BETWEEN ? AND ?
-                ORDER BY data_hora ASC
-                """,
-                (data_inicio, data_fim),
-            )
-            rows = cur.fetchall()
-            conn.close()
+            with conectar() as conn:
+                cur = conn.cursor()
+                cur.execute(
+                    """
+                    SELECT id, produto, quantidade, total, vendedor, data_hora
+                    FROM vendas
+                    WHERE substr(data_hora, 1, 10) BETWEEN ? AND ?
+                    ORDER BY data_hora ASC
+                    """,
+                    (data_inicio, data_fim),
+                )
+                rows = cur.fetchall()
 
             logger.info(f"{len(rows)} vendas encontradas no período {data_inicio} → {data_fim}")
             return rows

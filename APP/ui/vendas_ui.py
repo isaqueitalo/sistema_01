@@ -1,6 +1,7 @@
 # APP/ui/vendas_ui.py
 import flet as ft
 from datetime import datetime
+from typing import Optional
 from APP.models.vendas_models import Venda
 from APP.models.produtos_models import Produto
 from APP.core.logger import logger
@@ -9,9 +10,10 @@ from APP.core.logger import logger
 class VendasUI:
     """Tela de controle de vendas (Flet)."""
 
-    def __init__(self, page: ft.Page, voltar_callback=None):
+    def __init__(self, page: ft.Page, voltar_callback=None, vendedor: Optional[str] = None):
         self.page = page
         self.voltar_callback = voltar_callback
+        self.vendedor = vendedor
         self.build_ui()
         logger.info("Tela de vendas carregada.")
 
@@ -51,6 +53,7 @@ class VendasUI:
                 ft.DataColumn(ft.Text("Produto")),
                 ft.DataColumn(ft.Text("Quantidade")),
                 ft.DataColumn(ft.Text("Total (R$)")),
+                ft.DataColumn(ft.Text("Vendedor")),
                 ft.DataColumn(ft.Text("Data/Hora")),
             ],
             rows=[]
@@ -129,7 +132,8 @@ class VendasUI:
             preco = Produto.obter_preco(produto_nome)
             total = preco * qtd
 
-            Venda.registrar(produto_nome, qtd, total)
+            vendedor = self.vendedor or "N/D"
+            Venda.registrar(produto_nome, qtd, total, vendedor)
             self.message.value = f"Venda registrada com sucesso! ({produto_nome})"
             self.message.color = ft.Colors.GREEN_400
             logger.info(f"Venda registrada: {produto_nome} x{qtd} = R${total:.2f}")
@@ -147,7 +151,7 @@ class VendasUI:
         except Exception as err:
             self.message.value = f"Erro ao registrar venda: {err}"
             self.message.color = ft.Colors.RED_400
-            logger.error(f"Erro ao registrar venda: {err}")
+            logger.info(f"Venda registrada: {produto_nome} x{qtd} = R${total:.2f} por {vendedor}")
             self.page.update()
 
     def atualizar_tabela(self):
@@ -158,9 +162,9 @@ class VendasUI:
             for v in vendas:
                 # Converter data/hora para formato brasileiro
                 try:
-                    data_formatada = datetime.strptime(v[4], "%Y-%m-%d %H:%M:%S").strftime("%d/%m/%Y %H:%M")
+                    data_formatada = datetime.strptime(v[5], "%Y-%m-%d %H:%M:%S").strftime("%d/%m/%Y %H:%M")
                 except Exception:
-                    data_formatada = v[4]
+                    data_formatada = v[5] or "-"
 
                 self.tabela_vendas.rows.append(
                     ft.DataRow(
@@ -169,6 +173,7 @@ class VendasUI:
                             ft.DataCell(ft.Text(v[1])),
                             ft.DataCell(ft.Text(str(v[2]))),
                             ft.DataCell(ft.Text(f"R$ {v[3]:.2f}")),
+                            ft.DataCell(ft.Text(v[4] or "N/D")),
                             ft.DataCell(ft.Text(data_formatada)),
                         ]
                     )

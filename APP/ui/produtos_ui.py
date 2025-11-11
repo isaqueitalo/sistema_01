@@ -28,7 +28,9 @@ class ProdutosUI:
         self.nome_field = ft.TextField(label="Nome do produto", width=300)
         self.preco_field = ft.TextField(label="Preço (R$)", width=150, keyboard_type=ft.KeyboardType.NUMBER)
         self.estoque_field = ft.TextField(label="Estoque", width=150, keyboard_type=ft.KeyboardType.NUMBER)
-
+        self.fornecedor_field = ft.TextField(label="Fornecedor", width=300)
+        self.validade_field = ft.TextField(label="Validade (AAAA-MM-DD)", width=200, hint_text="Opcional")
+        
         # === Campo de busca ===
         self.busca_field = ft.TextField(
             label="🔍 Pesquisar produto...",
@@ -52,6 +54,8 @@ class ProdutosUI:
                 ft.DataColumn(ft.Text("Nome")),
                 ft.DataColumn(ft.Text("Preço")),
                 ft.DataColumn(ft.Text("Estoque")),
+                ft.DataColumn(ft.Text("Fornecedor")),
+                ft.DataColumn(ft.Text("Validade")),
             ],
             rows=[],
             width=700
@@ -63,6 +67,7 @@ class ProdutosUI:
                 [
                     title,
                     ft.Row([self.nome_field, self.preco_field, self.estoque_field]),
+                    ft.Row([self.fornecedor_field, self.validade_field], alignment=ft.MainAxisAlignment.CENTER),
                     ft.Row([btn_add, btn_update, btn_delete, btn_voltar], alignment=ft.MainAxisAlignment.CENTER),
                     self.message,
                     ft.Divider(),
@@ -102,6 +107,8 @@ class ProdutosUI:
                     ft.DataCell(ft.Text(p[1])),
                     ft.DataCell(ft.Text(f"R$ {p[2]:.2f}")),
                     ft.DataCell(ft.Text(str(p[3]))),
+                    ft.DataCell(ft.Text(p[4] if p[4] else "-")),
+                    ft.DataCell(ft.Text(p[5] if p[5] else "-")),
                 ],
                 on_select_changed=lambda e, nome=p[1]: self._preencher_formulario(nome),
             )
@@ -127,6 +134,8 @@ class ProdutosUI:
                 self.nome_field.value = produto[1]
                 self.preco_field.value = str(produto[2])
                 self.estoque_field.value = str(produto[3])
+                self.fornecedor_field.value = produto[4] or ""
+                self.validade_field.value = produto[5] or ""
                 self.page.update()
         except Exception as err:
             logger.error(f"Erro ao preencher formulário: {err}")
@@ -136,16 +145,21 @@ class ProdutosUI:
         nome = self.nome_field.value.strip()
         preco = self.preco_field.value.strip()
         estoque = self.estoque_field.value.strip()
+        fornecedor = self.fornecedor_field.value.strip()
+        validade = self.validade_field.value.strip()
+
 
         if not nome or not preco or not estoque:
-            self.message.value = "Preencha todos os campos!"
+            self.message.value = "Informe nome, preço e estoque!"
             self.page.update()
             return
 
         try:
             preco = float(preco)
             estoque = int(estoque)
-            Produto.adicionar(nome, preco, estoque)
+            fornecedor = fornecedor or None
+            validade = validade or None
+            Produto.adicionar(nome, preco, estoque, fornecedor, validade)
             self.message.value = f"✅ Produto '{nome}' adicionado com sucesso!"
             self.message.color = ft.Colors.GREEN_400
             logger.info(f"Produto '{nome}' adicionado.")
@@ -162,6 +176,8 @@ class ProdutosUI:
         nome = self.nome_field.value.strip()
         preco = self.preco_field.value.strip()
         estoque = self.estoque_field.value.strip()
+        fornecedor = self.fornecedor_field.value.strip()
+        validade = self.validade_field.value.strip()
 
         if not nome:
             self.message.value = "Digite o nome do produto a atualizar!"
@@ -171,7 +187,9 @@ class ProdutosUI:
         try:
             preco = float(preco) if preco else None
             estoque = int(estoque) if estoque else None
-            Produto.atualizar(nome, preco, estoque)
+            fornecedor = fornecedor if fornecedor else None
+            validade = validade if validade else None
+            Produto.atualizar(nome, preco, estoque, fornecedor, validade)
             self.message.value = f"🔁 Produto '{nome}' atualizado com sucesso!"
             self.message.color = ft.Colors.GREEN_400
             logger.info(f"Produto '{nome}' atualizado.")
@@ -210,4 +228,7 @@ class ProdutosUI:
         self.nome_field.value = ""
         self.preco_field.value = ""
         self.estoque_field.value = ""
+        self.fornecedor_field.value = ""
+        self.validade_field.value = ""
+        self.page.update()
         self.page.update()

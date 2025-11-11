@@ -12,12 +12,10 @@ class User:
     @staticmethod
     def autenticar(username, password):
         """Verifica credenciais e retorna (True, role) se válidas."""
-        conn = conectar()
-        cur = conn.cursor()
-
-        cur.execute("SELECT password_hash, role FROM usuarios WHERE username = ?", (username,))
-        row = cur.fetchone()
-        conn.close()
+        with conectar() as conn:
+            cur = conn.cursor()
+            cur.execute("SELECT password_hash, role FROM usuarios WHERE username = ?", (username,))
+            row = cur.fetchone()
 
         if not row:
             logger.warning(f"Tentativa de login com usuário inexistente: '{username}'.")
@@ -46,30 +44,26 @@ class User:
             logger.error(f"Role inválida: {role}")
             raise ValueError(f"Tipo de usuário inválido! Use um dos seguintes: {roles_validos}")
 
-        conn = conectar()
-        cur = conn.cursor()
-
+        with conectar() as conn:
+            cur = conn.cursor()
+        
         # Verifica se o usuário já existe
-        cur.execute("SELECT id FROM usuarios WHERE username = ?", (username,))
-        if cur.fetchone():
-            conn.close()
-            logger.warning(f"Tentativa de criar usuário já existente: '{username}'.")
-            raise ValueError("Usuário já existe!")
+            cur.execute("SELECT id FROM usuarios WHERE username = ?", (username,))
+            if cur.fetchone():
+                logger.warning(f"Tentativa de criar usuário já existente: '{username}'.")
+                raise ValueError("Usuário já existe!")
 
         # Garante que só exista um admin_master
         if role == "admin_master":
             cur.execute("SELECT id FROM usuarios WHERE role = 'admin_master'")
             if cur.fetchone():
-                conn.close()
                 logger.warning("Tentativa de criar outro admin_master bloqueada.")
                 raise PermissionError("Já existe um admin_master cadastrado!")
 
         cur.execute(
-            "INSERT INTO usuarios (username, password_hash, role) VALUES (?, ?, ?)",
-            (username, hash_password(password), role),
-        )
-        conn.commit()
-        conn.close()
+                "INSERT INTO usuarios (username, password_hash, role) VALUES (?, ?, ?)",
+                (username, hash_password(password), role),
+            )
 
         logger.info(f"Usuário '{username}' criado com sucesso (função: {role}).")
 
@@ -79,11 +73,10 @@ class User:
     @staticmethod
     def listar():
         """Retorna todos os usuários cadastrados."""
-        conn = conectar()
-        cur = conn.cursor()
-        cur.execute("SELECT id, username, role FROM usuarios ORDER BY id ASC")
-        rows = cur.fetchall()
-        conn.close()
+        with conectar() as conn:
+            cur = conn.cursor()
+            cur.execute("SELECT id, username, role FROM usuarios ORDER BY id ASC")
+            rows = cur.fetchall()
         logger.debug(f"{len(rows)} usuários listados.")
         return rows
 
@@ -105,18 +98,16 @@ class User:
             logger.warning(f"O usuário '{usuario_logado}' tentou se autoexcluir.")
             raise PermissionError("Você não pode excluir a si mesmo!")
 
-        conn = conectar()
-        cur = conn.cursor()
+        with conectar() as conn:
+            cur = conn.cursor()
+
 
         cur.execute("SELECT id FROM usuarios WHERE username = ?", (nome_alvo,))
         if not cur.fetchone():
-            conn.close()
             logger.warning(f"Tentativa de excluir usuário inexistente: '{nome_alvo}'.")
             raise ValueError("Usuário não encontrado!")
 
         cur.execute("DELETE FROM usuarios WHERE username = ?", (nome_alvo,))
-        conn.commit()
-        conn.close()
 
         logger.info(f"Usuário '{nome_alvo}' excluído por '{usuario_logado}'.")
 
@@ -126,19 +117,16 @@ class User:
     @staticmethod
     def garantir_admin_padrao():
         """Garante que 'admin_master' exista no banco de dados."""
-        conn = conectar()
-        cur = conn.cursor()
+        with conectar() as conn:
+            cur = conn.cursor()
 
-        cur.execute("SELECT id FROM usuarios WHERE username = 'admin_master'")
-        if not cur.fetchone():
-            senha_hash = hash_password("1234")
-            cur.execute(
-                "INSERT INTO usuarios (username, password_hash, role) VALUES (?, ?, ?)",
-                ("admin_master", senha_hash, "admin_master"),
-            )
-            conn.commit()
-            logger.info("Usuário 'admin_master' criado automaticamente (senha padrão: 1234).")
-        else:
-            logger.debug("Usuário 'admin_master' já existe.")
-
-        conn.close()
+            cur.execute("SELECT id FROM usuarios WHERE username = 'admin_master'")
+            if not cur.fetchone():
+                senha_hash = hash_password("1234")
+                cur.execute(
+                    "INSERT INTO usuarios (username, password_hash, role) VALUES (?, ?, ?)",
+                    ("admin_master", senha_hash, "admin_master"),
+                )
+                logger.info("Usuário 'admin_master' criado automaticamente (senha padrão: 1234).")
+            else:
+                logger.debug("Usuário 'admin_master' já existe.")
