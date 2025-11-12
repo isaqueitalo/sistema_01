@@ -6,7 +6,7 @@ class Venda:
     """Modelo de Vendas"""
 
     @staticmethod
-    def registrar(produto, quantidade, total, vendedor=None):
+    def registrar(produto, quantidade, total, vendedor=None, cliente=None, forma_pagamento=None):
         with conectar() as conn:
             cur = conn.cursor()
 
@@ -45,19 +45,21 @@ class Venda:
                 )
             cur.execute(
                 """
-                INSERT INTO vendas (produto, quantidade, total, vendedor, data_hora)
-                VALUES (?, ?, ?, ?, datetime('now', 'localtime'))
+                INSERT INTO vendas (produto, quantidade, total, vendedor, cliente, forma_pagamento, data_hora)
+                VALUES (?, ?, ?, ?, ?, ?, datetime('now', 'localtime'))
                 """,
-                (produto, quantidade, total_calculado, vendedor),
+                (produto, quantidade, total_calculado, vendedor, cliente, forma_pagamento),
             )
 
         logger.info(
-            "Venda registrada: %s x%d = R$ %.2f por %s (estoque restante: %d)",
+            "Venda registrada: %s x%d = R$ %.2f por %s (estoque restante: %d) | cliente=%s | pagamento=%s",
             produto,
             quantidade,
             total_calculado,
             vendedor if vendedor else "desconhecido",
             novo_estoque,
+            cliente or "Consumidor Final",
+            forma_pagamento or "N/D",
         )
 
     @staticmethod
@@ -65,7 +67,7 @@ class Venda:
         with conectar() as conn:
             cur = conn.cursor()
             cur.execute(
-                "SELECT id, produto, quantidade, total, vendedor, data_hora FROM vendas ORDER BY id DESC"
+                "SELECT id, produto, quantidade, total, vendedor, data_hora, cliente, forma_pagamento FROM vendas ORDER BY id DESC"
             )
             rows = cur.fetchall()
         return rows
@@ -78,7 +80,7 @@ class Venda:
                 cur = conn.cursor()
                 cur.execute(
                     """
-                    SELECT id, produto, quantidade, total, vendedor, data_hora
+                    SELECT id, produto, quantidade, total, vendedor, data_hora, cliente, forma_pagamento
                     FROM vendas
                     WHERE substr(data_hora, 1, 10) BETWEEN ? AND ?
                     ORDER BY data_hora ASC

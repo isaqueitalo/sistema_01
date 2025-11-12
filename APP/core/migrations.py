@@ -14,7 +14,7 @@ Exemplo de uso:
 """
 
 from typing import Callable, List
-from APP.core.database import conectar
+from APP.core.database import conectar, DEFAULT_CATEGORIES, DEFAULT_UNITS
 from APP.core.logger import logger
 import sqlite3
 
@@ -69,11 +69,89 @@ def _migration_003_create_migrations_table(conn: sqlite3.Connection):
     conn.commit()
 
 
+def _migration_004_create_catalog_tables(conn: sqlite3.Connection):
+    """
+    Migração 4:
+    Cria tabelas auxiliares de categorias e unidades de medida e preenche com valores padrão.
+    """
+    cur = conn.cursor()
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS categorias (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            nome TEXT UNIQUE NOT NULL,
+            segmento TEXT DEFAULT 'geral'
+        )
+    """)
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS unidades_medida (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            sigla TEXT UNIQUE NOT NULL,
+            descricao TEXT
+        )
+    """)
+    cur.executemany(
+        "INSERT OR IGNORE INTO categorias (nome, segmento) VALUES (?, ?)",
+        DEFAULT_CATEGORIES,
+    )
+    cur.executemany(
+        "INSERT OR IGNORE INTO unidades_medida (sigla, descricao) VALUES (?, ?)",
+        DEFAULT_UNITS,
+    )
+    conn.commit()
+
+
+def _migration_005_extend_produtos_schema(conn: sqlite3.Connection):
+    """
+    Migração 5:
+    Adiciona colunas extras à tabela de produtos para suportar segmentos diferentes.
+    """
+    cur = conn.cursor()
+    cur.execute("PRAGMA table_info(produtos)")
+    cols = {row[1] for row in cur.fetchall()}
+
+    additions = [
+        ("categoria_id", "INTEGER"),
+        ("unidade_id", "INTEGER"),
+        ("codigo_barras", "TEXT"),
+        ("estoque_minimo", "INTEGER DEFAULT 0"),
+        ("localizacao", "TEXT"),
+    ]
+
+    for col_name, col_def in additions:
+        if col_name not in cols:
+            logger.info(f"Migração 005: adicionando coluna '{col_name}' à tabela produtos.")
+            cur.execute(f"ALTER TABLE produtos ADD COLUMN {col_name} {col_def}")
+    conn.commit()
+
+
+def _migration_006_expand_vendas_table(conn: sqlite3.Connection):
+    """
+    Migração 6:
+    Adiciona colunas de cliente e forma de pagamento à tabela de vendas.
+    """
+    cur = conn.cursor()
+    cur.execute("PRAGMA table_info(vendas)")
+    cols = {row[1] for row in cur.fetchall()}
+
+    if "cliente" not in cols:
+        logger.info("Migração 006: adicionando coluna 'cliente' na tabela vendas.")
+        cur.execute("ALTER TABLE vendas ADD COLUMN cliente TEXT")
+
+    if "forma_pagamento" not in cols:
+        logger.info("Migração 006: adicionando coluna 'forma_pagamento' na tabela vendas.")
+        cur.execute("ALTER TABLE vendas ADD COLUMN forma_pagamento TEXT")
+
+    conn.commit()
+
+
 # Lista ordenada de migrações (adicionar novas funções ao final)
 MIGRATIONS: List[Callable[[sqlite3.Connection], None]] = [
     _migration_001_create_missing_role_column,
     _migration_002_add_vendedor_to_vendas,
     _migration_003_create_migrations_table,
+    _migration_004_create_catalog_tables,
+    _migration_005_extend_produtos_schema,
+    _migration_006_expand_vendas_table,
 ]
 
 

@@ -6,6 +6,23 @@ from APP.core.config import config
 from APP.core.logger import logger
 from APP.core.utils import hash_password
 
+DEFAULT_CATEGORIES = [
+    ("Geral", "geral"),
+    ("Medicamentos", "farmacia"),
+    ("Higiene pessoal", "farmacia"),
+    ("Padaria", "padaria"),
+    ("Bebidas", "padaria"),
+]
+
+DEFAULT_UNITS = [
+    ("UN", "Unidade"),
+    ("CX", "Caixa"),
+    ("KG", "Quilograma"),
+    ("G", "Gramas"),
+    ("L", "Litro"),
+    ("ML", "Mililitro"),
+]
+
 
 # ============================================================
 # CONEXÃO AO BANCO
@@ -64,9 +81,40 @@ def inicializar_banco():
             preco REAL NOT NULL,
             estoque INTEGER DEFAULT 0,
             fornecedor TEXT,
-            validade DATE
+            validade DATE,
+            categoria_id INTEGER,
+            unidade_id INTEGER,
+            codigo_barras TEXT,
+            estoque_minimo INTEGER DEFAULT 0,
+            localizacao TEXT,
+            FOREIGN KEY(categoria_id) REFERENCES categorias(id),
+            FOREIGN KEY(unidade_id) REFERENCES unidades_medida(id)
         )
     """)
+
+    # --------------------------------------------------------
+    # TABELA DE CATEGORIAS
+    # --------------------------------------------------------
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS categorias (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            nome TEXT UNIQUE NOT NULL,
+            segmento TEXT DEFAULT 'geral'
+        )
+    """)
+
+    # --------------------------------------------------------
+    # TABELA DE UNIDADES DE MEDIDA
+    # --------------------------------------------------------
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS unidades_medida (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            sigla TEXT UNIQUE NOT NULL,
+            descricao TEXT
+        )
+    """)
+
+    _seed_default_catalogs(cur)
 
     # --------------------------------------------------------
     # TABELA DE VENDAS
@@ -78,6 +126,8 @@ def inicializar_banco():
             quantidade INTEGER NOT NULL,
             total REAL NOT NULL,
             vendedor TEXT,
+            cliente TEXT,
+            forma_pagamento TEXT,
             data_hora TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     """)
@@ -112,6 +162,18 @@ def inicializar_banco():
 
     conn.close()
     logger.info("Banco de dados inicializado com sucesso.")
+
+
+def _seed_default_catalogs(cur):
+    """Garante catálogos básicos para segmentos atendidos pelo sistema."""
+    cur.executemany(
+        "INSERT OR IGNORE INTO categorias (nome, segmento) VALUES (?, ?)",
+        DEFAULT_CATEGORIES,
+    )
+    cur.executemany(
+        "INSERT OR IGNORE INTO unidades_medida (sigla, descricao) VALUES (?, ?)",
+        DEFAULT_UNITS,
+    )
 
 
 # ============================================================

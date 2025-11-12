@@ -4,6 +4,7 @@ import os
 import base64
 import platform
 import subprocess
+from pathlib import Path
 import matplotlib
 matplotlib.use("Agg")  # ✅ Evita aviso de GUI fora da main thread
 import matplotlib.pyplot as plt
@@ -64,7 +65,7 @@ class RelatoriosUI:
             "Selecione um período e clique em 'Gerar Relatório'.",
             size=16,
             weight=ft.FontWeight.BOLD,
-            color=style.TEXT_PRIMARY,
+            color=style.TEXT_DARK,
         )
 
         self.graficos = ft.Row(spacing=20, wrap=True, alignment=ft.MainAxisAlignment.CENTER)
@@ -73,7 +74,7 @@ class RelatoriosUI:
             "📊 Relatórios de Vendas",
             size=22,
             weight=ft.FontWeight.BOLD,
-            color=style.TEXT_PRIMARY,
+            color=style.TEXT_DARK,
         )
 
         layout = ft.Column(
@@ -128,14 +129,14 @@ class RelatoriosUI:
 
         if not vendas:
             self.resumo_text.value = f"⚠️ Nenhuma venda encontrada entre {self.data_inicio.value} e {self.data_fim.value}."
-            self.resumo_text.color = style.TEXT_SECONDARY
+            self.resumo_text.color = style.TEXT_MUTED
             self.page.update()
             return
 
         total_vendas = len(vendas)
         total_valor = sum(v[3] for v in vendas)
         self.resumo_text.value = f"🧾 Total de vendas: {total_vendas} | 💵 Valor total: R$ {total_valor:.2f}"
-        self.resumo_text.color = style.TEXT_PRIMARY
+        self.resumo_text.color = style.TEXT_DARK
 
         produtos = {}
         for v in vendas:
@@ -149,9 +150,13 @@ class RelatoriosUI:
         ax1.set_title("Vendas por Produto", fontsize=12, weight="bold", color=style.TEXT_PRIMARY)
         ax1.set_xlabel("Produto", color=style.TEXT_SECONDARY)
         ax1.set_ylabel("Quantidade", color=style.TEXT_SECONDARY)
-        ax1.tick_params(colors=style.TEXT_SECONDARY)
+        ax1.tick_params(colors=style.TEXT_SECONDARY, rotation=25)
+        for tick in ax1.get_xticklabels():
+            tick.set_rotation(25)
+            tick.set_ha("right")
         ax1.grid(axis="y", linestyle="--", alpha=0.3, color=style.TEXT_SECONDARY)
         plt.tight_layout()
+        plt.subplots_adjust(bottom=0.25)
 
         buf1 = io.BytesIO()
         fig1.savefig(buf1, format="png")
@@ -228,16 +233,45 @@ class RelatoriosUI:
             pdf.cell(0, 10, "Resumo de Vendas:", ln=True)
             pdf.set_font("Arial", "", 11)
             for v in self.vendas_atual:
-                data_formatada = datetime.strptime(v[4], "%Y-%m-%d %H:%M:%S").strftime("%d/%m/%Y %H:%M")
-                pdf.cell(0, 8, f"#{v[0]} | {v[1]} x{v[2]} | R$ {v[3]:.2f} | {data_formatada}", ln=True)
+                data_raw = None
+                vendedor = "N/D"
+                cliente = "Consumidor Final"
+                pagamento = "N/D"
 
+                if len(v) >= 5:
+                    vendedor = v[4] or "N/D"
+                if len(v) >= 6:
+                    data_raw = v[5]
+                if len(v) >= 7:
+                    cliente = v[6] or cliente
+                if len(v) >= 8:
+                    pagamento = v[7] or pagamento
+
+                if isinstance(data_raw, str) and data_raw.strip():
+                    try:
+                        data_formatada = datetime.strptime(data_raw, "%Y-%m-%d %H:%M:%S").strftime(
+                            "%d/%m/%Y %H:%M"
+                        )
+                    except ValueError:
+                        data_formatada = data_raw
+                else:
+                    data_formatada = "-"
+
+                pdf.multi_cell(
+                    0,
+                    8,
+                    f"#{v[0]} | {v[1]} x{v[2]} | R$ {v[3]:.2f} | Vend: {vendedor} | Cliente: {cliente} | Pagamento: {pagamento} | {data_formatada}",
+                )
             # Salva arquivo
+            downloads_dir = Path.home() / "Downloads" / "Relatorios_Sistema"
+            downloads_dir.mkdir(parents=True, exist_ok=True)
             filename = f"relatorio_vendas_{datetime.now().strftime('%Y%m%d_%H%M%S')}.pdf"
-            pdf.output(filename)
-            self.ultimo_pdf = os.path.abspath(filename)
+            filepath = downloads_dir / filename
+            pdf.output(str(filepath))
+            self.ultimo_pdf = str(filepath)
             logger.info(f"PDF gerado: {self.ultimo_pdf}")
 
-            self.page.snack_bar = ft.SnackBar(ft.Text(f"✅ Relatório exportado: {filename}"))
+            self.page.snack_bar = ft.SnackBar(ft.Text(f"✅ Relatório exportado em {filepath}"))
             self.page.snack_bar.open = True
             self.page.update()
 

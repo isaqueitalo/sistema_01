@@ -110,6 +110,27 @@ class User:
 
         logger.info(f"Usuário '{nome_alvo}' excluído por '{usuario_logado}'.")
 
+    @staticmethod
+    def atualizar_role(username, nova_role, usuario_logado):
+        """Permite ao admin_master atualizar a função de outro usuário."""
+        roles_validos = ("admin_master", "admin", "vendedor")
+        if nova_role not in roles_validos:
+            raise ValueError("Função inválida.")
+
+        if usuario_logado != "admin_master":
+            raise PermissionError("Somente o admin_master pode editar funções.")
+
+        if username == "admin_master":
+            raise PermissionError("A função do admin_master não pode ser alterada.")
+
+        with conectar() as conn:
+            cur = conn.cursor()
+            cur.execute("UPDATE usuarios SET role = ? WHERE username = ?", (nova_role, username))
+            if cur.rowcount == 0:
+                raise ValueError("Usuário não encontrado.")
+
+        logger.info("Função de '%s' atualizada para '%s' por '%s'.", username, nova_role, usuario_logado)
+
     # ============================================================
     # GARANTIA DE ADMIN PADRÃO
     # ============================================================

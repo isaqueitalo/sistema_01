@@ -24,7 +24,8 @@ class LoginUI:
                 width=320,
                 prefix_icon=ft.Icons.PERSON_OUTLINE,
                 autofocus=True,
-            )
+            ),
+            variant="dark",
         )
 
         self.password_field = style.apply_textfield_style(
@@ -34,7 +35,8 @@ class LoginUI:
                 can_reveal_password=True,
                 width=320,
                 prefix_icon=ft.Icons.LOCK_OUTLINE,
-            )
+            ),
+            variant="dark",
         )
 
         self.feedback = ft.Text("", color=style.ERROR, size=13)
@@ -69,6 +71,7 @@ class LoginUI:
                 ),
                 padding=36,
                 width=420,
+                bgcolor=style.SURFACE_ALT,
             )
         )
 
