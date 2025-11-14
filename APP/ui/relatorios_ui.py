@@ -25,6 +25,7 @@ class RelatoriosUI:
         self.vendas_atual = []
         self.graficos_binarios = []
         self.ultimo_pdf = None  # Guarda o caminho do último PDF gerado
+        self.vendas_list = None
         self.build_ui()
 
     def build_ui(self):
@@ -69,6 +70,14 @@ class RelatoriosUI:
         )
 
         self.graficos = ft.Row(spacing=20, wrap=True, alignment=ft.MainAxisAlignment.CENTER)
+        self.vendas_list = ft.ListView(spacing=10, padding=0, expand=True, auto_scroll=False)
+        self.vendas_list_container = ft.Container(
+            content=self.vendas_list,
+            height=320,
+            bgcolor=style.PANEL_MUTED,
+            border_radius=12,
+            padding=ft.Padding(12, 12, 12, 12),
+        )
 
         header = ft.Text(
             "📊 Relatórios de Vendas",
@@ -90,6 +99,14 @@ class RelatoriosUI:
                 self.resumo_text,
                 ft.Divider(color=style.DIVIDER),
                 self.graficos,
+                ft.Divider(color=style.DIVIDER),
+                ft.Text(
+                    "Detalhamento das vendas",
+                    size=18,
+                    weight=ft.FontWeight.W_600,
+                    color=style.TEXT_DARK,
+                ),
+                self.vendas_list_container,
             ],
             alignment=ft.MainAxisAlignment.CENTER,
             horizontal_alignment=ft.CrossAxisAlignment.CENTER,
@@ -108,6 +125,7 @@ class RelatoriosUI:
 
         logger.info("Tela de relatórios com PDF e botão de pasta carregada.")
         self.page.update()
+        self._atualizar_detalhamento_vendas()
 
     # ======================================================
     # GERAÇÃO DE RELATÓRIOS
@@ -126,21 +144,23 @@ class RelatoriosUI:
         self.vendas_atual = vendas
         self.graficos.controls.clear()
         self.graficos_binarios.clear()
+        self._atualizar_detalhamento_vendas()
 
         if not vendas:
-            self.resumo_text.value = f"⚠️ Nenhuma venda encontrada entre {self.data_inicio.value} e {self.data_fim.value}."
+            self.resumo_text.value = f"?? Nenhuma venda encontrada entre {self.data_inicio.value} e {self.data_fim.value}."
             self.resumo_text.color = style.TEXT_MUTED
             self.page.update()
             return
 
         total_vendas = len(vendas)
-        total_valor = sum(v[3] for v in vendas)
-        self.resumo_text.value = f"🧾 Total de vendas: {total_vendas} | 💵 Valor total: R$ {total_valor:.2f}"
+        total_valor = sum(pedido['total'] for pedido in vendas)
+        self.resumo_text.value = f"?? Total de pedidos: {total_vendas} | ?? Valor total: R$ {total_valor:.2f}"
         self.resumo_text.color = style.TEXT_DARK
 
         produtos = {}
-        for v in vendas:
-            produtos[v[1]] = produtos.get(v[1], 0) + v[2]
+        for pedido in vendas:
+            for item in pedido['itens']:
+                produtos[item['produto']] = produtos.get(item['produto'], 0) + item['quantidade']
 
         # === Gráfico de Barras ===
         fig1, ax1 = plt.subplots(figsize=(5, 3))
@@ -194,6 +214,97 @@ class RelatoriosUI:
         logger.info(f"Relatório gerado de {data_inicio} a {data_fim}.")
         self.page.update()
 
+    def _atualizar_detalhamento_vendas(self):
+        if not self.vendas_list:
+            return
+        if not self.vendas_atual:
+            self.vendas_list.controls = [
+                ft.Text(
+                    "Nenhuma venda encontrada para o período informado.",
+                    color=style.TEXT_MUTED,
+                )
+            ]
+            self.page.update()
+            return
+
+        cards = []
+        for pedido in self.vendas_atual:
+            venda_id = pedido["pedido_id"]
+            total = pedido["total"]
+            vendedor = pedido["vendedor"]
+            data_raw = pedido["data_hora"]
+            cliente = pedido["cliente"]
+            pagamento = pedido["forma_pagamento"]
+
+            if isinstance(data_raw, str) and data_raw.strip():
+                try:
+                    data_formatada = datetime.strptime(data_raw, "%Y-%m-%d %H:%M:%S").strftime("%d/%m/%Y %H:%M")
+                except ValueError:
+                    data_formatada = data_raw
+            else:
+                data_formatada = "-"
+
+            itens_column = ft.Column(
+                [
+                    ft.Row(
+                        [
+                            ft.Text(item["produto"], color=style.TEXT_DARK, weight=ft.FontWeight.W_500),
+                            ft.Text(
+                                f"x{item['quantidade']} • R$ {item['total']:.2f}",
+                                color=style.TEXT_SECONDARY,
+                                size=12,
+                            ),
+                        ],
+                        alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
+                    )
+                    for item in pedido["itens"]
+                ],
+                spacing=2,
+            )
+
+            card = ft.Container(
+                bgcolor=style.PANEL_LIGHT,
+                border_radius=12,
+                padding=ft.Padding(10, 8, 10, 8),
+                border=ft.border.all(1, style.BORDER),
+                content=ft.Row(
+                    [
+                        ft.Icon(ft.Icons.RECEIPT_LONG, color=style.ACCENT),
+                        ft.Column(
+                            [
+                                ft.Text(
+                                    f"Pedido #{venda_id}",
+                                    weight=ft.FontWeight.BOLD,
+                                    color=style.TEXT_DARK,
+                                ),
+                                ft.Text(
+                                    f"Horário: {data_formatada}",
+                                    color=style.TEXT_MUTED,
+                                    size=12,
+                                ),
+                                itens_column,
+                                ft.Text(f"Cliente: {cliente}", color=style.TEXT_SECONDARY, size=12),
+                                ft.Text(f"Pagamento: {pagamento}", color=style.TEXT_SECONDARY, size=12),
+                                ft.Text(f"Vendedor: {vendedor}", color=style.TEXT_SECONDARY, size=12),
+                            ],
+                            spacing=2,
+                            expand=True,
+                        ),
+                        ft.Text(
+                            f"R$ {total:.2f}",
+                            weight=ft.FontWeight.BOLD,
+                            color=style.ACCENT,
+                        ),
+                    ],
+                    alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
+                    vertical_alignment=ft.CrossAxisAlignment.START,
+                ),
+            )
+            cards.append(card)
+
+        self.vendas_list.controls = cards
+        self.page.update()
+
     # ======================================================
     # EXPORTAÇÃO EM PDF
     # ======================================================
@@ -214,9 +325,9 @@ class RelatoriosUI:
             pdf.cell(0, 10, f"Período: {self.data_inicio.value} a {self.data_fim.value}", ln=True)
             pdf.ln(5)
 
-            total_valor = sum(v[3] for v in self.vendas_atual)
+            total_valor = sum(pedido["total"] for pedido in self.vendas_atual)
             total_vendas = len(self.vendas_atual)
-            pdf.cell(0, 10, f"Total de vendas: {total_vendas}", ln=True)
+            pdf.cell(0, 10, f"Total de pedidos: {total_vendas}", ln=True)
             pdf.cell(0, 10, f"Valor total: R$ {total_valor:.2f}", ln=True)
             pdf.ln(10)
 
@@ -232,36 +343,29 @@ class RelatoriosUI:
             pdf.set_font("Arial", "B", 12)
             pdf.cell(0, 10, "Resumo de Vendas:", ln=True)
             pdf.set_font("Arial", "", 11)
-            for v in self.vendas_atual:
-                data_raw = None
-                vendedor = "N/D"
-                cliente = "Consumidor Final"
-                pagamento = "N/D"
-
-                if len(v) >= 5:
-                    vendedor = v[4] or "N/D"
-                if len(v) >= 6:
-                    data_raw = v[5]
-                if len(v) >= 7:
-                    cliente = v[6] or cliente
-                if len(v) >= 8:
-                    pagamento = v[7] or pagamento
-
+            for pedido in self.vendas_atual:
+                data_raw = pedido["data_hora"]
                 if isinstance(data_raw, str) and data_raw.strip():
                     try:
-                        data_formatada = datetime.strptime(data_raw, "%Y-%m-%d %H:%M:%S").strftime(
-                            "%d/%m/%Y %H:%M"
-                        )
+                        data_formatada = datetime.strptime(data_raw, "%Y-%m-%d %H:%M:%S").strftime("%d/%m/%Y %H:%M")
                     except ValueError:
                         data_formatada = data_raw
                 else:
                     data_formatada = "-"
 
-                pdf.multi_cell(
+                pdf.set_font("Arial", "B", 12)
+                pdf.cell(0, 8, f"Pedido #{pedido['pedido_id']} - {data_formatada}", ln=True)
+                pdf.set_font("Arial", "", 11)
+                pdf.cell(
                     0,
-                    8,
-                    f"#{v[0]} | {v[1]} x{v[2]} | R$ {v[3]:.2f} | Vend: {vendedor} | Cliente: {cliente} | Pagamento: {pagamento} | {data_formatada}",
+                    7,
+                    f"Cliente: {pedido['cliente']} | Pagamento: {pedido['forma_pagamento']} | Vendedor: {pedido['vendedor']}",
+                    ln=True,
                 )
+                pdf.cell(0, 7, f"Total: R$ {pedido['total']:.2f}", ln=True)
+                for item in pedido["itens"]:
+                    pdf.cell(0, 6, f"- {item['produto']} x{item['quantidade']} = R$ {item['total']:.2f}", ln=True)
+                pdf.ln(4)
             # Salva arquivo
             downloads_dir = Path.home() / "Downloads" / "Relatorios_Sistema"
             downloads_dir.mkdir(parents=True, exist_ok=True)

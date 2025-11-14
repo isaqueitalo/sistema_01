@@ -1,5 +1,7 @@
 import flet as ft
 from typing import Optional, List, Dict
+from datetime import datetime
+import uuid
 from APP.models.vendas_models import Venda
 from APP.models.produtos_models import Produto
 from APP.core.logger import logger
@@ -25,6 +27,13 @@ class VendasUI:
         self.sugestoes_list = None
         self.sugestoes_data: List[Dict] = []
         self.sugestao_index = -1
+        self._skip_next_codigo_submit = False
+        self._dialog_id = None
+        self.pedido_id = self._gerar_pedido_id()
+        self.pedido_label = ft.Text(self._pedido_label_text(), color=style.TEXT_SECONDARY)
+        self.focusable_controls: List[Dict] = []
+        self.focus_index = -1
+        self.ultima_venda_resumo = None
 
         self.pagamentos_def = [
             {"label": "Dinheiro", "shortcut": "F1", "color": "#22C55E", "icon": ft.Icons.ATTACH_MONEY},
@@ -48,23 +57,32 @@ class VendasUI:
     # UI
     # ==================================================
     def build_ui(self):
+        self._reset_focusable_controls()
         self.page.clean()
         self.page.title = "PDV - Nova venda"
         self.page.bgcolor = style.BACKGROUND
         self.page.scroll = ft.ScrollMode.AUTO
 
-        header = ft.Row(
+        header = ft.Column(
             [
-                ft.Column(
+                ft.Row(
                     [
-                        ft.Text("SIGE Lite • PDV", size=24, weight=ft.FontWeight.BOLD, color=style.TEXT_PRIMARY),
-                        ft.Text(f"Operador: {self.vendedor}", color=style.TEXT_SECONDARY),
+                        ft.Column(
+                            [
+                                ft.Text("SIGE Lite • PDV", size=24, weight=ft.FontWeight.BOLD, color=style.TEXT_PRIMARY),
+                                ft.Text(f"Operador: {self.vendedor}", color=style.TEXT_SECONDARY),
+                                self.pedido_label,
+                            ],
+                            spacing=2,
+                        ),
+                        ft.Container(expand=True),
+                        style.ghost_button("Voltar (F11)", icon=ft.Icons.ARROW_BACK, on_click=self._voltar),
                     ],
-                    spacing=2,
+                    alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
                 ),
-                ft.Container(expand=True),
-                style.ghost_button("Voltar (F11)", icon=ft.Icons.ARROW_BACK, on_click=self._voltar),
-            ]
+                ft.Divider(color=style.DIVIDER),
+            ],
+            spacing=8,
         )
 
         self.stepper_row = ft.Row(alignment=ft.MainAxisAlignment.CENTER, spacing=40)
@@ -76,12 +94,11 @@ class VendasUI:
                 width=500,
                 autofocus=True,
                 on_submit=self._processar_codigo,
-                on_change=self._atualizar_sugestoes,
                 text_style=ft.TextStyle(size=16, weight=ft.FontWeight.W_500, color=style.TEXT_DARK),
             ),
             variant="light",
         )
-        self.codigo_field.on_change = lambda e: self._atualizar_sugestoes(e)
+        self.codigo_field.on_change = self._atualizar_sugestoes
 
         self.quantidade_field = style.apply_textfield_style(
             ft.TextField(
@@ -133,32 +150,113 @@ class VendasUI:
             variant="light",
         )
 
-        pagamento_header = ft.Row(
-            [
-                ft.Text("Formas de pagamento", size=18, weight=ft.FontWeight.W_600, color=style.TEXT_DARK),
-                ft.Text("Pressione F9 para entrar/sair desta etapa e F1-F7 para escolher.", color=style.TEXT_MUTED),
-            ],
-            alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
-        )
-
         self.payment_grid = ft.ResponsiveRow(spacing=12, run_spacing=12)
         self._render_pagamentos()
 
+        shortcut_entries = [
+            (
+                style.flat_shortcut_button(
+                    "Buscar produto",
+                    "F2",
+                    icon=ft.Icons.SEARCH,
+                    on_click=lambda _: self._focus_codigo(),
+                    width=130,
+                ),
+                lambda: self._focus_codigo(),
+            ),
+            (
+                style.flat_shortcut_button(
+                    "Adicionar produto",
+                    "F3",
+                    icon=ft.Icons.ADD,
+                    on_click=self._processar_codigo,
+                    width=130,
+                ),
+                lambda: self._processar_codigo(None),
+            ),
+            (
+                style.flat_shortcut_button(
+                    "Editar quantidade",
+                    "F4",
+                    icon=ft.Icons.EXPOSURE,
+                    on_click=lambda _: self.quantidade_field.focus(),
+                    width=130,
+                ),
+                lambda: self.quantidade_field.focus(),
+            ),
+            (
+                style.flat_shortcut_button(
+                    "Alterar valor",
+                    "F5",
+                    icon=ft.Icons.PRICE_CHANGE,
+                    on_click=self._abrir_modal_valor,
+                    width=130,
+                ),
+                lambda: self._abrir_modal_valor(None),
+            ),
+            (
+                style.flat_shortcut_button(
+                    "Remover item",
+                    "F6",
+                    icon=ft.Icons.DELETE_SWEEP,
+                    on_click=lambda _: self._remover_last_item(),
+                    width=130,
+                ),
+                lambda: self._remover_last_item(),
+            ),
+            (
+                style.flat_shortcut_button(
+                    "Cliente",
+                    "F7",
+                    icon=ft.Icons.BADGE,
+                    on_click=lambda _: self.cliente_field.focus(),
+                    width=130,
+                ),
+                lambda: self.cliente_field.focus(),
+            ),
+            (
+                style.flat_shortcut_button(
+                    "Forma de pagamento",
+                    "F9",
+                    icon=ft.Icons.PAYMENTS,
+                    on_click=lambda _: self._set_stage("pagamento"),
+                    width=130,
+                ),
+                lambda: self._set_stage("pagamento"),
+            ),
+            (
+                style.flat_shortcut_button(
+                    "Desconto",
+                    "F10",
+                    icon=ft.Icons.MONEY_OFF,
+                    on_click=self._abrir_modal_desconto,
+                    width=130,
+                ),
+                lambda: self._abrir_modal_desconto(None),
+            ),
+            (
+                style.flat_shortcut_button(
+                    "Finalizar",
+                    "F8",
+                    icon=ft.Icons.CHECK_CIRCLE,
+                    on_click=self._finalizar_venda,
+                    width=130,
+                ),
+                lambda: self._finalizar_venda(None),
+            ),
+        ]
         shortcuts = ft.ResponsiveRow(
-            [
-                style.flat_shortcut_button("Buscar produto", "F2", icon=ft.Icons.SEARCH, on_click=lambda _: self._focus_codigo()),
-                style.flat_shortcut_button("Adicionar produto", "F3", icon=ft.Icons.ADD, on_click=self._processar_codigo),
-                style.flat_shortcut_button("Editar quantidade", "F4", icon=ft.Icons.EXPOSURE, on_click=lambda _: self.quantidade_field.focus()),
-                style.flat_shortcut_button("Alterar valor", "F5", icon=ft.Icons.PRICE_CHANGE, on_click=self._abrir_modal_valor),
-                style.flat_shortcut_button("Remover item", "F6", icon=ft.Icons.DELETE_SWEEP, on_click=lambda _: self._remover_last_item()),
-                style.flat_shortcut_button("Cliente", "F7", icon=ft.Icons.BADGE, on_click=lambda _: self.cliente_field.focus()),
-                style.flat_shortcut_button("Forma de pagamento", "F9", icon=ft.Icons.PAYMENTS, on_click=lambda _: self._set_stage("pagamento")),
-                style.flat_shortcut_button("Desconto", "F10", icon=ft.Icons.MONEY_OFF, on_click=self._abrir_modal_desconto),
-                style.flat_shortcut_button("Finalizar", "F8", icon=ft.Icons.CHECK_CIRCLE, on_click=self._finalizar_venda),
-            ],
+            [entry[0] for entry in shortcut_entries],
             run_spacing=12,
             spacing=12,
         )
+        for control, callback in shortcut_entries:
+            self._register_focusable_control(
+                control,
+                callback,
+                category="shortcuts",
+                highlight_target=getattr(control, "content", control),
+            )
 
         self.resumo_status = style.summary_card("Status SEFAZ", "Operante", subtitle="F12 • Operações", accent=style.SUCCESS)
         self.resumo_cliente = style.summary_card("Cliente", "Consumidor Final", subtitle="F7 • Editar", accent=style.ACCENT)
@@ -195,32 +293,133 @@ class VendasUI:
             spacing=16,
             run_spacing=16,
         )
+        self.resumo_venda_container = ft.Container(
+            visible=False,
+            bgcolor=style.PANEL_MUTED,
+            border_radius=12,
+            padding=ft.Padding(16, 14, 16, 14),
+        )
 
-        finalizar_btn = style.primary_button(
+        self.finalizar_btn = style.primary_button(
             "Finalizar venda (F8)",
             icon=ft.Icons.POINT_OF_SALE,
             on_click=self._finalizar_venda,
             bgcolor=style.SUCCESS,
+        )
+        finalizar_wrapper = ft.Container(content=self.finalizar_btn, border_radius=12)
+        self._register_focusable_control(
+            finalizar_wrapper,
+            lambda: self._finalizar_venda(None),
+            category="primary",
+            highlight_target=finalizar_wrapper,
+        )
+
+        captura_section = style.surface_container(
+            ft.Column(
+                [
+                    ft.Row(
+                        [self.codigo_field, self.quantidade_field, add_button],
+                        spacing=12,
+                        vertical_alignment=ft.CrossAxisAlignment.END,
+                    ),
+                    self.sugestoes_container,
+                    self.cliente_field,
+                    self.alert_text,
+                ],
+                spacing=8,
+            ),
+            padding=14,
+            bgcolor=style.PANEL_LIGHT,
+        )
+
+        self.tabela_container = ft.Container(
+            content=self.tabela,
+            bgcolor=style.PANEL_MUTED,
+            border_radius=12,
+            padding=ft.Padding(12, 12, 12, 12),
+            height=220,
+        )
+        carrinho_section = style.surface_container(
+            ft.Column(
+                [
+                    ft.Text("Carrinho de itens", weight=ft.FontWeight.W_600, color=style.TEXT_DARK),
+                    self.tabela_container,
+                ],
+                spacing=8,
+            ),
+            padding=14,
+            bgcolor=style.PANEL_LIGHT,
+        )
+
+        shortcuts_section = style.surface_container(
+            ft.Column(
+                [
+                    ft.Text("Ações rápidas", weight=ft.FontWeight.W_600, color=style.TEXT_DARK),
+                    shortcuts,
+                ],
+                spacing=8,
+            ),
+            padding=14,
+            bgcolor=style.PANEL_LIGHT,
+        )
+
+        pagamento_section = style.surface_container(
+            ft.Column(
+                [
+                    ft.Row(
+                        [
+                            ft.Text("Formas de pagamento", size=18, weight=ft.FontWeight.W_600, color=style.TEXT_DARK),
+                            ft.Text(
+                                "Use F1-F7 ou clique para selecionar.",
+                                color=style.TEXT_MUTED,
+                                size=12,
+                            ),
+                        ],
+                        alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
+                    ),
+                    self.payment_grid,
+                ],
+                spacing=8,
+            ),
+            padding=14,
+            bgcolor=style.PANEL_LIGHT,
+        )
+
+        resumo_section = style.surface_container(
+            ft.Column(
+                [
+                    summary_row,
+                    self.resumo_venda_container,
+                ],
+                spacing=8,
+            ),
+            padding=14,
+            bgcolor=style.PANEL_LIGHT,
+        )
+
+        finalizar_section = style.surface_container(
+            ft.Column(
+                [
+                    ft.Text("Etapa final", weight=ft.FontWeight.W_600, color=style.TEXT_DARK),
+                    finalizar_wrapper,
+                ],
+                horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+                spacing=8,
+            ),
+            padding=14,
+            bgcolor=style.PANEL_LIGHT,
         )
 
         layout = ft.Column(
             [
                 header,
                 self.stepper_row,
-                ft.Row([self.codigo_field, self.quantidade_field, add_button], spacing=16, vertical_alignment=ft.CrossAxisAlignment.END),
-                self.sugestoes_container,
-                ft.Row([self.cliente_field], alignment=ft.MainAxisAlignment.START),
-                self.alert_text,
-                ft.Divider(color=style.DIVIDER),
-                self.tabela,
-                ft.Divider(color=style.DIVIDER),
-                pagamento_header,
-                self.payment_grid,
-                ft.Divider(color=style.DIVIDER),
-                shortcuts,
-                ft.Divider(color=style.DIVIDER),
-                summary_row,
-                finalizar_btn,
+                captura_section,
+                carrinho_section,
+                shortcuts_section,
+                pagamento_section,
+                resumo_section,
+                finalizar_section,
             ],
             spacing=18,
             scroll=ft.ScrollMode.AUTO,
@@ -241,10 +440,15 @@ class VendasUI:
     # LÓGICA DE CARRINHO
     # ==================================================
     def _processar_codigo(self, _):
+        if self._skip_next_codigo_submit:
+            self._skip_next_codigo_submit = False
+            return
         codigo = (self.codigo_field.value or "").strip()
         quantidade = self._obter_quantidade_digitada()
 
-        if self.sugestoes_data and self.sugestao_index >= 0:
+        if self.sugestoes_data:
+            if self.sugestao_index < 0:
+                self.sugestao_index = 0
             produto_info = self.sugestoes_data[self.sugestao_index]["produto"]
             self._limpar_sugestoes()
             self._mostrar_confirmacao_produto(produto_info, quantidade)
@@ -256,6 +460,12 @@ class VendasUI:
 
         produto = Produto.buscar_por_codigo_ou_nome(codigo)
         if not produto:
+            sugestoes = Produto.buscar_sugestoes(codigo, limit=1)
+            if sugestoes:
+                produto_dict = self._produto_row_to_dict(sugestoes[0])
+                self._limpar_sugestoes()
+                self._mostrar_confirmacao_produto(produto_dict, quantidade)
+                return
             self._set_alert("Produto não encontrado.")
             return
 
@@ -324,7 +534,7 @@ class VendasUI:
         )
         self.pending_confirm = confirmar
         self.pending_cancel = cancelar
-        self._abrir_dialogo(dialog)
+        self._abrir_dialogo(dialog, "confirmar_produto")
 
     def _adicionar_ao_carrinho(self, produto_info: Dict, quantidade: int = 1):
         produto_id = produto_info["id"]
@@ -348,12 +558,14 @@ class VendasUI:
                 }
             )
         self._atualizar_tabela()
+        logger.info("Carrinho: %s x%d adicionado (total itens=%d)", nome, quantidade, len(self.cart))
+        self._mostrar_snackbar(f"{nome} x{quantidade} adicionado ao carrinho")
         self._focus_codigo()
 
     def _atualizar_tabela(self):
-        self.tabela.rows = []
+        rows: List[ft.DataRow] = []
         for idx, item in enumerate(self.cart, start=1):
-            self.tabela.rows.append(
+            rows.append(
                 ft.DataRow(
                     cells=[
                         ft.DataCell(ft.Text(str(idx), color=style.TEXT_DARK)),
@@ -364,13 +576,13 @@ class VendasUI:
                                     ft.IconButton(
                                         icon=ft.Icons.REMOVE_CIRCLE_OUTLINE,
                                         icon_color=style.ERROR,
-                                        on_click=lambda _, pid=item["id"]: self._alterar_quantidade(pid, -1),
+                                        on_click=self._make_alterar_quantidade_handler(item["id"], -1),
                                     ),
                                     ft.Text(str(item["quantidade"]), color=style.TEXT_DARK),
                                     ft.IconButton(
                                         icon=ft.Icons.ADD_CIRCLE_OUTLINE,
                                         icon_color=style.SUCCESS,
-                                        on_click=lambda _, pid=item["id"]: self._alterar_quantidade(pid, 1),
+                                        on_click=self._make_alterar_quantidade_handler(item["id"], 1),
                                     ),
                                 ],
                                 spacing=4,
@@ -383,14 +595,26 @@ class VendasUI:
                                 icon=ft.Icons.DELETE_OUTLINE,
                                 icon_color=style.ERROR,
                                 tooltip="Remover (F6)",
-                                on_click=lambda _, pid=item["id"]: self._remover_item(pid),
+                                on_click=self._make_remover_handler(item["id"]),
                             )
                         ),
                     ]
                 )
             )
+        self.tabela.rows = rows
         self._atualizar_resumo()
+        self.tabela.update()
         self.page.update()
+
+    def _make_alterar_quantidade_handler(self, produto_id: int, delta: int):
+        def handler(_):
+            self._alterar_quantidade(produto_id, delta)
+        return handler
+
+    def _make_remover_handler(self, produto_id: int):
+        def handler(_):
+            self._remover_item(produto_id)
+        return handler
 
     def _alterar_quantidade(self, produto_id: int, delta: int):
         for item in self.cart:
@@ -445,71 +669,39 @@ class VendasUI:
 
     def _render_pagamentos(self):
         tiles = []
+        self._remove_focusable_category("payment")
         for opt in self.pagamentos_def:
-            tiles.append(
-                style.flat_shortcut_button(
-                    opt["label"],
-                    opt["shortcut"],
-                    icon=opt["icon"],
-                    color=opt["color"],
-                    on_click=lambda _, shortcut=opt["shortcut"]: self._on_pagamento_select(shortcut),
-                    selected=self.forma_pagamento == opt["label"],
-                    width=None,
-                    col={"xs": 6, "sm": 4, "md": 3, "lg": 2},
-                )
-        )
+            tile = style.flat_shortcut_button(
+                opt["label"],
+                opt["shortcut"],
+                icon=opt["icon"],
+                color=opt["color"],
+                on_click=lambda _, shortcut=opt["shortcut"]: self._on_pagamento_select(shortcut),
+                selected=self.forma_pagamento == opt["label"],
+                width=150,
+                col={"xs": 6, "sm": 4, "md": 3, "lg": 2},
+            )
+            tiles.append(tile)
+            self._register_focusable_control(
+                tile,
+                lambda shortcut=opt["shortcut"]: self._on_pagamento_select(shortcut),
+                category="payment",
+                highlight_target=getattr(tile, "content", tile),
+            )
         self.payment_grid.controls = tiles
         self.page.update()
+        if self.forma_pagamento:
+            self._focus_finalizar()
 
-    def _mostrar_confirmacao_venda(self, total_bruto, desconto_valor, total_liquido, cliente):
-        itens_column = ft.Column(
-            [
-                ft.Text(f"{item['quantidade']}x {item['nome']} — R$ {item['valor_unitario'] * item['quantidade']:.2f}")
-                for item in self.cart
-            ],
-            spacing=4,
-            height=200,
-            scroll=ft.ScrollMode.AUTO,
-        )
-
-        resumo = ft.Column(
-            [
-                ft.Text(f"Cliente: {cliente}", color=style.TEXT_DARK),
-                ft.Text(f"Pagamento: {self.forma_pagamento}", color=style.TEXT_DARK),
-                ft.Text(f"Total bruto: R$ {total_bruto:.2f}", color=style.TEXT_MUTED),
-                ft.Text(f"Desconto: R$ {desconto_valor:.2f}", color=style.TEXT_MUTED),
-                ft.Text(f"Total final: R$ {total_liquido:.2f}", weight=ft.FontWeight.BOLD, color=style.ACCENT),
-            ],
-            spacing=2,
-        )
-
-        dialog = ft.AlertDialog(
-            modal=True,
-            title=ft.Text("Confirmar venda"),
-            content=ft.Column(
-                [
-                    ft.Text("Confira os itens antes de concluir:", color=style.TEXT_DARK),
-                    ft.Container(content=itens_column, bgcolor=style.PANEL_MUTED, padding=12, border_radius=10),
-                    resumo,
-                ],
-                spacing=12,
-                width=420,
-            ),
-            actions=[
-                ft.TextButton("Cancelar", on_click=self._fechar_dialogo),
-                style.primary_button(
-                    "Confirmar",
-                    icon=ft.Icons.CHECK_CIRCLE,
-                    on_click=lambda _: self._executar_finalizacao(cliente, total_liquido),
-                ),
-            ],
-            actions_alignment=ft.MainAxisAlignment.END,
-        )
-        self._abrir_dialogo(dialog)
-
-    def _executar_finalizacao(self, cliente, total_liquido):
+    def _executar_finalizacao(self, cliente, total_liquido, itens_snapshot: List[Dict]):
         try:
-            for item in self.cart:
+            logger.debug(
+                "Executando finalização: itens=%d | pagamento=%s | cliente=%s",
+                len(itens_snapshot),
+                self.forma_pagamento or "N/D",
+                cliente,
+            )
+            for item in itens_snapshot:
                 Venda.registrar(
                     item["nome"],
                     item["quantidade"],
@@ -517,6 +709,7 @@ class VendasUI:
                     vendedor=self.vendedor,
                     cliente=cliente,
                     forma_pagamento=self.forma_pagamento,
+                    pedido_id=self.pedido_id,
                 )
             logger.info(
                 "Venda finalizada por %s | itens=%d | pagamento=%s | cliente=%s | total=%.2f",
@@ -533,7 +726,8 @@ class VendasUI:
             self.forma_pagamento = None
             self._set_stage("nova")
             self._render_pagamentos()
-            self._atualizar_tabela()
+            self._resetar_formulario_pos_venda()
+            logger.debug("Venda finalizada: carrinho limpo e UI pronta para nova operação.")
         except Exception as err:
             logger.error("Erro ao finalizar venda: %s", err, exc_info=True)
             self._mostrar_snackbar(f"Erro ao finalizar: {err}", erro=True)
@@ -570,7 +764,7 @@ class VendasUI:
             ],
             actions_alignment=ft.MainAxisAlignment.END,
         )
-        self._abrir_dialogo(dialog)
+        self._abrir_dialogo(dialog, "modal_desconto")
 
     def _abrir_modal_valor(self, _):
         if not self.cart:
@@ -601,31 +795,97 @@ class VendasUI:
             ],
             actions_alignment=ft.MainAxisAlignment.END,
         )
-        self._abrir_dialogo(dialog)
+        self._abrir_dialogo(dialog, "modal_valor")
 
-    def _abrir_dialogo(self, dialog: ft.AlertDialog):
-        self.page.dialog = dialog
+    def _abrir_dialogo(self, dialog: ft.AlertDialog, dialog_id: str):
+        try:
+            current_dialog = self.page.dialog
+        except AttributeError:
+            current_dialog = None
+        if current_dialog:
+            current_dialog.open = False
+            self.page.update()
+        try:
+            self.page.dialog = dialog
+        except AttributeError:
+            logger.error("Não foi possível atribuir dialog à página.")
+            return
         dialog.open = True
         self.page.update()
+        self._dialog_id = dialog_id
+        logger.debug("Diálogo aberto: %s", dialog_id)
 
     def _fechar_dialogo(self, _=None):
-        if self.page.dialog:
-            self.page.dialog.open = False
+        try:
+            current_dialog = self.page.dialog
+        except AttributeError:
+            current_dialog = None
+        if current_dialog:
+            current_dialog.open = False
             self.page.update()
+            try:
+                self.page.dialog = None
+            except AttributeError:
+                pass
+            logger.debug("Diálogo fechado: %s", getattr(self, "_dialog_id", "desconhecido"))
+        self._dialog_id = None
 
     # ==================================================
     # FINALIZAÇÃO
     # ==================================================
     def _finalizar_venda(self, _):
+        logger.debug(
+            "Finalizar solicitado: itens=%d | pagamento=%s",
+            len(self.cart),
+            self.forma_pagamento or "N/D",
+        )
+        if self.pending_confirm or self.pending_cancel:
+            logger.debug("Cancelando diálogo pendente antes da finalização.")
+            self.pending_confirm = None
+            self.pending_cancel = None
+            self._fechar_dialogo()
         ok, msg, totals = self._validar_venda_pronta()
         if not ok:
+            logger.warning(
+                "Validação da venda falhou: %s | itens=%d | pagamento=%s",
+                msg,
+                len(self.cart),
+                self.forma_pagamento or "N/D",
+            )
             self._set_alert(msg)
+            self._mostrar_snackbar(msg, erro=True)
             if msg.startswith("Selecione"):
                 self._set_stage("pagamento")
+            else:
+                self._focus_codigo()
             return
 
         total_bruto, desconto_valor, total_liquido, cliente = totals
-        self._mostrar_confirmacao_venda(total_bruto, desconto_valor, total_liquido, cliente)
+        logger.debug(
+            "Validação OK: total_bruto=%.2f | desconto=%.2f | total_liquido=%.2f | cliente=%s",
+            total_bruto,
+            desconto_valor,
+            total_liquido,
+            cliente,
+        )
+        itens_snapshot = [item.copy() for item in self.cart]
+        forma_pagamento = self.forma_pagamento
+        pedido_atual = self.pedido_id
+        data_venda = datetime.now().strftime("%d/%m/%Y %H:%M")
+        self._executar_finalizacao(cliente, total_liquido, itens_snapshot)
+        self._mostrar_resumo_final(
+            {
+                "pedido_id": pedido_atual,
+                "cliente": cliente,
+                "vendedor": self.vendedor,
+                "pagamento": forma_pagamento,
+                "total_bruto": total_bruto,
+                "desconto": desconto_valor,
+                "total_liquido": total_liquido,
+                "data": data_venda,
+                "itens": itens_snapshot,
+            }
+        )
 
     # ==================================================
     # ETAPAS E TECLADO
@@ -635,10 +895,10 @@ class VendasUI:
         self.page.on_keyboard_event = self._handle_keyboard
 
     def _handle_keyboard(self, e: ft.KeyboardEvent):
-        if e.event_type != ft.KeyboardEventType.KEY_DOWN:
+        key_raw = (e.key or "").upper()
+        if not key_raw:
             return
-
-        key = (e.key or "").upper()
+        key = key_raw.replace(" ", "")
 
         if self.pending_confirm:
             if key == "ENTER":
@@ -657,20 +917,39 @@ class VendasUI:
                 self._mover_sugestao(-1)
                 return
             if key == "ENTER":
+                self._skip_next_codigo_submit = True
                 self._selecionar_sugestao()
                 return
             if key == "ESCAPE":
                 self._limpar_sugestoes()
                 return
 
-        if self.stage == "pagamento":
-            if key in self.payment_shortcuts:
-                self._on_pagamento_select(key)
+        if key in self.payment_shortcuts:
+            if self.stage != "pagamento":
+                self._set_stage("pagamento")
+            self._on_pagamento_select(key)
+            return
+        if key in ("ARROWRIGHT", "RIGHT", "D"):
+            if self._move_focus(1):
                 return
+        if key in ("ARROWLEFT", "LEFT", "A"):
+            if self._move_focus(-1):
+                return
+        if key in ("ARROWDOWN", "DOWN", "S"):
+            if self._move_focus(1):
+                return
+        if key in ("ARROWUP", "UP", "W"):
+            if self._move_focus(-1):
+                return
+
+        if self.stage == "pagamento":
             if key in ("ESCAPE", "F9"):
                 self._set_stage("nova")
                 return
 
+        if key in ("ENTER", "SPACE"):
+            if self._activate_focused_control():
+                return
         if key == "ENTER":
             self._processar_codigo(None)
         elif key == "F2":
@@ -739,6 +1018,32 @@ class VendasUI:
         self.codigo_field.focus()
         self.page.update()
 
+    def _focus_finalizar(self):
+        for idx, entry in enumerate(self.focusable_controls):
+            ctrl = entry.get("control")
+            if isinstance(ctrl, ft.Container) and getattr(ctrl, "content", None) is getattr(self, "finalizar_btn", None):
+                self.focus_index = idx
+                self._update_focusable_highlight()
+                return
+
+    def _resetar_formulario_pos_venda(self):
+        """Prepara os campos para uma nova venda após concluir a anterior."""
+        if self.codigo_field:
+            self.codigo_field.value = ""
+        if self.quantidade_field:
+            self.quantidade_field.value = "1"
+        if self.cliente_field:
+            self.cliente_field.value = "Consumidor Final"
+            self._atualizar_cliente_resumo()
+        self.cart.clear()
+        self._atualizar_tabela()
+        self.forma_pagamento = None
+        self._render_pagamentos()
+        self._set_alert("")
+        self._limpar_sugestoes()
+        self._focus_codigo()
+        self._novo_pedido()
+
     def _set_alert(self, texto: str):
         self.alert_text.value = texto
         self.page.update()
@@ -759,11 +1064,107 @@ class VendasUI:
             "codigo": row[4],
         }
 
+    def _gerar_pedido_id(self) -> str:
+        timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
+        suffix = uuid.uuid4().hex[:4].upper()
+        return f"{timestamp}-{suffix}"
+
+    def _pedido_label_text(self) -> str:
+        return f"Pedido atual: #{self.pedido_id}"
+
+    def _novo_pedido(self):
+        self.pedido_id = self._gerar_pedido_id()
+        if self.pedido_label:
+            self.pedido_label.value = self._pedido_label_text()
+        if self.page:
+            self.page.update()
+
+    def _reset_focusable_controls(self):
+        for entry in getattr(self, "focusable_controls", []):
+            self._apply_focus_highlight(entry, False)
+        self.focusable_controls = []
+        self.focus_index = -1
+
+    def _register_focusable_control(self, control, activate_callback, *, category="default", highlight_target=None):
+        if control is None:
+            return
+        target = highlight_target or getattr(control, "content", control)
+        entry = {
+            "control": control,
+            "target": target,
+            "activate": activate_callback,
+            "category": category,
+            "default_border": getattr(target, "border", None),
+        }
+        self.focusable_controls.append(entry)
+        self._update_focusable_highlight()
+
+    def _remove_focusable_category(self, category: str):
+        remaining = []
+        for entry in self.focusable_controls:
+            if entry["category"] == category:
+                self._apply_focus_highlight(entry, False)
+            else:
+                remaining.append(entry)
+        self.focusable_controls = remaining
+        if self.focus_index >= len(self.focusable_controls):
+            self.focus_index = len(self.focusable_controls) - 1
+        self._update_focusable_highlight()
+
+    def _apply_focus_highlight(self, entry, active: bool):
+        target = entry["target"]
+        if hasattr(target, "border"):
+            target.border = ft.border.all(2, style.ACCENT) if active else entry["default_border"]
+        if active:
+            self._scroll_target_into_view(target)
+
+    def _update_focusable_highlight(self):
+        for idx, entry in enumerate(self.focusable_controls):
+            self._apply_focus_highlight(entry, idx == self.focus_index and self.focus_index >= 0)
+        if self.page:
+            self.page.update()
+
+    def _scroll_target_into_view(self, target):
+        scroll_fn = getattr(target, "scroll_into_view", None)
+        if callable(scroll_fn):
+            try:
+                scroll_fn(alignment=0.4)
+                return
+            except Exception:
+                pass
+        page_scroll = getattr(self.page, "scroll_to", None)
+        if callable(page_scroll):
+            try:
+                page_scroll(control=target, duration=200)
+            except Exception:
+                pass
+
+    def _move_focus(self, delta: int) -> bool:
+        if not self.focusable_controls:
+            return False
+        if self.focus_index == -1:
+            self.focus_index = 0 if delta > 0 else len(self.focusable_controls) - 1
+        else:
+            self.focus_index = (self.focus_index + delta) % len(self.focusable_controls)
+        self._update_focusable_highlight()
+        return True
+
+    def _activate_focused_control(self) -> bool:
+        if self.focus_index < 0 or self.focus_index >= len(self.focusable_controls):
+            return False
+        entry = self.focusable_controls[self.focus_index]
+        if callable(entry["activate"]):
+            entry["activate"]()
+            return True
+        return False
+
     def _atualizar_sugestoes(self, e=None):
-        valor = None
-        if e is not None:
-            valor = (getattr(e, "control", None) and e.control.value) or (e.data if hasattr(e, "data") else None)
-        termo = (valor if valor is not None else self.codigo_field.value or "").strip()
+        if e is not None and hasattr(e, "data") and e.data is not None:
+            termo = e.data.strip()
+        elif e is not None and getattr(e, "control", None) is not None:
+            termo = (e.control.value or "").strip()
+        else:
+            termo = (self.codigo_field.value or "").strip()
         if not termo:
             self._limpar_sugestoes()
             return
@@ -827,7 +1228,6 @@ class VendasUI:
             coluna.controls[0].color = style.TEXT_PRIMARY if selecionado else style.TEXT_DARK
             coluna.controls[1].color = style.TEXT_SECONDARY if selecionado else style.TEXT_MUTED
             preco_text.color = style.TEXT_PRIMARY if selecionado else style.ACCENT
-            ctrl.update()
         self.page.update()
 
     def _mover_sugestao(self, delta: int):
@@ -838,8 +1238,10 @@ class VendasUI:
 
     def _selecionar_sugestao(self, produto=None):
         if produto is None:
-            if not self.sugestoes_data or self.sugestao_index < 0:
+            if not self.sugestoes_data:
                 return
+            if self.sugestao_index < 0:
+                self.sugestao_index = 0
             produto = self.sugestoes_data[self.sugestao_index]["produto"]
         self._limpar_sugestoes()
         self._mostrar_confirmacao_produto(produto, self._obter_quantidade_digitada())
@@ -852,6 +1254,71 @@ class VendasUI:
         self.page.snack_bar.open = True
         self.page.update()
 
+    def _mostrar_resumo_final(self, resumo: Dict):
+        self.ultima_venda_resumo = resumo
+        if not self.resumo_venda_container:
+            return
+        itens_column = ft.Column(
+            [
+                ft.Row(
+                    [
+                        ft.Text(item["nome"], color=style.TEXT_DARK),
+                        ft.Text(
+                            f"x{item['quantidade']} • R$ {item['valor_unitario'] * item['quantidade']:.2f}",
+                            color=style.TEXT_SECONDARY,
+                            size=12,
+                        ),
+                    ],
+                    alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
+                )
+                for item in resumo.get("itens", [])
+            ],
+            spacing=2,
+        )
+        content = ft.Column(
+            [
+                ft.Row(
+                    [
+                        ft.Text(
+                            f"Venda finalizada • Pedido #{resumo['pedido_id']}",
+                            weight=ft.FontWeight.BOLD,
+                            color=style.TEXT_DARK,
+                        ),
+                        ft.Text(resumo["data"], color=style.TEXT_MUTED, size=12),
+                    ],
+                    alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
+                ),
+                ft.Text(
+                    f"Cliente: {resumo['cliente']} | Pagamento: {resumo['pagamento']} | Vendedor: {resumo['vendedor']}",
+                    color=style.TEXT_SECONDARY,
+                    size=12,
+                ),
+                itens_column,
+                ft.Row(
+                    [
+                        ft.Text(
+                            f"Total bruto: R$ {resumo['total_bruto']:.2f}",
+                            color=style.TEXT_MUTED,
+                        ),
+                        ft.Text(
+                            f"Desconto: R$ {resumo['desconto']:.2f}",
+                            color=style.TEXT_MUTED,
+                        ),
+                        ft.Text(
+                            f"Total pago: R$ {resumo['total_liquido']:.2f}",
+                            weight=ft.FontWeight.BOLD,
+                            color=style.ACCENT,
+                        ),
+                    ],
+                    alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
+                ),
+            ],
+            spacing=6,
+        )
+        self.resumo_venda_container.content = content
+        self.resumo_venda_container.visible = True
+        self.page.update()
+
     def _voltar(self, _=None):
         self._restore_keyboard_handler()
         if callable(self.voltar_callback):
@@ -860,3 +1327,4 @@ class VendasUI:
 
     def _restore_keyboard_handler(self):
         self.page.on_keyboard_event = self._prev_keyboard_handler
+

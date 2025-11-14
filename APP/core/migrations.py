@@ -144,6 +144,22 @@ def _migration_006_expand_vendas_table(conn: sqlite3.Connection):
     conn.commit()
 
 
+def _migration_007_add_pedido_id_to_vendas(conn: sqlite3.Connection):
+    """
+    Migração 7:
+    Adiciona coluna 'pedido_id' para rastrear vendas completas.
+    """
+    cur = conn.cursor()
+    cur.execute("PRAGMA table_info(vendas)")
+    cols = {row[1] for row in cur.fetchall()}
+    if "pedido_id" not in cols:
+        logger.info("Migração 007: adicionando coluna 'pedido_id' na tabela vendas.")
+        cur.execute("ALTER TABLE vendas ADD COLUMN pedido_id TEXT")
+        conn.commit()
+    else:
+        logger.debug("Migração 007: coluna 'pedido_id' já existe - pulando.")
+
+
 # Lista ordenada de migrações (adicionar novas funções ao final)
 MIGRATIONS: List[Callable[[sqlite3.Connection], None]] = [
     _migration_001_create_missing_role_column,
@@ -152,6 +168,7 @@ MIGRATIONS: List[Callable[[sqlite3.Connection], None]] = [
     _migration_004_create_catalog_tables,
     _migration_005_extend_produtos_schema,
     _migration_006_expand_vendas_table,
+    _migration_007_add_pedido_id_to_vendas,
 ]
 
 

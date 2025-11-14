@@ -128,6 +128,7 @@ def inicializar_banco():
             vendedor TEXT,
             cliente TEXT,
             forma_pagamento TEXT,
+            pedido_id TEXT,
             data_hora TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     """)

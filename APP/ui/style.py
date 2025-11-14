@@ -78,14 +78,13 @@ def flat_shortcut_button(
     selected: bool = False,
     col: dict | None = None,
     width: int | None = None,
-) -> ft.Container:
+) -> ft.Control:
     """Tile colorido para atalhos de teclado (F-keys)."""
-    return ft.Container(
+    tile = ft.Container(
         bgcolor=color,
         border_radius=12,
         padding=ft.Padding(16, 14, 16, 14),
         width=140 if width is None else width,
-        col=col or {"xs": 6, "sm": 4, "md": 3, "lg": 2},
         border=ft.border.all(2, TEXT_PRIMARY) if selected else None,
         content=ft.Column(
             [
@@ -102,7 +101,19 @@ def flat_shortcut_button(
             spacing=4,
         ),
         ink=True,
-        on_click=on_click,
+    )
+
+    target_col = col or {"xs": 6, "sm": 4, "md": 3, "lg": 2}
+
+    if on_click is None:
+        tile.col = target_col
+        return tile
+
+    return ft.GestureDetector(
+        content=tile,
+        on_tap=on_click,
+        mouse_cursor=ft.MouseCursor.CLICK,
+        col=target_col,
     )
 
 
